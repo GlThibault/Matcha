@@ -2,14 +2,16 @@ extends layout
 
 block content
   .container
-    h1 Connection
-
     .ui.form
+      h2.ui.dividing.header Connection
       form(method='POST' action='/login')
-        div.field
-          label(for='name') Nom d'utilisateur:
-          input#name(type='text', placeholder="Nom d'utilisateur" name='username' required autofocus="autofocus" tabindex="1")
-        div.field
-          label(for='pw') Password:
-          input#pw(type='password' name='password' required tabindex="2")
-        button.ui.primary.submit.button(type='submit' tabindex="3") Sign in
+        .field
+          label Nom d'utilisateur:
+          input(type='text', placeholder="Nom d'utilisateur" name='username' required autofocus="autofocus" tabindex="1")
+        .field
+          label Mot de passe:
+          input(type='password' placeholder='Mot de passe' name='password' required tabindex="2")
+        a(href='/forgot') Mot de passe oublié
+        br
+        br
+        button.ui.primary.submit.button(type='submit' tabindex="3") Valider

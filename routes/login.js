@@ -9,8 +9,9 @@ router.get('/', function(req, res, next) {
         res.locals.error = req.session.error
         req.session.error = undefined
     }
+    res.locals.user = req.session.user
     res.render('login', {
-        title: 'login'
+        title: 'Connection'
     });
 });
 
@@ -18,14 +19,14 @@ router.post('/', function(req, res) {
     connection.query('SELECT password FROM users WHERE username = ?', [req.body.username], (err, rows, result) => {
         if (err) throw err
         else if (rows[0]) {
-            if (bcrypt.compareSync(req.body.password, rows[0].password))
+            if (bcrypt.compareSync(req.body.password, rows[0].password)){
+                req.session.user = req.body.username;
                 res.redirect('../');
-            else {
+            } else {
                 req.session.error = "Mauvais mot de passe";
                 res.redirect('/login');
             }
-          }
-        else {
+        } else {
             req.session.error = "L'utilisateur n'existe pas";
             res.redirect('/login');
         }

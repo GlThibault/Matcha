@@ -4,20 +4,23 @@ html
     title= title
     link(rel='stylesheet', href='/semantic/semantic.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
-    a#titre(href="/")= 'Matcha'
 
+    a#titre(href="/")= 'Matcha'
     div.ui.secondary.menu
-      a.item.active(href='/') Index
+      a.item#index(href='/') Index
+      if (user)
+        a.item#u(href='u') Utilisateurs
       div.right.menu
-        if (session && session.username)
-          a.item(href='logout') Profil
-          a.ui.item(href='logout') Deconnection
+        if (user)
+          a.item#profil(href='profil') Profil
+          a.item#logout(href='logout') Déconnection
         else
-          a.item(href='login') Connection
-          a.item(href='register') Nouveau ?
+          a.item#login(href='login') Connection
+          a.item#register(href='register') Nouveau ?
 
     if (locals && locals.error)
       div.ui.error.message
         p= locals.error
+    script(src='/javascripts/active.js')
   body
     block content
