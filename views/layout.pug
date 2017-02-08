@@ -2,6 +2,22 @@ doctype html
 html
   head
     title= title
+    link(rel='stylesheet', href='/semantic/semantic.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    a#titre(href="/")= 'Matcha'
+
+    div.ui.secondary.menu
+      a.item.active(href='/') Index
+      div.right.menu
+        if (session && session.username)
+          a.item(href='logout') Profil
+          a.ui.item(href='logout') Deconnection
+        else
+          a.item(href='login') Connection
+          a.item(href='register') Nouveau ?
+
+    if (locals && locals.error)
+      div.ui.error.message
+        p= locals.error
   body
     block content

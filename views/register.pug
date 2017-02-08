@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  .container
+    h1 Créer son compte
+
+    .ui.form
+      form(method='POST' action='/register')
+        div.field
+          label(for='name') Nom d'utilisateur:
+          input#name(type='text', placeholder="Nom d'utilisateur" name='username' autofocus="autofocus" required tabindex="1")
+        div.field
+          label(for='name') Nom:
+          input#name(type='text', placeholder='Nom' name='lastname' required tabindex="2")
+        div.field
+          label(for='name') Prénom:
+          input#name(type='text', placeholder='Prénom' name='firstname' required tabindex="3")
+        div.field
+          label(for='email') Email:
+          input#email(type='email', placeholder='nom@email.com' name='email' required tabindex="4")
+        div.field
+          label(for='pw') Password:
+          input#pw(type='password' name='password' required tabindex="5")
+        div.field
+          label(for='pw2') Confirm Password:
+          input#pw2(type='password' name='confirmPassword' required tabindex="6")
+        button.ui.primary.submit.button(type='submit' required tabindex="7") Sign up

@@ -3,6 +3,9 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+#titre {
+  font: 60px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #555;
+  font-style: normal;
+  text-decoration: none;
 }

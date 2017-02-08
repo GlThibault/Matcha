@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  .container
+    h1 Connection
+
+    .ui.form
+      form(method='POST' action='/login')
+        div.field
+          label(for='name') Nom d'utilisateur:
+          input#name(type='text', placeholder="Nom d'utilisateur" name='username' required autofocus="autofocus" tabindex="1")
+        div.field
+          label(for='pw') Password:
+          input#pw(type='password' name='password' required tabindex="2")
+        button.ui.primary.submit.button(type='submit' tabindex="3") Sign in
