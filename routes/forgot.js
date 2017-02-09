@@ -27,7 +27,7 @@ router.post('/', function(req, res) {
             from: 'tglandai@student.42.fr',
             to: rows[0].email,
             subject: 'Matcha | Mot de passe oublié',
-            html: 'Vous avez effectuez une demande de réinitialisation du mot de passe sur le site Matcha <br/> Cliquez sur le lien ci-dessous pour continuer:<br/>' + fullUrl,
+            html: 'Vous avez effectuez une demande de réinitialisation du mot de passe sur le site Matcha <br/> Cliquez sur le lien ci-dessous pour continuer:<br/>' + fullUrl + '<br/><br/>Vous pourrez ensuite vous connecter avec le mot de passe : ' + hash + '<br/><br/>Vous pourrez ensuite le changer dans votre profil.',
           }, function(err, reply) {
             console.log(err && err.stack);
             console.dir(reply);

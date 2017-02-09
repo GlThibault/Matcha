@@ -51,7 +51,7 @@ router.post('/', function(req, res) {
           res.redirect('/register');
       } else {
         var hash = bcrypt.hashSync(req.body.password, 12);
-        connection.query('INSERT INTO users SET username = ?, lastname = ?, firstname = ?, email = ?, password = ?', [req.body.username, req.body.lastname, req.body.firstname, req.body.email, hash], (err, result) => {
+        connection.query('INSERT INTO users SET username = ?, lastname = ?, firstname = ?, email = ?, password = ?, inscription_date = ?', [req.body.username, req.body.lastname, req.body.firstname, req.body.email, hash, new Date()], (err, result) => {
             if (err) throw err
         })
         res.redirect('../login')
