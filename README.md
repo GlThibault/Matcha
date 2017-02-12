@@ -8,12 +8,12 @@ SemanticUI : http://semantic-ui.com/ <br/>
 Mysql : https://www.mysql.com/ <br/>
 
 
-NPM Package :
-● bcrypt : https://www.npmjs.com/package/bcrypt
-● body-parser : https://www.npmjs.com/package/body-parser
-● cookie-parser : https://www.npmjs.com/package/cookie-parser
-● express : https://www.npmjs.com/package/express
-● express-session : https://www.npmjs.com/package/express-session
-● mysql : https://www.npmjs.com/package/mysql
-● pug : https://www.npmjs.com/package/pug
-● sendmail : https://www.npmjs.com/package/sendmail
+NPM Package : <br/>
+● bcrypt : https://www.npmjs.com/package/bcrypt <br/>
+● body-parser : https://www.npmjs.com/package/body-parser <br/>
+● cookie-parser : https://www.npmjs.com/package/cookie-parser <br/>
+● express : https://www.npmjs.com/package/express <br/>
+● express-session : https://www.npmjs.com/package/express-session <br/>
+● mysql : https://www.npmjs.com/package/mysql <br/>
+● pug : https://www.npmjs.com/package/pug <br/>
+● sendmail : https://www.npmjs.com/package/sendmail <br/>
