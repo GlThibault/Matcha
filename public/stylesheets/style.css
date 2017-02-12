@@ -1,10 +1,10 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 #titre {
-  padding: 50px;
+  padding: 10px;
+  margin-left: 50px;
   font: 60px "Lucida Grande", Helvetica, Arial, sans-serif;
   color: #555;
   font-style: normal;
