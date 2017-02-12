@@ -20,7 +20,7 @@ router.post('/', function(req, res) {
   connection.query('SELECT * FROM users WHERE username = ? OR email = ?', [req.body.username, req.body.email], (err, rows, result) => {
       if (err) throw err
       else if (rows[0] && rows[0]['username']) {
-          req.session.error = "Le nom d'utilisateur est déjà utilisé.";
+          req.session.error = "Le nom d'utilisateur ou l'email est déjà utilisé.";
           res.redirect('/register');
       }
       else if (rows[0] && rows[0]['email']) {

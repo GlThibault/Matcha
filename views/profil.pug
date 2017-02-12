@@ -29,18 +29,37 @@ block content
         .fields
           .field
             label Sexe:
-            select.ui.fluid.dropdown(selected=locals.data.sexe name='sexe' required tabindex="7")
+            select.ui.fluid.dropdown(name='sexe' id='sexe' required tabindex="7")
               option Homme
               option Femme
           .field
             label Orientation sexuel:
-            select.ui.fluid.dropdown(selected=locals.data.orientation name='orientation' required tabindex="8")
+            select.ui.fluid.dropdown(name='orientation' id='orientation' required tabindex="8")
               option Bisexuelle
               option Hétérosexuelle
               option Homosexuelle
         .field
           label Biographie
-          textarea(value=locals.data.bio name='bio' required tabindex="9")
+          textarea(name='bio' required tabindex="9")= locals.data.bio
         br
         br
         button.ui.primary.submit.button(type='submit' required tabindex="10") Mettre a jour
+    script.
+      var val = '#{locals.data.sexe}';
+      var sel = document.getElementById('sexe');
+      var opts = sel.options;
+      for(var opt, j = 0; opt = opts[j]; j++) {
+         if(opt.value == val) {
+             sel.selectedIndex = j;
+             break;
+         }
+      }
+      var val = '#{locals.data.orientation}';
+      var sel = document.getElementById('orientation');
+      var opts = sel.options;
+      for(var opt, j = 0; opt = opts[j]; j++) {
+          if(opt.value == val) {
+              sel.selectedIndex = j;
+              break;
+          }
+      }
