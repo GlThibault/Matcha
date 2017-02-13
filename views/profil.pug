@@ -48,6 +48,8 @@ block content
           label Biographie
           textarea(name='bio' required tabindex="10")= locals.data.bio
         button.ui.primary.submit.button(type='submit' required tabindex="11") Mettre a jour
+    br
+    input(type='file' id="imageInput" name="imageInput" accept="image/*")
     script.
       var val = '#{locals.data.sexe}';
       var sel = document.getElementById('sexe');

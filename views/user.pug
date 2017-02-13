@@ -1,6 +1,7 @@
 extends layout
 
 block content
+ - i = 0;
   .ui.card
     .image
       img(src="http://semantic-ui.com/images/avatar2/large/elyse.png")
@@ -14,3 +15,8 @@ block content
     .ui.bottom.attached.button
       i.add.icon
       span Like
+  while i < 5
+    if (data.image + i++)
+      .ui.card
+        .image
+        img(src= "data.image + i")
