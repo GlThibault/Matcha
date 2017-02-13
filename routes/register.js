@@ -19,6 +19,10 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res) {
   connection.query('SELECT * FROM users WHERE username = ? OR email = ?', [req.body.username, req.body.email], (err, rows, result) => {
       if (err) throw err
+      else if (req.body.firstname.length > 80 || req.body.lastname.length > 80 || req.body.username.length > 80 || req.body.email.length > 200) {
+          req.session.error = "Erreur.";
+          res.redirect('/register');
+      }
       else if (rows[0] && rows[0]['username']) {
           req.session.error = "Le nom d'utilisateur ou l'email est déjà utilisé.";
           res.redirect('/register');

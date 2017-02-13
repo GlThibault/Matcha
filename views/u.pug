@@ -3,18 +3,33 @@ extends layout
 block content
   .container
     .ui.link.cards
-      .card
-        .image
-          img(src="http://semantic-ui.com/images/avatar2/large/kristy.png")
-        .content
-          a.header(href="/u/kristy") Kristy Jane
-          i.woman.icon.right.floated
-          .meta
-            span Joined in 2013
-          .description
-            span L’application doit permettre à un utilisateur de s’inscrire, en demandant au minimum une adresse email, un nom d’utilisateur, un nom, un prénom et un mot de passe un tant soit peu sécurisé.
-        .extra.content
-            a
-              i.user.icon
-              span 22 Friends
-              i.heterosexual.icon.right.floated
+      each row in rows
+        .card
+          .image
+            img(src="http://semantic-ui.com/images/avatar2/large/kristy.png")
+          .content
+            a.header(href="/u/"+ row['username'])= row['lastname'].substring(0,25) + " " + row['firstname'].substring(0,25)
+            if (row['sexe'] == 'Homme')
+              i.man.icon.right.floated
+            else
+              i.woman.icon.right.floated
+            .meta
+              span Inscris depuis le
+              span= row['inscription_date'].toLocaleDateString()
+            .description
+              if (row['bio'].length > 699)
+                span= row['bio'].substring(0,699)+" ..."
+              else
+                span= row['bio']
+          .extra.content
+              a
+                i.user.icon
+                span 22 Friends
+                if (row['orientation'] == 'Hétérosexuelle')
+                  i.heterosexual.icon.right.floated
+                else if (row['sexe'] == 'Homme')
+                  i.gay.icon.right.floated
+                else if (row['sexe'] == 'Femme')
+                  i.lesbian.icon.right.floated
+                if (row['orientation'] == 'Bisexuelle')
+                  i.heterosexual.icon.right.floated
