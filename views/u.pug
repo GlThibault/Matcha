@@ -14,8 +14,7 @@ block content
             else
               i.woman.icon.right.floated
             .meta
-              span Inscris depuis le
-              span= row['inscription_date'].toLocaleDateString()
+              span= row['age'] + " ans."
             .description
               if (row['bio'].length > 699)
                 span= row['bio'].substring(0,699)+" ..."

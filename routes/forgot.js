@@ -6,8 +6,10 @@ var sendmail = require('sendmail')();
 router.get('/', function(req, res, next) {
     if (req.session.error) {
         res.locals.error = req.session.error
-        req.session.error = undefined
-    }
+        req.session.error = undefined}
+    if (req.session.success) {
+        res.locals.success = req.session.success
+        req.session.success = undefined}
     res.locals.user = req.session.user
     res.render('forgot', {
         title: 'Mot de passe oublié'
@@ -32,7 +34,7 @@ router.post('/', function(req, res) {
             console.log(err && err.stack);
             console.dir(reply);
           });
-          req.session.error = "Un lien de réinitialisation vous a été envoyé par mail.";
+          req.session.success = "Un lien de réinitialisation vous a été envoyé par mail avec un nouveau mot de passe.";
           res.redirect('/login')
         } else {
             req.session.error = "L'utilisateur n'existe pas";

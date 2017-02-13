@@ -7,8 +7,10 @@ var session = require('express-session');
 router.get('/', function(req, res, next) {
     if (req.session.error) {
         res.locals.error = req.session.error
-        req.session.error = undefined
-    }
+        req.session.error = undefined}
+    if (req.session.success) {
+        res.locals.success = req.session.success
+        req.session.success = undefined}
     res.locals.user = req.session.user
     res.render('login', {
         title: 'Connection'
@@ -21,6 +23,7 @@ router.post('/', function(req, res) {
         else if (rows[0]) {
             if (bcrypt.compareSync(req.body.password, rows[0].password)){
                 req.session.user = req.body.username;
+                req.session.success = "Vous êtes maintenant connecté";
                 res.redirect('../');
             } else {
                 req.session.error = "Mauvais mot de passe";

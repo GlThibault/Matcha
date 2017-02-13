@@ -5,3 +5,12 @@ else
   var item = document.getElementById('index');
 if (item)
   item.className += " active";
+
+$('.message .close')
+  .on('click', function() {
+    $(this)
+      .closest('.message')
+      .fadeOut(350)
+    ;
+  })
+;

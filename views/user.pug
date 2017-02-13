@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  .ui.card
+    .image
+      img(src="http://semantic-ui.com/images/avatar2/large/elyse.png")
+  .ui.card.fluid
+    .content
+      a.header= data.lastname + " " + data.firstname
+      .meta
+        span.category= data.sexe + " de " + data.age + " ans."
+        span.category.right.floated= data.orientation
+      .description= data.bio
+    .ui.bottom.attached.button
+      i.add.icon
+      span Like

@@ -1,6 +1,7 @@
 extends layout
 
 block content
+ - var i = 18
   .container
     .ui.equal.width.form
       h2.ui.dividing.header Mon profil
@@ -38,12 +39,15 @@ block content
               option Bisexuelle
               option Hétérosexuelle
               option Homosexuelle
+          .field.two.wide
+            label Age:
+            select.ui.fluid.dropdown(name='age' id='age' required tabindex="9")
+              while i < 100
+                option= i++
         .field
           label Biographie
-          textarea(name='bio' required tabindex="9")= locals.data.bio
-        br
-        br
-        button.ui.primary.submit.button(type='submit' required tabindex="10") Mettre a jour
+          textarea(name='bio' required tabindex="10")= locals.data.bio
+        button.ui.primary.submit.button(type='submit' required tabindex="11") Mettre a jour
     script.
       var val = '#{locals.data.sexe}';
       var sel = document.getElementById('sexe');
@@ -56,6 +60,15 @@ block content
       }
       var val = '#{locals.data.orientation}';
       var sel = document.getElementById('orientation');
+      var opts = sel.options;
+      for(var opt, j = 0; opt = opts[j]; j++) {
+          if(opt.value == val) {
+              sel.selectedIndex = j;
+              break;
+          }
+      }
+      var val = '#{locals.data.age}';
+      var sel = document.getElementById('age');
       var opts = sel.options;
       for(var opt, j = 0; opt = opts[j]; j++) {
           if(opt.value == val) {

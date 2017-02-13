@@ -7,8 +7,10 @@ router.get('/', function(req, res, next) {
     if (req.session && req.session.user) {
         if (req.session.error) {
             res.locals.error = req.session.error
-            req.session.error = undefined
-        }
+            req.session.error = undefined}
+        if (req.session.success) {
+            res.locals.success = req.session.success
+            req.session.success = undefined}
         connection.query('SELECT * FROM users WHERE username = ?', [req.session.user], (err, rows, result) => {
             if (err) throw err
             res.locals.user = req.session.user
@@ -78,7 +80,7 @@ router.post('/', function(req, res) {
                                     connection.query('UPDATE users SET password = ? WHERE username = ?', [hash, req.session.user], (err, result) => {
                                         if (err) throw err
                                     })
-                                    connection.query('UPDATE users SET username = ?, lastname = ?, firstname = ?, email = ?, sexe = ?, orientation = ?, bio = ? WHERE username = ? LIMIT 1', [req.body.username, req.body.lastname, req.body.firstname, req.body.email, req.body.sexe, req.body.orientation, req.body.bio, req.session.user], (err, result) => {
+                                    connection.query('UPDATE users SET username = ?, lastname = ?, firstname = ?, email = ?, sexe = ?, orientation = ?, bio = ?, age = ? WHERE username = ? LIMIT 1', [req.body.username, req.body.lastname, req.body.firstname, req.body.email, req.body.sexe, req.body.orientation, req.body.bio, req.body.age, req.session.user], (err, result) => {
                                         if (err) throw err
                                         req.session.user = req.body.username;
                                         req.session.error = "Vos informations ont été mis à jour.";
@@ -86,10 +88,10 @@ router.post('/', function(req, res) {
                                     })
                                 }
                             } else {
-                                connection.query('UPDATE users SET username = ?, lastname = ?, firstname = ?, email = ?, sexe = ?, orientation = ?, bio = ? WHERE username = ? LIMIT 1', [req.body.username, req.body.lastname, req.body.firstname, req.body.email, req.body.sexe, req.body.orientation, req.body.bio, req.session.user], (err, result) => {
+                                connection.query('UPDATE users SET username = ?, lastname = ?, firstname = ?, email = ?, sexe = ?, orientation = ?, bio = ?, age = ? WHERE username = ? LIMIT 1', [req.body.username, req.body.lastname, req.body.firstname, req.body.email, req.body.sexe, req.body.orientation, req.body.bio, req.body.age, req.session.user], (err, result) => {
                                     if (err) throw err
                                     req.session.user = req.body.username;
-                                    req.session.error = "Vos informations ont été mis à jour.";
+                                    req.session.success = "Vos informations ont été mis à jour.";
                                     res.redirect('/profil');
                                 })
                             }

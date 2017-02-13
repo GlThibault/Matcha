@@ -7,58 +7,51 @@ var session = require('express-session');
 var connection = require('./config/db')
 var bcrypt = require('bcrypt');
 
-// Routes
+// Routes Var
 var index = require('./routes/index');
 var profil = require('./routes/profil');
 var login = require('./routes/login');
 var register = require('./routes/register');
 var forgot = require('./routes/forgot');
 var u = require('./routes/u');
+var reset = require('./routes/reset');
+var logout = require('./routes/logout');
 
 var app = express();
 
+// View Engine
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
-// Cookies
+// Params
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: 'ZBm9235Ymx4a',
     resave: true,
     saveUninitialized: true,
-    cookie: {
-        secure: false
-    }
+    cookie: {secure: false}
 }))
 app.use(cookieParser());
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: false
-}));
-app.use(express.static(path.join(__dirname, 'public')));
-
-
+// Routes
 app.use('/', index);
 app.use('/login', login);
 app.use('/profil', profil);
 app.use('/register', register);
 app.use('/u', u);
-app.use('/logout', function(req, res) {
-    res.clearCookie(session.user);
-    req.session.destroy();
-    res.redirect('/')
-});
 app.use('/forgot', forgot);
+app.use('/logout', logout);
+// app.use('/reset/:key', reset);
 app.use('/reset/:key', function(req, res) {
     var hash = bcrypt.hashSync(req.params.key, 12);
     connection.query('UPDATE users SET password = ?, reset = \'NULL\' WHERE reset = ?', [hash, req.params.key], (err, result) => {
         if (err) throw err
     })
     req.session.error = "Votre mot a été changé. Vous pouvez maintenant vous connecter.";
-    res.redirect('/')
+    res.redirect('/');
 });
 
 // catch 404 and forward to error handler
