@@ -19,6 +19,8 @@ var logout = require('./routes/logout');
 
 var app = express();
 
+var multer  = require('multer')
+var upload = multer({ dest: 'public/images/' })
 // View Engine
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -53,6 +55,9 @@ app.use('/reset/:key', function(req, res) {
     req.session.error = "Votre mot a été changé. Vous pouvez maintenant vous connecter.";
     res.redirect('/');
 });
+app.use('/upload', upload.single('avatar'), function(req, res, next) {
+
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
