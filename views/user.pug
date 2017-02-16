@@ -2,9 +2,9 @@ extends layout
 
 block content
  - i = 0;
-  .ui.card.centered
-    .image
-      img(src="/public/images/" + data.username + '.jpg')
+  .ui.card.centered.link
+    a.image(href=data.pic0)
+      img(src=data.pic0)
   .ui.card.fluid
     .content
       a.header= data.lastname + " " + data.firstname
@@ -15,10 +15,25 @@ block content
     .ui.bottom.attached.button.primary
       i.add.icon
       span Like
-  while i < 5
-    if (data.image + i++)
-      .ui.card
-        .image
-        img(src= "data.image + i")
   button.ui.button.red.right.floated Signaler l'utilisateur
   button.ui.button.yellow.right.floated Bloquer l'utilisateur
+  br
+  br
+  br
+  .ui.link.cards
+    if data.pic1
+      .card
+        a.image(href=data.pic1)
+          img(src=data.pic1)
+    if data.pic2
+      .card
+        a.image(href=data.pic2)
+          img(src=data.pic2)
+    if data.pic3
+      .card
+        a.image(href=data.pic3)
+          img(src=data.pic3)
+    if data.pic4
+      .card
+        a.image(href=data.pic4)
+          img(src=data.pic4)

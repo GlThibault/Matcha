@@ -6,7 +6,7 @@ block content
       each row in rows
         .card
           .image
-            img(src="http://semantic-ui.com/images/avatar2/large/kristy.png")
+            img(src=row['pic0'])
           .content
             a.header(href="/u/"+ row['username'])= row['lastname'].substring(0,25) + " " + row['firstname'].substring(0,25)
             if (row['sexe'] == 'Homme')

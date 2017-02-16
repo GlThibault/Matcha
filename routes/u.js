@@ -25,7 +25,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:username', function(req, res, next) {
-    // if (req.session && req.session.user) {
+    if (req.session && req.session.user) {
         if (req.session.error) {
             res.locals.error = req.session.error
             req.session.error = undefined
@@ -39,10 +39,10 @@ router.get('/:username', function(req, res, next) {
               username: req.params.username
             });
         });
-    // } else {
-    //     req.session.error = "Vous devez être connecté pour accéder a cette page.";
-    //     res.redirect('/login');
-    // }
+    } else {
+        req.session.error = "Vous devez être connecté pour accéder a cette page.";
+        res.redirect('/login');
+    }
 });
 
 module.exports = router;

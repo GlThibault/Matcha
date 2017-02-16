@@ -2,6 +2,7 @@ extends layout
 
 block content
  - var i = 18
+ - var j = 0
   .container
     .ui.equal.width.form
       h2.ui.dividing.header Mon profil
@@ -49,12 +50,37 @@ block content
           textarea(name='bio' required tabindex="10")= locals.data.bio
         button.ui.primary.submit.button.fluid.large(type='submit' required tabindex="11") Mettre a jour
     br
-    div.container
-        h2 Image Upload Form
-        form#fileUpload(method="post" action="/upload" enctype="multipart/form-data")
-            label(for="payload") Select a file to upload:
-            input#payload(type="file" name="myFile" accept="image/*")
-            button#upload Upload
+    h2.ui.dividing.header Images
+    .ui.link.cards
+      while j < 5
+        .card
+          .extra.content
+            if j == 0
+              label= 'Photo de profil'
+            else
+              label= 'Images ' + j
+          if (j == 0 && locals.data.pic0)
+            a.image(href=data.pic0)
+              img(src=locals.data.pic0)
+          if (j == 1 && locals.data.pic1)
+            a.image(href=data.pic1)
+              img(src=locals.data.pic1)
+          if (j == 2 && locals.data.pic2)
+            a.image(href=data.pic2)
+              img(src=locals.data.pic2)
+          if (j == 3 && locals.data.pic3)
+            a.image(href=data.pic3)
+              img(src=locals.data.pic3)
+          if (j == 4 && locals.data.pic4)
+            a.image(href=data.pic4)
+              img(src=locals.data.pic4)
+          form#fileUpload(method="post" action="/upload/pic" + j enctype="multipart/form-data")
+            label(for="payload") Changer l'image:
+            input#payload.ui(type="file" name="myFile" accept="image/*")
+            br
+            br
+            button#upload.primary.button.ui.fluid Upload
+            - j++
     script.
       var val = '#{locals.data.sexe}';
       var sel = document.getElementById('sexe');
