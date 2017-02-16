@@ -49,11 +49,12 @@ block content
           textarea(name='bio' required tabindex="10")= locals.data.bio
         button.ui.primary.submit.button.fluid.large(type='submit' required tabindex="11") Mettre a jour
     br
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-      Select an image to upload:
-      <input type="file" name="image">
-      <input type="submit" value="Upload Image">
-    </form>
+    div.container
+        h2 Image Upload Form
+        form#fileUpload(method="post" action="/upload" enctype="multipart/form-data")
+            label(for="payload") Select a file to upload:
+            input#payload(type="file" name="myFile" accept="image/*")
+            button#upload Upload
     script.
       var val = '#{locals.data.sexe}';
       var sel = document.getElementById('sexe');

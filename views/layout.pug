@@ -6,17 +6,19 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
     a#titre(href="/")= 'Matcha'
-    .ui.menu
-      a.item#index(href='/') Index
-      if (user)
-        a.item#u(href='/u') Utilisateurs
-      .right.menu
-        if (user)
-          a.item#profil(href='/profil') Profil
-          a.item#logout(href='/logout') Déconnection
-        else
-          a.item#login(href='login') Connection
-          a.item#register(href='/register') Nouveau ?
+    br
+    br
+    if (user)
+      .ui.menu
+        a.item#index(href='/') Index
+          a.item#u(href='/u') Utilisateurs
+        .right.menu
+          if (user)
+            a.item#profil(href='/profil') Profil
+            a.item#logout(href='/logout') Déconnection
+          else
+            a.item#login(href='login') Connection
+            a.item#register(href='/register') Nouveau ?
     if (locals && locals.error)
       .ui.error.message
         .header Erreur

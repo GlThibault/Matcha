@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var connection = require('./config/db')
+var connection = require('./config/db');
 var bcrypt = require('bcrypt');
 
 // Routes Var
@@ -55,9 +55,6 @@ app.use('/reset/:key', function(req, res) {
     req.session.error = "Votre mot a été changé. Vous pouvez maintenant vous connecter.";
     res.redirect('/');
 });
-app.use('/upload', upload.single('avatar'), function(req, res, next) {
-
-})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
