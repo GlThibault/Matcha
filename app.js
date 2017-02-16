@@ -6,6 +6,8 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var connection = require('./config/db');
 var bcrypt = require('bcrypt');
+var busboy = require('connect-busboy')
+var fs = require('fs')
 
 // Routes Var
 var index = require('./routes/index');
@@ -19,8 +21,6 @@ var logout = require('./routes/logout');
 
 var app = express();
 
-var multer  = require('multer')
-var upload = multer({ dest: 'public/images/' })
 // View Engine
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -54,6 +54,17 @@ app.use('/reset/:key', function(req, res) {
     })
     req.session.error = "Votre mot a été changé. Vous pouvez maintenant vous connecter.";
     res.redirect('/');
+});
+app.use(busboy());
+app.post('/upload', function(req, res) {
+    req.pipe(req.busboy);
+    req.busboy.on('file', function(fieldname, file, filename) {
+        var fstream = fs.createWriteStream('./public/images/' + req.session.user);
+        file.pipe(fstream);
+        fstream.on('close', function () {
+            res.send('upload succeeded!');
+        });
+    });
 });
 
 // catch 404 and forward to error handler
