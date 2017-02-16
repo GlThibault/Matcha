@@ -2,7 +2,7 @@ extends layout
 
 block content
  - i = 0;
-  .ui.card
+  .ui.card.centered
     .image
       img(src="http://semantic-ui.com/images/avatar2/large/elyse.png")
   .ui.card.fluid
@@ -12,7 +12,7 @@ block content
         span.category= data.sexe + " de " + data.age + " ans."
         span.category.right.floated= data.orientation
       .description= data.bio
-    .ui.bottom.attached.button
+    .ui.bottom.attached.button.primary
       i.add.icon
       span Like
   while i < 5
@@ -20,3 +20,5 @@ block content
       .ui.card
         .image
         img(src= "data.image + i")
+  button.ui.button.red.right.floated Signaler l'utilisateur
+  button.ui.button.yellow.right.floated Bloquer l'utilisateur

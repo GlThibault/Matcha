@@ -2,6 +2,7 @@ extends layout
 
 block content
   .container
+    br
     .ui.form
       h2.ui.dividing.header Connection
       form(method='POST' action='/login')
@@ -11,7 +12,6 @@ block content
         .field
           label Mot de passe:
           input(type='password' placeholder='Mot de passe' name='password' required tabindex="2")
-        a(href='/forgot') Mot de passe oublié
-        br
-        br
-        button.ui.primary.submit.button(type='submit' tabindex="3") Valider
+        button.ui.primary.submit.button.fluid.large(type='submit' tabindex="3") Valider
+      br
+      a(href='/forgot' tabindex="4") Mot de passe oublié

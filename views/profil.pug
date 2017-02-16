@@ -47,7 +47,7 @@ block content
         .field
           label Biographie
           textarea(name='bio' required tabindex="10")= locals.data.bio
-        button.ui.primary.submit.button(type='submit' required tabindex="11") Mettre a jour
+        button.ui.primary.submit.button.fluid.large(type='submit' required tabindex="11") Mettre a jour
     br
     <form action="/upload" method="POST" enctype="multipart/form-data">
       Select an image to upload:

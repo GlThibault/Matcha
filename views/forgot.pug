@@ -2,10 +2,11 @@ extends layout
 
 block content
   .container
+    br
     .ui.form
       h2.ui.dividing.header Mot de passe oublié
       form(method='POST' action='/forgot')
         .field
           label Nom d'utilisateur:
           input(type='text', placeholder="Nom d'utilisateur" name='username' required autofocus="autofocus" tabindex="1")
-        button.ui.primary.submit.button(type='submit' tabindex="2") Continuer
+        button.ui.primary.submit.button.fluid.large(type='submit' tabindex="2") Continuer
