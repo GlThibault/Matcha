@@ -17,6 +17,7 @@ var u = require('./routes/u');
 var reset = require('./routes/reset');
 var logout = require('./routes/logout');
 var upload = require('./routes/upload');
+var like = require('./routes/like');
 
 var app = express();
 
@@ -47,6 +48,7 @@ app.use('/forgot', forgot);
 app.use('/logout', logout);
 app.use('/reset', reset);
 app.use('/upload', upload)
+app.use('/like', like)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

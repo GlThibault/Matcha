@@ -30,14 +30,17 @@ router.get('/:username', function(req, res, next) {
             res.locals.error = req.session.error
             req.session.error = undefined
         }
-        connection.query('SELECT * FROM users WHERE username = ?', [req.params.username], (err, rows, result) => {
+        connection.query('SELECT * FROM likes WHERE username = ? AND liked = ?', [req.params.username, req.session.user], (err, rows, result) => {
             if (err) throw err
-            res.locals.user = req.session.user
-            res.locals.data = rows[0]
-            res.render('user', {
-              title: req.params.username,
-              username: req.params.username
-            });
+            res.locals.likes = rows[0]
+          connection.query('SELECT * FROM users WHERE username = ?', [req.params.username], (err, rows, result) => {
+              if (err) throw err
+              res.locals.user = req.session.user
+              res.locals.data = rows[0]
+              res.render('user', {
+                title: rows[0]['lastname'] + " " + rows[0]['firstname']
+              });
+          });
         });
     } else {
         req.session.error = "Vous devez être connecté pour accéder a cette page.";

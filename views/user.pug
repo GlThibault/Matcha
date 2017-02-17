@@ -2,9 +2,10 @@ extends layout
 
 block content
  - i = 0;
-  .ui.card.centered.link
-    a.image(href=data.pic0)
-      img(src=data.pic0)
+  if data.pic0
+    .ui.card.centered.link
+      a.image(href=data.pic0)
+        img(src=data.pic0)
   .ui.card.fluid
     .content
       a.header= data.lastname + " " + data.firstname
@@ -12,9 +13,14 @@ block content
         span.category= data.sexe + " de " + data.age + " ans."
         span.category.right.floated= data.orientation
       .description= data.bio
-    .ui.bottom.attached.button.primary
-      i.add.icon
-      span Like
+    if likes.username
+      a.ui.bottom.attached.button.primary(href="/like/" + data.username)
+        i.add.icon
+        span Like
+    else
+      a.ui.bottom.attached.button.primary(href="/dislike/" + data.username)
+        i.add.icon
+        span Dislike
   button.ui.button.red.right.floated Signaler l'utilisateur
   button.ui.button.yellow.right.floated Bloquer l'utilisateur
   br
