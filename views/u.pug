@@ -8,7 +8,7 @@ block content
           .image
             img(src=row['pic0'])
           .content
-            a.header(href="/u/"+ row['username'])= row['lastname'].substring(0,25) + " " + row['firstname'].substring(0,25)
+            a.header(href="/u/"+ row['username'])= row['firstname'].substring(0,25) + " " + row['lastname'].substring(0,25)
             if (row['sexe'] == 'Homme')
               i.man.icon.right.floated
             else

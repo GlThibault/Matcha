@@ -22,7 +22,7 @@ router.post('/', function(req, res) {
         if (err) throw err
         else if (rows[0]) {
             if (bcrypt.compareSync(req.body.password, rows[0].password)){
-                req.session.user = req.body.username;
+                req.session.user = req.body.username.toLowerCase();
                 req.session.success = "Vous êtes maintenant connecté";
                 res.redirect('../');
             } else {

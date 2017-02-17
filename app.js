@@ -6,8 +6,6 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var connection = require('./config/db');
 var bcrypt = require('bcrypt');
-var busboy = require('connect-busboy')
-var fs = require('fs')
 
 // Routes Var
 var index = require('./routes/index');
@@ -18,6 +16,7 @@ var forgot = require('./routes/forgot');
 var u = require('./routes/u');
 var reset = require('./routes/reset');
 var logout = require('./routes/logout');
+var upload = require('./routes/upload');
 
 var app = express();
 
@@ -46,38 +45,8 @@ app.use('/register', register);
 app.use('/u', u);
 app.use('/forgot', forgot);
 app.use('/logout', logout);
-// app.use('/reset/:key', reset);
-app.use('/reset/:key', function(req, res) {
-    var hash = bcrypt.hashSync(req.params.key, 12);
-    connection.query('UPDATE users SET password = ?, reset = \'NULL\' WHERE reset = ?', [hash, req.params.key], (err, result) => {
-        if (err) throw err
-    })
-    req.session.error = "Votre mot a été changé. Vous pouvez maintenant vous connecter.";
-    res.redirect('/');
-});
-app.use(busboy());
-app.post('/upload/:id', function(req, res) {
-    req.pipe(req.busboy);
-    req.busboy.on('file', function(fieldname, file, filename) {
-        var fname = '/images/' + req.session.user + '_' + req.params.id + '_' + filename
-        var fstream = fs.createWriteStream('./public' + fname);
-        file.pipe(fstream);
-        fstream.on('close', function () {
-          if (req.params.id == 'pic0')
-            connection.query('UPDATE users SET pic0 = ? WHERE username = ?', [fname, req.session.user], (err, result) => {if (err) throw err})
-          if (req.params.id == 'pic1')
-            connection.query('UPDATE users SET pic1 = ? WHERE username = ?', [fname, req.session.user], (err, result) => {if (err) throw err})
-          if (req.params.id == 'pic2')
-            connection.query('UPDATE users SET pic2 = ? WHERE username = ?', [fname, req.session.user], (err, result) => {if (err) throw err})
-          if (req.params.id == 'pic3')
-            connection.query('UPDATE users SET pic3 = ? WHERE username = ?', [fname, req.session.user], (err, result) => {if (err) throw err})
-          if (req.params.id == 'pic4')
-            connection.query('UPDATE users SET pic4 = ? WHERE username = ?', [fname, req.session.user], (err, result) => {if (err) throw err})
-          req.session.success = "Votre image a bien été sauvegardé.";
-          res.redirect('/profil');
-        });
-    });
-});
+app.use('/reset', reset);
+app.use('/upload', upload)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
