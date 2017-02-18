@@ -23,7 +23,7 @@ block content
           .extra.content
               a
                 i.user.icon
-                span= likes
+                span= likes[0].count
                 if (row['orientation'] == 'Hétérosexuelle')
                   i.heterosexual.icon.right.floated
                 else if (row['sexe'] == 'Homme')
