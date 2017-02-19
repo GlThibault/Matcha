@@ -12,16 +12,35 @@ router.get('/', function(req, res, next) {
             res.locals.success = req.session.success
             req.session.success = undefined
         }
-        connection.query('SELECT username, COUNT(DISTINCT username) AS count FROM likes GROUP BY username', (err, rows, result) => {
+        var sexe1 = ''
+        var sexe2 = ''
+        var orientation1 = ''
+        var orientation2 = ''
+        if (req.session.sexe == 'Homme') {
+            if (req.session.orientation == 'Homosexuelle' || req.session.orientation == 'Bisexuelle') {
+                sexe1 = 'Homme'
+                orientation1 = 'Hétérosexuelle'
+            }
+            if (req.session.orientation == 'Hétérosexuelle' || req.session.orientation == 'Bisexuelle') {
+                sexe2 = 'Femme'
+                orientation2 = 'Homosexuelle'
+            }
+        } else if (req.session.sexe == 'Femme') {
+            if (req.session.orientation == 'Homosexuelle' || req.session.orientation == 'Bisexuelle') {
+                sexe1 = 'Femme'
+                orientation1 = 'Hétérosexuelle'
+            }
+            if (req.session.orientation == 'Hétérosexuelle' || req.session.orientation == 'Bisexuelle') {
+                sexe2 = 'Homme'
+                orientation2 = 'Homosexuelle'
+            }
+        }
+        connection.query("SELECT likes.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.interests, users.age, users.pic0, (SELECT count(username) FROM likes WHERE likes.username=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE (sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?) GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes", [sexe1, orientation1, sexe2, orientation2], (err, rows, result) => {
             if (err) throw err
-            res.locals.likes = rows
-            connection.query('SELECT * FROM users WHERE bio != \'NULL\'', (err, rows, result) => {
-                if (err) throw err
-                res.locals.user = req.session.user
-                res.locals.rows = rows
-                res.render('u', {
-                    title: 'Utilisateurs'
-                });
+            res.locals.user = req.session.user
+            res.locals.rows = rows
+            res.render('u', {
+                title: 'Utilisateurs'
             });
         });
     } else {
