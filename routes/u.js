@@ -3,7 +3,7 @@ var router = express.Router();
 var connection = require('../config/db')
 
 router.get('/', function(req, res, next) {
-    if (req.session && req.session.user) {
+    if (req.session && req.session.user && req.session.valid) {
         if (req.session.error) {
             res.locals.error = req.session.error
             req.session.error = undefined
@@ -35,7 +35,7 @@ router.get('/', function(req, res, next) {
                 orientation2 = 'Homosexuelle'
             }
         }
-        connection.query("SELECT likes.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.interests, users.age, users.pic0, (SELECT count(username) FROM likes WHERE likes.username=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE (sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?) GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes", [sexe1, orientation1, sexe2, orientation2], (err, rows, result) => {
+        connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.interests, users.age, users.pic0, (SELECT count(username) FROM likes WHERE likes.username=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
             if (err) throw err
             res.locals.user = req.session.user
             res.locals.rows = rows
@@ -43,7 +43,10 @@ router.get('/', function(req, res, next) {
                 title: 'Utilisateurs'
             });
         });
-    } else {
+      } else if (req.session && req.session.user) {
+          req.session.error = "Vous devez compléter votre profil pour accéder a cette page.";
+          res.redirect('/profil');
+      } else {
         req.session.error = "Vous devez être connecté pour accéder a cette page.";
         res.redirect('/login');
     }

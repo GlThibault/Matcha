@@ -26,8 +26,10 @@ router.post('/:id', function(req, res) {
         var fstream = fs.createWriteStream('./public' + fname);
         file.pipe(fstream);
         fstream.on('close', function () {
-          if (req.params.id == 'pic0')
-            connection.query('UPDATE users SET pic0 = ? WHERE username = ?', [fname, req.session.user], (err, result) => {if (err) throw err})
+          if (req.params.id == 'pic0') {
+            connection.query('UPDATE users SET pic0 = ? WHERE username = ?', [fname, req.session.user], (err, result) => {if (err) throw err});
+            req.session.pic0 = true;
+          }
           if (req.params.id == 'pic1')
             connection.query('UPDATE users SET pic1 = ? WHERE username = ?', [fname, req.session.user], (err, result) => {if (err) throw err})
           if (req.params.id == 'pic2')

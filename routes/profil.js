@@ -91,6 +91,9 @@ router.post('/', function(req, res) {
                                 connection.query('UPDATE users SET username = ?, lastname = ?, firstname = ?, email = ?, sexe = ?, orientation = ?, bio = ?, age = ? WHERE username = ? LIMIT 1', [req.body.username, req.body.lastname, req.body.firstname, req.body.email, req.body.sexe, req.body.orientation, req.body.bio, req.body.age, req.session.user], (err, result) => {
                                     if (err) throw err
                                     req.session.user = req.body.username;
+                                    req.session.sexe = req.body.sexe;
+                                    req.session.orientation = req.body.orientation;
+                                    req.session.valid = true;
                                     req.session.success = "Vos informations ont été mis à jour.";
                                     res.redirect('/profil');
                                 })
