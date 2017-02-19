@@ -3,7 +3,7 @@ var router = express.Router();
 var connection = require('../config/db')
 
 router.get('/', function(req, res, next) {
-    if (req.session && req.session.user && req.session.valid) {
+    if (req.session && req.session.user) {
         if (req.session.error) {
             res.locals.error = req.session.error
             req.session.error = undefined
@@ -34,6 +34,9 @@ router.get('/', function(req, res, next) {
                 sexe2 = 'Homme'
                 orientation2 = 'Homosexuelle'
             }
+        } else {
+          sexe1 = 'Homme';
+          sexe2 = 'Femme';
         }
         connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.interests, users.age, users.pic0, (SELECT count(username) FROM likes WHERE likes.username=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
             if (err) throw err
@@ -43,9 +46,6 @@ router.get('/', function(req, res, next) {
                 title: 'Utilisateurs'
             });
         });
-      } else if (req.session && req.session.user) {
-          req.session.error = "Vous devez compléter votre profil pour accéder a cette page.";
-          res.redirect('/profil');
       } else {
         req.session.error = "Vous devez être connecté pour accéder a cette page.";
         res.redirect('/login');
@@ -58,10 +58,15 @@ router.get('/:username', function(req, res, next) {
             res.locals.error = req.session.error
             req.session.error = undefined
         }
-        connection.query('SELECT COUNT(*) AS count FROM likes WHERE username = ? AND liked = ?', [req.session.user, req.params.username], (err, result) => {
+        connection.query('SELECT * FROM visits WHERE username = ? AND visited = ? LIMIT 1', [req.session.user, req.params.username], (err, rows, result) => {
+          if (err) throw err
+          if (!rows[0] && req.session.user != req.params.username)
+            connection.query('INSERT INTO visits SET username = ?, visited = ?', [req.session.user, req.params.username], (err, result) => {if (err) throw err});
+        });
+        connection.query('SELECT count(*) AS pop FROM likes WHERE username = ?', [req.session.user], (err, rows, result) => {
             if (err) throw err
-            res.locals.likes = result[0].count
-            connection.query('SELECT * FROM users WHERE username = ?', [req.params.username], (err, rows, result) => {
+            res.locals.pop = rows[0].pop
+            connection.query('SELECT * FROM users WHERE username = ? LIMIT 1', [req.params.username], (err, rows, result) => {
                 if (err) throw err
                 res.locals.user = req.session.user
                 res.locals.data = rows[0]

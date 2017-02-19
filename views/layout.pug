@@ -26,9 +26,20 @@ html
         p= locals.error
     if (locals && locals.success)
       .ui.success.message
-        .header Success
+        .header Message
         i.close.icon
         p= locals.success
+    if (locals && locals.warning)
+      .ui.warning.message
+        .header Message
+        i.close.icon
+        p= locals.warning
+    if (locals && locals.info)
+      .ui.info.message
+        .header Info
+        i.close.icon
+        p= locals.info
     script(src='/javascripts/active.js')
+    br
   body
     block content

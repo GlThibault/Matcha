@@ -1,3 +1,46 @@
 extends layout
 
 block content
+  .ui.labeled.icon.button.red.right.floated
+    i.heart.icon
+    p= pop
+  .ui.left.floated
+    h1= "Bienvenue " + data.firstname + " " + data.lastname
+
+  .ui.card.link
+    a.image(href='/u/' + data.username)
+      if data.pic0
+        img(src=data.pic0)
+      else
+        img(src='/noprofile.jpg')
+  br
+  br
+  br
+  .ui.grid.internally.celled
+    .row
+      .height.wide.column(style="min-width:400px;")
+        h3 Ils ont consulté votre profil.
+        .ui.items.divided
+          each visit in visits
+            .item
+              a.ui.small.image(href="/u/" + visit['username'])
+                img(src=visit['pic0'])
+              .content
+                a.header(href="/u/" + visit['username'])= visit['firstname'] + ' ' + visit['lastname']
+                .meta
+                  span= visit['bio']
+                .extra
+                  span= visit['age'] + ' ans'
+      .height.wide.column(style="min-width:400px;")
+        h3 Ils vous likes.
+        .ui.items.divided
+          each like in likes
+            .item
+              a.ui.small.image(href="/u/" + like['username'])
+                img(src=like['pic0'])
+              .content
+                a.header(href="/u/" + like['username'])= like['firstname'] + ' ' + like['lastname']
+                .meta
+                  span= like['bio']
+                .extra
+                  span= like['age'] + ' ans'

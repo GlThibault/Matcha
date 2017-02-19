@@ -4,15 +4,17 @@ block content
   .container
     .ui.link.cards
       each row in rows
-        .card
+        a.ui.card(href="/u/"+ row['username'])
           .image
             img(src=row['pic0'])
           .content
-            a.header(href="/u/"+ row['username'])= row['firstname'].substring(0,25) + " " + row['lastname'].substring(0,25)
-            if (row['sexe'] == 'Homme')
-              i.man.icon.right.floated
+            if row['sexe'] == 'Homme'
+              .ui.right.floated.icon.button.blue
+                i.man.icon.right.floated
             else
-              i.woman.icon.right.floated
+              .ui.right.floated.icon.button.pink
+                i.woman.icon.right.floated
+            .header= row['firstname'].substring(0,25) + " " + row['lastname'].substring(0,25)
             .meta
               span= row['age'] + " ans."
             .description
@@ -21,14 +23,18 @@ block content
               else
                 span= row['bio']
           .extra.content
-              a
-                i.user.icon
-                span= row['likes']
-                if (row['orientation'] == 'Hétérosexuelle')
-                  i.heterosexual.icon.right.floated
-                else if (row['sexe'] == 'Homme')
-                  i.gay.icon.right.floated
-                else if (row['sexe'] == 'Femme')
-                  i.lesbian.icon.right.floated
-                if (row['orientation'] == 'Bisexuelle')
-                  i.heterosexual.icon.right.floated
+            .ui.labeled.icon.button.red
+              i.heart.icon
+              p= row['likes']
+            if (row['orientation'] == 'Hétérosexuelle')
+              .ui.right.floated.icon.button
+                i.heterosexual.icon.right.floated
+            else if row['sexe'] == 'Homme'
+              .ui.right.floated.icon.button.blue
+                i.gay.icon.right.floated
+            else if row['sexe'] == 'Femme'
+              .ui.right.floated.icon.button.pink
+                i.lesbian.icon.right.floated
+            if (row['orientation'] == 'Bisexuelle')
+              .ui.right.floated.icon.button
+                i.heterosexual.icon.right.floated

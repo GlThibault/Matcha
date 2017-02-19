@@ -28,6 +28,8 @@ router.post('/', function(req, res) {
                   req.session.sexe = rows[0].sexe;
                   req.session.valid = true;
                 }
+                else
+                  req.session.info = "Votre profil est vide, vous pouvez le remplir en cliquant sur Profil";
                 req.session.pic0 = rows[0].pic0;
                 req.session.success = "Vous êtes maintenant connecté";
                 res.redirect('../');

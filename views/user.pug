@@ -8,21 +8,25 @@ block content
         img(src=data.pic0)
   .ui.card.fluid
     .content
-      a.header= data.lastname + " " + data.firstname
+      a.header= data.firstname + " " + data.lastname
       .meta
         span.category= data.sexe + " de " + data.age + " ans."
         span.category.right.floated= data.orientation
       .description= data.bio
-    if likes == 0
-      a.ui.bottom.attached.button.primary(href="/like/" + data.username)
-        i.add.icon
-        span Like
-    else
-      a.ui.bottom.attached.button.teal(href="/like/" + data.username)
-        i.add.icon
-        span Dislike
-  button.ui.button.red.right.floated Signaler l'utilisateur
-  button.ui.button.yellow.right.floated Bloquer l'utilisateur
+      .ui.labeled.icon.button.red.right.floated
+        i.heart.icon
+        p= pop
+    if data.username != user
+      if likes == 0
+        a.ui.bottom.attached.button.primary(href="/like/" + data.username)
+          i.add.icon
+          span Like
+      else
+        a.ui.bottom.attached.button.teal(href="/like/" + data.username)
+          i.add.icon
+          span Dislike
+  button.ui.button.red Signaler l'utilisateur
+  button.ui.button.yellow Bloquer l'utilisateur
   br
   br
   br
