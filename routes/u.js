@@ -38,14 +38,33 @@ router.get('/', function(req, res, next) {
           sexe1 = 'Homme';
           sexe2 = 'Femme';
         }
-        connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.interests, users.age, users.pic0, (SELECT count(username) FROM likes WHERE likes.username=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
-            if (err) console.log(err)
-            res.locals.user = req.session.user
-            res.locals.rows = rows
-            res.render('u', {
-                title: 'Utilisateurs'
-            });
-        });
+        if (req.session.order == 'age') {
+          connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.interests, users.age, users.pic0, (SELECT count(liked) FROM likes WHERE likes.liked=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes ORDER BY age", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
+              if (err) console.log(err)
+              res.locals.user = req.session.user
+              res.locals.rows = rows
+              res.render('u', {
+                  title: 'Utilisateurs'
+              });
+          });
+        } else if (req.session.order == 'pop') {
+          connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.interests, users.age, users.pic0, (SELECT count(liked) FROM likes WHERE likes.liked=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes ORDER BY pop", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
+              if (err) console.log(err)
+              res.locals.user = req.session.user
+              res.locals.rows = rows
+              res.render('u', {
+                  title: 'Utilisateurs'
+              });
+          });
+        } else {
+          connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.interests, users.age, users.pic0, (SELECT count(liked) FROM likes WHERE likes.liked=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
+              if (err) console.log(err)
+              res.locals.user = req.session.user
+              res.locals.rows = rows
+              res.render('u', {
+                  title: 'Utilisateurs'
+              });
+          });
       } else {
         req.session.error = "Vous devez être connecté pour accéder a cette page.";
         res.redirect('/login');
