@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res) {
     connection.query('SELECT orientation, sexe, password, pic0 FROM users WHERE username = ? LIMIT 1', [req.body.username], (err, rows, result) => {
-        if (err) throw err
+        if (err) console.log(err)
         else if (rows[0]) {
             if (bcrypt.compareSync(req.body.password, rows[0].password)){
                 req.session.user = req.body.username.toLowerCase();

@@ -9,16 +9,16 @@ router.get('/:username', function(req, res, next) {
         res.redirect('../u/' + req.params.username);
     } else if (req.session && req.session.user && req.session.pic0 && req.session.valid) {
         connection.query('SELECT COUNT(*) AS count FROM likes WHERE username = ? AND liked = ?', [req.session.user, req.params.username], (err, result) => {
-            if (err) throw err
+            if (err) console.log(err)
             if (result[0].count == 0) {
                 connection.query('INSERT INTO likes SET username = ?, liked = ?', [req.session.user, req.params.username], (err, result) => {
-                    if (err) throw err
+                    if (err) console.log(err)
                     else
                         res.redirect('../u/' + req.params.username);
                 })
             } else {
                 connection.query('DELETE FROM likes WHERE username = ? AND liked = ?', [req.session.user, req.params.username], (err, result) => {
-                    if (err) throw err
+                    if (err) console.log(err)
                     else
                       res.redirect('../u/' + req.params.username);
                 })

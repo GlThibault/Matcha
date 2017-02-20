@@ -18,11 +18,11 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res) {
     connection.query('SELECT email FROM users WHERE username = ?', [req.body.username], (err, rows, result) => {
-        if (err) throw err
+        if (err) console.log(err)
         else if (rows[0]) {
           var hash = (Math.random() + 1).toString(36).substr(2, 15);
           connection.query('UPDATE users SET reset = ? WHERE username = ?', [hash, req.body.username], (err, result) => {
-              if (err) throw err
+              if (err) console.log(err)
           })
           var fullUrl = '<a href="' + req.protocol + '://' + req.get('host') + '/reset/' + hash + '">Réinitialiser le mot de passe</a>';
           sendmail({

@@ -22,25 +22,33 @@ block content
         h3 Ils ont consulté votre profil.
         .ui.items.divided
           each visit in visits
-            .item
-              a.ui.small.image(href="/u/" + visit['username'])
+            .item#frame
+              a.ui.card.small.image(href="/u/" + visit['username'])
                 img(src=visit['pic0'])
               .content
+                br
                 a.header(href="/u/" + visit['username'])= visit['firstname'] + ' ' + visit['lastname']
                 .meta
-                  span= visit['bio']
+                  if (visit['bio'].length > 200)
+                    span= visit['bio'].substring(0,300)+" ..."
+                  else
+                    span= visit['bio']
                 .extra
                   span= visit['age'] + ' ans'
       .height.wide.column(style="min-width:400px;")
         h3 Ils vous likes.
         .ui.items.divided
           each like in likes
-            .item
-              a.ui.small.image(href="/u/" + like['username'])
+            .item#frame
+              a.ui.card.small.image(href="/u/" + like['username'])
                 img(src=like['pic0'])
               .content
+                br
                 a.header(href="/u/" + like['username'])= like['firstname'] + ' ' + like['lastname']
                 .meta
-                  span= like['bio']
+                  if (like['bio'].length > 200)
+                    span= like['bio'].substring(0,300)+" ..."
+                  else
+                    span= like['bio']
                 .extra
                   span= like['age'] + ' ans'

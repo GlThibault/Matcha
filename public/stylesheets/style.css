@@ -10,3 +10,9 @@ body {
   font-style: normal;
   text-decoration: none;
 }
+
+#frame {
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #eee;
+}

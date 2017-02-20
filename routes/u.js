@@ -39,7 +39,7 @@ router.get('/', function(req, res, next) {
           sexe2 = 'Femme';
         }
         connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.interests, users.age, users.pic0, (SELECT count(username) FROM likes WHERE likes.username=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
-            if (err) throw err
+            if (err) console.log(err)
             res.locals.user = req.session.user
             res.locals.rows = rows
             res.render('u', {
@@ -59,15 +59,15 @@ router.get('/:username', function(req, res, next) {
             req.session.error = undefined
         }
         connection.query('SELECT * FROM visits WHERE username = ? AND visited = ? LIMIT 1', [req.session.user, req.params.username], (err, rows, result) => {
-          if (err) throw err
+          if (err) console.log(err)
           if (!rows[0] && req.session.user != req.params.username)
-            connection.query('INSERT INTO visits SET username = ?, visited = ?', [req.session.user, req.params.username], (err, result) => {if (err) throw err});
+            connection.query('INSERT INTO visits SET username = ?, visited = ?', [req.session.user, req.params.username], (err, result) => {if (err) console.log(err)});
         });
         connection.query('SELECT count(*) AS pop FROM likes WHERE username = ?', [req.session.user], (err, rows, result) => {
-            if (err) throw err
+            if (err) console.log(err)
             res.locals.pop = rows[0].pop
             connection.query('SELECT * FROM users WHERE username = ? LIMIT 1', [req.params.username], (err, rows, result) => {
-                if (err) throw err
+                if (err) console.log(err)
                 res.locals.user = req.session.user
                 res.locals.data = rows[0]
                 res.render('user', {

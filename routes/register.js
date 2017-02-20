@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res) {
     connection.query('SELECT * FROM users WHERE username = ? OR email = ?', [req.body.username, req.body.email], (err, rows, result) => {
-        if (err) throw err
+        if (err) console.log(err)
         else if (req.body.firstname.length > 80 || req.body.lastname.length > 80 || req.body.username.length > 80 || req.body.email.length > 200) {
             req.session.error = "Erreur.";
             res.redirect('/register');
@@ -57,11 +57,12 @@ router.post('/', function(req, res) {
         } else {
             var hash = bcrypt.hashSync(req.body.password, 12);
             connection.query('INSERT INTO users SET username = ?, lastname = ?, firstname = ?, email = ?, password = ?, inscription_date = ?', [req.body.username, req.body.lastname, req.body.firstname, req.body.email, hash, new Date()], (err, result) => {
-                if (err) throw err
-                else {
-                  req.session.success = "Votre compte a correctement été créé";
-                  res.redirect('../login');
-                }
+                if (err) {
+                  req.session.error = "Erreur.";
+                  res.redirect('/profil');
+                } else {
+                    req.session.success = "Votre compte a correctement été créé";
+                    res.redirect('../login');}
             })
         }
     })
