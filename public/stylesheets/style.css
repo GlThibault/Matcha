@@ -12,7 +12,12 @@ body {
 }
 
 #frame {
+  padding: 0;
   border-radius: 5px;
   border: 1px solid #ccc;
+  background-color: #eee;
+}
+
+#grey {
   background-color: #eee;
 }

@@ -4,7 +4,7 @@ block content
   .container
     .ui.link.cards
       each row in rows
-        a.ui.card(href="/u/"+ row['username'])
+        a.ui.card#grey(href="/u/"+ row['username'])
           .image
             img(src=row['pic0'])
           .content

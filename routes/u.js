@@ -63,15 +63,19 @@ router.get('/:username', function(req, res, next) {
           if (!rows[0] && req.session.user != req.params.username)
             connection.query('INSERT INTO visits SET username = ?, visited = ?', [req.session.user, req.params.username], (err, result) => {if (err) console.log(err)});
         });
-        connection.query('SELECT count(*) AS pop FROM likes WHERE username = ?', [req.session.user], (err, rows, result) => {
+        connection.query('SELECT COUNT(*) AS count FROM likes WHERE username = ? AND liked = ?', [req.session.user, req.params.username], (err, rows, result) => {
             if (err) console.log(err)
-            res.locals.pop = rows[0].pop
-            connection.query('SELECT * FROM users WHERE username = ? LIMIT 1', [req.params.username], (err, rows, result) => {
+            res.locals.like = rows[0].count
+            connection.query('SELECT count(*) AS pop FROM likes WHERE liked = ?', [req.params.username], (err, rows, result) => {
                 if (err) console.log(err)
-                res.locals.user = req.session.user
-                res.locals.data = rows[0]
-                res.render('user', {
-                    title: rows[0]['lastname'] + " " + rows[0]['firstname']
+                res.locals.pop = rows[0].pop
+                connection.query('SELECT * FROM users WHERE username = ? LIMIT 1', [req.params.username], (err, rows, result) => {
+                    if (err) console.log(err)
+                    res.locals.user = req.session.user
+                    res.locals.data = rows[0]
+                    res.render('user', {
+                        title: rows[0]['lastname'] + " " + rows[0]['firstname']
+                    });
                 });
             });
         });
