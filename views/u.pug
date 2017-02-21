@@ -1,40 +1,47 @@
 extends layout
 
 block content
+  - var blocked = 0
   .container
     .ui.link.cards
       each row in rows
-        a.ui.card#grey(href="/u/"+ row['username'])
-          .image
-            img(src=row['pic0'])
-          .content
-            if row['sexe'] == 'Homme'
-              .ui.right.floated.icon.button.blue
-                i.man.icon.right.floated
-            else
-              .ui.right.floated.icon.button.pink
-                i.woman.icon.right.floated
-            .header= row['firstname'].substring(0,25) + " " + row['lastname'].substring(0,25)
-            .meta
-              span= row['age'] + " ans."
-            .description
-              if (row['bio'].length > 699)
-                span= row['bio'].substring(0,699)+" ..."
+        each block in blocks
+          if block['blocked'] == row['username']
+            - blocked = 1
+        if blocked == 0
+          a.ui.card#grey(href="/u/"+ row['username'])
+            .image
+              img(src=row['pic0'])
+            .content
+              if row['sexe'] == 'Homme'
+                .ui.right.floated.icon.button.blue
+                  i.man.icon.right.floated
               else
-                span= row['bio']
-          .extra.content
-            .ui.labeled.icon.button.red
-              i.heart.icon
-              p= row['likes']
-            if (row['orientation'] == 'Hétérosexuelle')
-              .ui.right.floated.icon.button
-                i.heterosexual.icon.right.floated
-            else if row['sexe'] == 'Homme'
-              .ui.right.floated.icon.button.blue
-                i.gay.icon.right.floated
-            else if row['sexe'] == 'Femme'
-              .ui.right.floated.icon.button.pink
-                i.lesbian.icon.right.floated
-            if (row['orientation'] == 'Bisexuelle')
-              .ui.right.floated.icon.button
-                i.heterosexual.icon.right.floated
+                .ui.right.floated.icon.button.pink
+                  i.woman.icon.right.floated
+              .header= row['firstname'].substring(0,25) + " " + row['lastname'].substring(0,25)
+              .meta
+                span= row['age'] + " ans."
+              .description
+                if (row['bio'].length > 699)
+                  span= row['bio'].substring(0,699)+" ..."
+                else
+                  span= row['bio']
+            .extra.content
+              .ui.labeled.icon.button.red
+                i.heart.icon
+                p= row['likes']
+              if (row['orientation'] == 'Hétérosexuelle')
+                .ui.right.floated.icon.button
+                  i.heterosexual.icon.right.floated
+              else if row['sexe'] == 'Homme'
+                .ui.right.floated.icon.button.blue
+                  i.gay.icon.right.floated
+              else if row['sexe'] == 'Femme'
+                .ui.right.floated.icon.button.pink
+                  i.lesbian.icon.right.floated
+              if (row['orientation'] == 'Bisexuelle')
+                .ui.right.floated.icon.button
+                  i.heterosexual.icon.right.floated
+        else
+          - blocked = 0

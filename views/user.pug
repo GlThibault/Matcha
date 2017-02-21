@@ -1,7 +1,6 @@
 extends layout
 
 block content
- - i = 0;
   if data.pic0
     .ui.card.centered.link
       a.image(href=data.pic0)
@@ -26,8 +25,11 @@ block content
           i.add.icon
           span Dislike
   if data.username != user
-    a.button.ui.button.red(href="/report/" + data.username) Signaler l'utilisateur
-    a.button.ui.button.yellow(href="/block/" + data.username) Bloquer l'utilisateur
+    a.button.ui.button.red(href="/report/" + data.username) Signaler comme faux compte
+    if block == 0
+      a.button.ui.button.yellow(href="/block/" + data.username) Bloquer l'utilisateur
+    else
+      a.button.ui.button.yellow(href="/block/" + data.username) Débloquer l'utilisateur
   br
   br
   .ui.link.cards
