@@ -21,3 +21,8 @@ body {
 #grey {
   background-color: #eee;
 }
+
+#map {
+  height: 400px;
+  width: 100%;
+}
