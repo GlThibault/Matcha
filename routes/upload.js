@@ -8,7 +8,7 @@ router.use(busboy());
 router.post('/:id', function(req, res) {
     req.pipe(req.busboy);
     req.busboy.on('file', function(fieldname, file, filename) {
-        connection.query('SELECT * FROM USERS WHERE username = ?', [req.session.user], (err, rows, result) => {if (err) console.log(err)
+        connection.query('SELECT * FROM users WHERE username = ?', [req.session.user], (err, rows, result) => {if (err) console.log(err)
           if (rows[0][req.params.id]) {
             var picture = 'public' + rows[0][req.params.id];
             fs.stat(picture, function (err, stats) {

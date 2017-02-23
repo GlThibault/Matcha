@@ -28,12 +28,14 @@ router.post('/', function(req, res) {
                   req.session.orientation = rows[0].orientation;
                   req.session.sexe = rows[0].sexe;
                   req.session.valid = true;
-                  iplocation(req.ip, function (error, res) {
-                    console.log(res)
-                  })
                 }
                 else
                   req.session.info = "Votre profil est vide, vous pouvez le remplir en cliquant sur Profil";
+                iplocation(req.ip, function (error, res) {
+		  connection.query('UPDATE users SET city = ?, lat = ?, lon = ? WHERE username = ?', [res['city'], res['latitude'], res['longitude'], req.session.user], (err, rows, result) => { 
+ 		    if (err) console.log(err)
+		  })
+                })
                 req.session.pic0 = rows[0].pic0;
                 req.session.success = "Vous êtes maintenant connecté";
                 res.redirect('../');
