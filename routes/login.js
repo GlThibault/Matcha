@@ -3,6 +3,7 @@ var router = express.Router();
 var connection = require('../config/db')
 var bcrypt = require('bcrypt');
 var session = require('express-session');
+var iplocation = require('iplocation')
 
 router.get('/', function(req, res, next) {
     if (req.session.error) {
@@ -27,6 +28,9 @@ router.post('/', function(req, res) {
                   req.session.orientation = rows[0].orientation;
                   req.session.sexe = rows[0].sexe;
                   req.session.valid = true;
+                  iplocation(req.ip, function (error, res) {
+                    console.log(res)
+                  })
                 }
                 else
                   req.session.info = "Votre profil est vide, vous pouvez le remplir en cliquant sur Profil";
