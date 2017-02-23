@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var connection = require('./config/db');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 // Routes Var
 var index = require('./routes/index');

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var connection = require('../config/db')
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 router.use('/:key', function(req, res) {
     var hash = bcrypt.hashSync(req.params.key, 12);

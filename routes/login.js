@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var connection = require('../config/db')
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 var session = require('express-session');
 var iplocation = require('iplocation')
 
