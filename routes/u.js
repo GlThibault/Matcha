@@ -55,7 +55,7 @@ router.get('/', function(req, res, next) {
                     });
                 });
             } else if (req.session.order == 'pop') {
-                connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.interests, users.age, users.pic0, (SELECT count(liked) FROM likes WHERE likes.liked=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes ORDER BY pop", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
+                connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.interests, users.age, users.pic0, (SELECT count(liked) FROM likes WHERE likes.liked=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes ORDER BY likes DESC", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
                     if (err) console.log(err)
                     res.locals.user = req.session.user
                     res.locals.rows = rows
@@ -107,15 +107,19 @@ router.get('/:username', function(req, res, next) {
             connection.query('SELECT COUNT(*) AS count FROM likes WHERE username = ? AND liked = ?', [req.session.user, req.params.username], (err, rows, result) => {
                 if (err) console.log(err)
                 res.locals.like = rows[0].count
-                connection.query('SELECT count(*) AS pop FROM likes WHERE liked = ?', [req.params.username], (err, rows, result) => {
+                connection.query('SELECT COUNT(*) AS count FROM likes WHERE username = ? AND liked = ?', [req.params.username, req.session.user], (err, rows, result) => {
                     if (err) console.log(err)
-                    res.locals.pop = rows[0].pop
-                    connection.query('SELECT * FROM users WHERE username = ? LIMIT 1', [req.params.username], (err, rows, result) => {
+                    res.locals.liked = rows[0].count
+                    connection.query('SELECT count(*) AS pop FROM likes WHERE liked = ?', [req.params.username], (err, rows, result) => {
                         if (err) console.log(err)
-                        res.locals.user = req.session.user
-                        res.locals.data = rows[0]
-                        res.render('user', {
-                            title: rows[0]['firstname'] + " " + rows[0]['lastname']
+                        res.locals.pop = rows[0].pop
+                        connection.query('SELECT * FROM users WHERE username = ? LIMIT 1', [req.params.username], (err, rows, result) => {
+                            if (err) console.log(err)
+                            res.locals.user = req.session.user
+                            res.locals.data = rows[0]
+                            res.render('user', {
+                                title: rows[0]['firstname'] + " " + rows[0]['lastname']
+                            });
                         });
                     });
                 });

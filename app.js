@@ -20,6 +20,7 @@ var upload = require('./routes/upload');
 var like = require('./routes/like');
 var block = require('./routes/block');
 var report = require('./routes/report');
+var sort = require('./routes/sort');
 
 var app = express();
 
@@ -52,6 +53,7 @@ app.use('/reset', reset);
 app.use('/upload', upload)
 app.use('/like', like)
 app.use('/block', block)
+app.use('/sort', sort)
 app.use('/report', report)
 
 // catch 404 and forward to error handler
