@@ -1,7 +1,16 @@
 {
   "name": "matcha",
-  "version": "0.0.0",
+  "author": "Glandais Thibault <tglandai@student.42.fr>",
+  "version": "1.0.0",
   "private": true,
+  "licence": "MIT",
+  "repository" : {
+    "type": "git",
+    "url": "https://github.com/GlThibault/Matcha.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GlThibault/Matcha.git/issues"
+  },
   "scripts": {
     "start": "nodemon ./bin/www"
   },
@@ -19,6 +28,7 @@
     "pug": "~2.0.0-beta10",
     "sendmail": "^1.1.1",
     "serve-favicon": "~2.3.2",
-    "socket.io": "^1.7.2"
+    "socket.io": "^1.7.2",
+    "socket.io-client": "^1.7.3"
   }
 }

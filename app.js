@@ -25,17 +25,21 @@ var sort = require('./routes/sort')
 
 var app = express()
 
-// socket.on('setPseudo', function (data) {
-//     socket.set('pseudo', data)
-// })
-//
-// socket.on('message', function (message) {
-//     socket.get('pseudo', function (error, name) {
-//         var data = { 'message' : message, pseudo : name }
-//         socket.broadcast.emit('message', data)
-//         console.log("user " + name + " send this : " + message)
-//     })
-// })
+io.sockets.on('connection', function(socket) {
+    socket.on('setPseudo', function(data) {
+        socket.set('pseudo', data)
+    })
+    socket.on('message', function(message) {
+        socket.get('pseudo', function(error, name) {
+            var data = {
+                'message': message,
+                pseudo: name
+            }
+            socket.broadcast.emit('message', data)
+            console.log("user " + name + " send this : " + message)
+        })
+    })
+})
 
 // View Engine
 app.set('views', path.join(__dirname, 'views'))
