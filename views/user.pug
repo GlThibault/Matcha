@@ -60,7 +60,7 @@ block content
     var lon = #{locals.data.lon};
     function initMap() {
       var uluru = {lat: lat, lng: lon};
-      var map = new google.maps.Map(document.getElementById('map'), {zoom: 15, center: uluru});
+      var map = new google.maps.Map(document.getElementById("map"), {zoom: 15, center: uluru});
       var marker = new google.maps.Marker({position: uluru, map: map});
     }
   script(async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9WMjcqSyrFp-xE30ebFMf2HAyn3Mpg1w&callback=initMap")

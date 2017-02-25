@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
 var connection = require('../config/db')
 
 router.get('/', function(req, res, next) {
@@ -38,15 +38,15 @@ router.get('/', function(req, res, next) {
                             res.locals.data = rows[0]
                             res.render('index', {
                                 title: 'Matcha'
-                            });
-                        });
-                    });
-                });
-            });
-        });
+                            })
+                        })
+                    })
+                })
+            })
+        })
     } else {
-        res.redirect('/register');
+        res.redirect('/register')
     }
-});
+})
 
-module.exports = router;
+module.exports = router

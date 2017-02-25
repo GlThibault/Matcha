@@ -6,58 +6,58 @@ block content
   .container
     .ui.equal.width.form
       h2.ui.dividing.header Mon profil
-      form(method='POST' action='/profil')
+      form(method="POST" action="/profil")
         .fields
           .field
-            label Nom d'utilisateur:
-            input(type='text', placeholder="Nom d'utilisateur" name='username' value=locals.data.username autofocus="autofocus" required tabindex="1")
+            label Nom d"utilisateur:
+            input(type="text", placeholder="Nom d'utilisateur" name="username" value=locals.data.username autofocus="autofocus" required tabindex="1")
           .field
             label Email:
-            input(type='email', placeholder='nom@email.com' name='email' value=locals.data.email required tabindex="2")
+            input(type="email", placeholder="nom@email.com" name="email" value=locals.data.email required tabindex="2")
         .fields
           .field
             label Nom:
-            input(type='text', placeholder='Nom' name='lastname' value=locals.data.lastname required tabindex="3")
+            input(type="text", placeholder="Nom" name="lastname" value=locals.data.lastname required tabindex="3")
           .field
             label Prénom:
-            input(type='text', placeholder='Prénom' name='firstname' value=locals.data.firstname required tabindex="4")
+            input(type="text", placeholder="Prénom" name="firstname" value=locals.data.firstname required tabindex="4")
         .fields
           .field
             label Mot de passe:
-            input(type='password' placeholder='Mot de passe' name='password' tabindex="5")
+            input(type="password" placeholder="Mot de passe" name="password" tabindex="5")
           .field
             label Confirmation du mot de passe:
-            input(type='password' placeholder='Mot de passe' name='confirmPassword' tabindex="6")
+            input(type="password" placeholder="Mot de passe" name="confirmPassword" tabindex="6")
         .fields
           .field
             label Sexe:
-            select.ui.fluid.dropdown(name='sexe' id='sexe' required tabindex="7")
+            select.ui.fluid.dropdown(name="sexe" id="sexe" required tabindex="7")
               option Homme
               option Femme
           .field
             label Orientation sexuel:
-            select.ui.fluid.dropdown(name='orientation' id='orientation' required tabindex="8")
+            select.ui.fluid.dropdown(name="orientation" id="orientation" required tabindex="8")
               option Bisexuelle
               option Hétérosexuelle
               option Homosexuelle
           .field.two.wide
             label Age:
-            select.ui.fluid.dropdown(name='age' id='age' required tabindex="9")
+            select.ui.fluid.dropdown(name="age" id="age" required tabindex="9")
               while i < 100
                 option= i++
         .field
           label Biographie
-          textarea(name='bio' required tabindex="10")= locals.data.bio
-        button.ui.primary.submit.button.fluid.large(type='submit' required tabindex="11") Mettre a jour
+          textarea(name="bio" required tabindex="10")= locals.data.bio
+        button.ui.primary.submit.button.fluid.large(type="submit" required tabindex="11") Mettre a jour
     h2.ui.dividing.header Images
     .ui.link.cards
       while j < 5
         .card#grey
           .extra.content
             if j == 0
-              label= 'Photo de profil'
+              label= "Photo de profil"
             else
-              label= 'Images ' + j
+              label= "Images " + j
           if (j == 0 && locals.data.pic0)
             a.image(href=data.pic0)
               img(src=locals.data.pic0)
@@ -81,8 +81,8 @@ block content
             button#upload.primary.button.ui.fluid Upload
             - j++
     script.
-      var val = '#{locals.data.sexe}';
-      var sel = document.getElementById('sexe');
+      var val = "#{locals.data.sexe}";
+      var sel = document.getElementById("sexe");
       var opts = sel.options;
       for(var opt, j = 0; opt = opts[j]; j++) {
          if(opt.value == val) {
@@ -90,8 +90,8 @@ block content
              break;
          }
       }
-      var val = '#{locals.data.orientation}';
-      var sel = document.getElementById('orientation');
+      var val = "#{locals.data.orientation}";
+      var sel = document.getElementById("orientation");
       var opts = sel.options;
       for(var opt, j = 0; opt = opts[j]; j++) {
           if(opt.value == val) {
@@ -99,8 +99,8 @@ block content
               break;
           }
       }
-      var val = '#{locals.data.age}';
-      var sel = document.getElementById('age');
+      var val = "#{locals.data.age}";
+      var sel = document.getElementById("age");
       var opts = sel.options;
       for(var opt, j = 0; opt = opts[j]; j++) {
           if(opt.value == val) {

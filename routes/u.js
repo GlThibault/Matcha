@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
 var connection = require('../config/db')
 
 router.get('/', function(req, res, next) {
@@ -39,8 +39,8 @@ router.get('/', function(req, res, next) {
                 orientation2 = 'Homosexuelle'
             }
         } else {
-            sexe1 = 'Homme';
-            sexe2 = 'Femme';
+            sexe1 = 'Homme'
+            sexe2 = 'Femme'
         }
         connection.query('SELECT * FROM block WHERE username = ?', [req.session.user], (err, rows, result) => {
             if (err) console.log(err)
@@ -52,8 +52,8 @@ router.get('/', function(req, res, next) {
                     res.locals.rows = rows
                     res.render('u', {
                         title: 'Utilisateurs'
-                    });
-                });
+                    })
+                })
             } else if (req.session.order == 'pop') {
                 connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.interests, users.age, users.pic0, (SELECT count(liked) FROM likes WHERE likes.liked=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes ORDER BY likes DESC", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
                     if (err) console.log(err)
@@ -61,8 +61,8 @@ router.get('/', function(req, res, next) {
                     res.locals.rows = rows
                     res.render('u', {
                         title: 'Utilisateurs'
-                    });
-                });
+                    })
+                })
             } else {
                 connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.interests, users.age, users.pic0, (SELECT count(liked) FROM likes WHERE likes.liked=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
                     if (err) console.log(err)
@@ -70,15 +70,15 @@ router.get('/', function(req, res, next) {
                     res.locals.rows = rows
                     res.render('u', {
                         title: 'Utilisateurs'
-                    });
-                });
+                    })
+                })
             }
-        });
+        })
     } else {
-        req.session.error = "Vous devez être connecté pour accéder a cette page.";
-        res.redirect('/login');
+        req.session.error = "Vous devez être connecté pour accéder a cette page."
+        res.redirect('/login')
     }
-});
+})
 
 router.get('/:username', function(req, res, next) {
     if (req.session && req.session.user) {
@@ -99,8 +99,8 @@ router.get('/:username', function(req, res, next) {
             if (!rows[0] && req.session.user != req.params.username)
                 connection.query('INSERT INTO visits SET username = ?, visited = ?', [req.session.user, req.params.username], (err, result) => {
                     if (err) console.log(err)
-                });
-        });
+                })
+        })
         connection.query('SELECT COUNT(*) AS count FROM block WHERE username = ? AND blocked = ?', [req.session.user, req.params.username], (err, rows, result) => {
             if (err) console.log(err)
             res.locals.block = rows[0].count
@@ -119,16 +119,16 @@ router.get('/:username', function(req, res, next) {
                             res.locals.data = rows[0]
                             res.render('user', {
                                 title: rows[0]['firstname'] + " " + rows[0]['lastname']
-                            });
-                        });
-                    });
-                });
-            });
-        });
+                            })
+                        })
+                    })
+                })
+            })
+        })
     } else {
-        req.session.error = "Vous devez être connecté pour accéder a cette page.";
-        res.redirect('/login');
+        req.session.error = "Vous devez être connecté pour accéder a cette page."
+        res.redirect('/login')
     }
-});
+})
 
-module.exports = router;
+module.exports = router
