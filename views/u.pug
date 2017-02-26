@@ -7,23 +7,27 @@ block content
   .container
     .ui.grid
       .height.wide.column
-        label(for="amount-age") Filtrer par âge : 
+        label(for="amount-age") Filtrer par âge :
         input(type="text" id="amount-age" readonly style="border:0; color:#f6931f; font-weight:bold;")
         #slider-range-age
       .height.wide.column
         label(for="amount-pop") Filtrer par popularité :
         input(type="text" id="amount-pop" readonly style="border:0; color:#f6931f; font-weight:bold;")
         #slider-range-pop
-      .height.wide.column
-        button.ui.button#validate Filtrer
-      .height.wide.column
+      .left.floated
+        button.ui.button.primary#validate Filtrer
+    br
+    .ui.clearing.divider
+    .ui.grid
+      .column.right.floated
+      .right.floated.right.aligned
         span= "Trier par : "
         .blue.ui.buttons
           button.ui.button#ageAscending Age
           button.ui.button#popDescending Pop
           button.ui.button#distAscending Dist
           button.ui.button#tagsAscending Tags
-    .ui.clearing.divider
+    br
     .ui.link.cards
       each row in rows
         each block in blocks
@@ -53,7 +57,7 @@ block content
                 i.heart.icon
                 p#pop= row["likes"]
               if (row["orientation"] == "Hétérosexuelle")
-                .ui.right.floated.icon.button
+                .ui.right.floated.icon.button#gold
                   i.heterosexual.icon.right.floated
               else if row["sexe"] == "Homme"
                 .ui.right.floated.icon.button.blue
@@ -62,7 +66,7 @@ block content
                 .ui.right.floated.icon.button.pink
                   i.lesbian.icon.right.floated
               if (row["orientation"] == "Bisexuelle")
-                .ui.right.floated.icon.button
+                .ui.right.floated.icon.button#gold
                   i.heterosexual.icon.right.floated
         else
           - blocked = 0

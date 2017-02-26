@@ -6,7 +6,7 @@ body {
   padding: 10px;
   margin-left: 50px;
   font: 60px "Lucida Grande", Helvetica, Arial, sans-serif;
-  color: #FD3F62;
+  color: #de7aa0;
   font-style: normal;
   text-decoration: none;
 }
@@ -14,14 +14,19 @@ body {
 #frame {
   padding: 0;
   border-radius: 5px;
-  border: 1px solid #ccc;
-  background-color: #eee;
+  border: 1px solid #8dcceb;
+  background-color: #e3ecf3;
 }
 
 #grey {
-  background-color: #eee;
+  background-color: #e3ecf3;
 }
 
 #map {
   height: 400px;
+}
+
+#gold {
+  background-color: rgb(145, 186, 76);
+  color: #fff;
 }
