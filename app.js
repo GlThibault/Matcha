@@ -6,7 +6,6 @@ var bodyParser = require('body-parser')
 var session = require('express-session')
 var connection = require('./config/db')
 var bcrypt = require('bcryptjs')
-var io = require('socket.io').listen(app)
 
 // Routes Var
 var index = require('./routes/index')
@@ -24,22 +23,6 @@ var report = require('./routes/report')
 var sort = require('./routes/sort')
 
 var app = express()
-
-io.sockets.on('connection', function(socket) {
-    socket.on('setPseudo', function(data) {
-        socket.set('pseudo', data)
-    })
-    socket.on('message', function(message) {
-        socket.get('pseudo', function(error, name) {
-            var data = {
-                'message': message,
-                pseudo: name
-            }
-            socket.broadcast.emit('message', data)
-            console.log("user " + name + " send this : " + message)
-        })
-    })
-})
 
 // View Engine
 app.set('views', path.join(__dirname, 'views'))

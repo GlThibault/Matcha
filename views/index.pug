@@ -1,8 +1,8 @@
 extends layout
 
 block content
+  script(src="/socket.io/socket.io.js")
   script(src="/javascripts/chat.js")
-  script(src="dist/socket.io.js")
   - var blocked = 0
   .ui.labeled.icon.button.red.right.floated
     i.heart.icon
@@ -75,10 +75,12 @@ block content
             else
               - blocked = 0
             br
-
-  input(type="text")#pseudoInput
-  button#pseudoSet Set Pseudo
-  div#chatEntries
-  div#chatControls
-      input(type="text")#messageInput
-      button#submit Send
+    ul.pages
+      li.chat.page
+        .chatArea
+          ul.messages
+        input.inputMessage(placeholder="Type here...")
+      li.login.page
+        .form
+          h3.title What's your nickname?
+          input.usernameInput(type="text" maxlength="14")

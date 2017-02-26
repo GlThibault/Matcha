@@ -3,17 +3,26 @@ extends layout
 block content
   - var blocked = 0
   link(rel="stylesheet", href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css")
-  link(rel="stylesheet", href="/resources/demos/style.css")
   script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.js")
   .container
-    span= "Trier par : "
-    .blue.ui.buttons
-      a.ui.button(href="/sort/age") Age
-      a.ui.button(href="/sort/pop") Popularité
-      a.ui.button(href="/sort/other") Autre
-    label(for="amount") Age:
-    input(type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;")
-    #slider-range
+    .ui.grid
+      .height.wide.column
+        label(for="amount-age") Filtrer par âge : 
+        input(type="text" id="amount-age" readonly style="border:0; color:#f6931f; font-weight:bold;")
+        #slider-range-age
+      .height.wide.column
+        label(for="amount-pop") Filtrer par popularité :
+        input(type="text" id="amount-pop" readonly style="border:0; color:#f6931f; font-weight:bold;")
+        #slider-range-pop
+      .height.wide.column
+        button.ui.button#validate Filtrer
+      .height.wide.column
+        span= "Trier par : "
+        .blue.ui.buttons
+          button.ui.button#ageAscending Age
+          button.ui.button#popDescending Pop
+          button.ui.button#distAscending Dist
+          button.ui.button#tagsAscending Tags
     .ui.clearing.divider
     .ui.link.cards
       each row in rows
@@ -33,7 +42,7 @@ block content
                   i.woman.icon.right.floated
               .header= row["firstname"].substring(0,25) + " " + row["lastname"].substring(0,25)
               .meta
-                span= row["age"] + " ans."
+                span#age= row["age"] + " ans."
               .description
                 if (row["bio"].length > 699)
                   span= row["bio"].substring(0,699)+" ..."
@@ -42,7 +51,7 @@ block content
             .extra.content
               .ui.labeled.icon.button.red
                 i.heart.icon
-                p= row["likes"]
+                p#pop= row["likes"]
               if (row["orientation"] == "Hétérosexuelle")
                 .ui.right.floated.icon.button
                   i.heterosexual.icon.right.floated
@@ -57,17 +66,4 @@ block content
                   i.heterosexual.icon.right.floated
         else
           - blocked = 0
-    script.
-      $( function() {
-        $( "#slider-range" ).slider({
-          range: true,
-          min: 18,
-          max: 99,
-          values: [ 18, 99 ],
-          slide: function( event, ui ) {
-            $( "#amount" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-          }
-        });
-        $( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 ) +
-          " - " + $( "#slider-range" ).slider( "values", 1 ) );
-      } );
+    script(src="/javascripts/users.js")
