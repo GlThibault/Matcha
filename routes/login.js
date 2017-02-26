@@ -3,7 +3,6 @@ var router = express.Router()
 var connection = require('../config/db')
 var bcrypt = require('bcryptjs')
 var session = require('express-session')
-var iplocation = require('iplocation')
 
 router.get('/', function(req, res, next) {
     if (req.session.error) {
@@ -32,16 +31,6 @@ router.post('/', function(req, res) {
                     req.session.valid = true
                 } else
                     req.session.info = "Votre profil est vide, vous pouvez le remplir en cliquant sur Profil"
-                iplocation(req.ip, function(error, res) {
-                    if (!res || !res['city'])
-                        connection.query('UPDATE users SET city = "Paris", lat = 48.8965, lon = 2.3182 WHERE username = ?', [req.session.user], (err, rows, result) => {
-                            if (err) console.log(err)
-                        })
-                    else
-                        connection.query('UPDATE users SET city = ?, lat = ?, lon = ? WHERE username = ?', [res['city'], res['latitude'], res['longitude'], req.session.user], (err, rows, result) => {
-                            if (err) console.log(err)
-                        })
-                })
                 req.session.pic0 = rows[0].pic0
                 req.session.success = "Vous êtes maintenant connecté"
                 res.redirect('../')

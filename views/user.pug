@@ -5,53 +5,54 @@ block content
     .ui.card.centered.link
       a.image(href=data.pic0)
         img(src=data.pic0)
-    .ui.card.fluid#grey
-      .content
-        a.header= data.firstname + " " + data.lastname
-        .meta
+  .ui.card.fluid#grey
+    .content
+      a.header= data.firstname + " " + data.lastname
+      .meta
+        if (data.age)
           span.category= data.age + " ans."
-          span.category.right.floated= data.orientation
-        .description= data.bio
-        .ui.labeled.icon.button.red.right.floated
-          i.heart.icon
-          p= pop
-      if data.username != user
-        if liked > 0
-          span Cet utilisateur vous like.
-      if data.username != user
-        if like == 0
-          a.ui.bottom.attached.button.primary(href="/like/" + data.username)
-            i.add.icon
-            span Like
-        else
-          a.ui.bottom.attached.button.teal(href="/like/" + data.username)
-            i.add.icon
-            span Dislike
+        span.category.right.floated= data.orientation
+      .description= data.bio
+      .ui.labeled.icon.button.red.right.floated
+        i.heart.icon
+        p= pop
+    if data.username != user
+      if liked > 0
+        i Cet utilisateur vous like.
+    if data.username != user
+      if like == 0
+        a.ui.bottom.attached.button.primary(href="/like/" + data.username)
+          i.add.icon
+          span Like
+      else
+        a.ui.bottom.attached.button.teal(href="/like/" + data.username)
+          i.add.icon
+          span Dislike
   if data.username != user
     a.button.ui.button.red(href="/report/" + data.username) Signaler comme faux compte
     if block == 0
       a.button.ui.button.yellow(href="/block/" + data.username) Bloquer l'utilisateur
     else
       a.button.ui.button.yellow(href="/block/" + data.username) Débloquer l'utilisateur
-  br
-  br
-  .ui.link.cards#frame
-    if data.pic1
-      a.card#grey(href=data.pic1)
-        .image
-          img(src=data.pic1)
-    if data.pic2
-      a.card#grey(href=data.pic2)
-        .image
-          img(src=data.pic2)
-    if data.pic3
-      a.card#grey(href=data.pic3)
-        .image
-          img(src=data.pic3)
-    if data.pic4
-      a.card#grey(href=data.pic4)
-        .image
-          img(src=data.pic4)
+  if data.pic1 || data.pic2 || data.pic3 || data.pic4
+    br
+    .ui.link.cards#frame
+      if data.pic1
+        a.card#grey(href=data.pic1)
+          .image
+            img(src=data.pic1)
+      if data.pic2
+        a.card#grey(href=data.pic2)
+          .image
+            img(src=data.pic2)
+      if data.pic3
+        a.card#grey(href=data.pic3)
+          .image
+            img(src=data.pic3)
+      if data.pic4
+        a.card#grey(href=data.pic4)
+          .image
+            img(src=data.pic4)
   br
   .ui.card.fluid
     #map

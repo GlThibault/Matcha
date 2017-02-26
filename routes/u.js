@@ -45,8 +45,11 @@ router.get('/', function(req, res, next) {
         connection.query('SELECT * FROM block WHERE username = ?', [req.session.user], (err, rows, result) => {
             if (err) console.log(err)
             res.locals.blocks = rows
-            if (req.session.order == 'age') {
-                connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.interests, users.age, users.pic0, (SELECT count(liked) FROM likes WHERE likes.liked=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes ORDER BY age", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
+            connection.query('SELECT lat, lon FROM users WHERE username = ? LIMIT 1', [req.session.user], (err, rows, result) => {
+                if (err) console.log(err)
+                res.locals.userlat = rows[0].lat
+                res.locals.userlon = rows[0].lon
+                connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.lat, users.lon, users.interests, users.age, users.pic0, (SELECT count(liked) FROM likes WHERE likes.liked=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes, lat, lon", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
                     if (err) console.log(err)
                     res.locals.user = req.session.user
                     res.locals.rows = rows
@@ -54,25 +57,7 @@ router.get('/', function(req, res, next) {
                         title: 'Utilisateurs'
                     })
                 })
-            } else if (req.session.order == 'pop') {
-                connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.interests, users.age, users.pic0, (SELECT count(liked) FROM likes WHERE likes.liked=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes ORDER BY likes DESC", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
-                    if (err) console.log(err)
-                    res.locals.user = req.session.user
-                    res.locals.rows = rows
-                    res.render('u', {
-                        title: 'Utilisateurs'
-                    })
-                })
-            } else {
-                connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.interests, users.age, users.pic0, (SELECT count(liked) FROM likes WHERE likes.liked=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
-                    if (err) console.log(err)
-                    res.locals.user = req.session.user
-                    res.locals.rows = rows
-                    res.render('u', {
-                        title: 'Utilisateurs'
-                    })
-                })
-            }
+            })
         })
     } else {
         req.session.error = "Vous devez être connecté pour accéder a cette page."

@@ -3,6 +3,7 @@ var router = express.Router()
 var connection = require('../config/db')
 var bcrypt = require('bcryptjs')
 var session = require('express-session')
+var iplocation = require('iplocation')
 
 router.get('/', function(req, res, next) {
     if (req.session.error) {
@@ -63,6 +64,16 @@ router.post('/', function(req, res) {
                     req.session.error = "Erreur."
                     res.redirect('/profil')
                 } else {
+                    iplocation(req.ip, function(error, res) {
+                        if (!res || !res['city'])
+                            connection.query('UPDATE users SET city = "Paris", lat = 48.8965, lon = 2.3182 WHERE username = ?', [req.body.username], (err, rows, result) => {
+                                if (err) console.log(err)
+                            })
+                        else
+                            connection.query('UPDATE users SET city = ?, lat = ?, lon = ? WHERE username = ?', [res['city'], res['latitude'], res['longitude'], req.body.username], (err, rows, result) => {
+                                if (err) console.log(err)
+                            })
+                    })
                     req.session.success = "Votre compte a correctement été créé"
                     res.redirect('../login')
                 }

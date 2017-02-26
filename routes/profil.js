@@ -94,12 +94,11 @@ router.post('/', function(req, res) {
                                     })
                                 }
                             } else {
-                                connection.query('UPDATE users SET username = ?, lastname = ?, firstname = ?, email = ?, sexe = ?, orientation = ?, bio = ?, age = ? WHERE username = ? LIMIT 1', [req.body.username, req.body.lastname, req.body.firstname, req.body.email, req.body.sexe, req.body.orientation, req.body.bio, req.body.age, req.session.user], (err, result) => {
+                                connection.query('UPDATE users SET lastname = ?, firstname = ?, email = ?, sexe = ?, orientation = ?, bio = ?, age = ? WHERE username = ? LIMIT 1', [req.body.lastname, req.body.firstname, req.body.email, req.body.sexe, req.body.orientation, req.body.bio, req.body.age, req.session.user], (err, result) => {
                                     if (err) {
                                         req.session.error = "Erreur."
                                         res.redirect('/profil')
                                     } else {
-                                        req.session.user = req.body.username
                                         req.session.sexe = req.body.sexe
                                         req.session.orientation = req.body.orientation
                                         req.session.valid = true

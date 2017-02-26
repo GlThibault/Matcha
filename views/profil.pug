@@ -10,45 +10,50 @@ block content
         .fields
           .field
             label Nom d"utilisateur:
-            input(type="text", placeholder="Nom d'utilisateur" name="username" value=locals.data.username autofocus="autofocus" required tabindex="1")
+            input(type="text", placeholder="Nom d'utilisateur" name="username" value=locals.data.username required readonly="")
           .field
             label Email:
-            input(type="email", placeholder="nom@email.com" name="email" value=locals.data.email required tabindex="2")
+            input(type="email", placeholder="nom@email.com" name="email" value=locals.data.email required autofocus="autofocus" tabindex="1")
         .fields
           .field
             label Nom:
-            input(type="text", placeholder="Nom" name="lastname" value=locals.data.lastname required tabindex="3")
+            input(type="text", placeholder="Nom" name="lastname" value=locals.data.lastname required tabindex="2")
           .field
             label Prénom:
-            input(type="text", placeholder="Prénom" name="firstname" value=locals.data.firstname required tabindex="4")
+            input(type="text", placeholder="Prénom" name="firstname" value=locals.data.firstname required tabindex="3")
         .fields
           .field
             label Mot de passe:
-            input(type="password" placeholder="Mot de passe" name="password" tabindex="5")
+            input(type="password" placeholder="Mot de passe" name="password" tabindex="4")
           .field
             label Confirmation du mot de passe:
-            input(type="password" placeholder="Mot de passe" name="confirmPassword" tabindex="6")
+            input(type="password" placeholder="Mot de passe" name="confirmPassword" tabindex="5")
         .fields
           .field
             label Sexe:
-            select.ui.fluid.dropdown(name="sexe" id="sexe" required tabindex="7")
+            select.ui.fluid.dropdown(name="sexe" id="sexe" required tabindex="6")
               option Homme
               option Femme
           .field
             label Orientation sexuel:
-            select.ui.fluid.dropdown(name="orientation" id="orientation" required tabindex="8")
+            select.ui.fluid.dropdown(name="orientation" id="orientation" required tabindex="7")
               option Bisexuelle
               option Hétérosexuelle
               option Homosexuelle
           .field.two.wide
             label Age:
-            select.ui.fluid.dropdown(name="age" id="age" required tabindex="9")
+            select.ui.fluid.dropdown(name="age" id="age" required tabindex="8")
               while i < 100
                 option= i++
         .field
           label Biographie
-          textarea(name="bio" required tabindex="10")= locals.data.bio
-        button.ui.primary.submit.button.fluid.large(type="submit" required tabindex="11") Mettre a jour
+          textarea(name="bio" required tabindex="9")= locals.data.bio
+        button.ui.primary.submit.button.fluid.large(type="submit" required tabindex="10") Mettre a jour
+    h2.ui.dividing.header Localisation
+    form(method="POST" action="/loc")
+      input(type="text", placeholder="Exemple: Paris" name="city" value=locals.data.city required tabindex="11")
+      button.ui.primary.submit.button(type="submit" required tabindex="12") Mettre a jour
+    a.button.ui.yellow(href="/loc") Se géolocaliser
     h2.ui.dividing.header Images
     .ui.link.cards
       while j < 5

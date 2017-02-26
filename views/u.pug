@@ -4,6 +4,7 @@ block content
   - var blocked = 0
   link(rel="stylesheet", href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css")
   script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.js")
+  script(src="/javascripts/distance.js")
   .container
     .ui.grid
       .height.wide.column
@@ -14,6 +15,10 @@ block content
         label(for="amount-pop") Filtrer par popularité :
         input(type="text" id="amount-pop" readonly style="border:0; color:#f6931f; font-weight:bold;")
         #slider-range-pop
+      .height.wide.column
+        label(for="amount-dist") Filtrer par distance (km) :
+        input(type="text" id="amount-dist" readonly style="border:0; color:#f6931f; font-weight:bold;")
+        #slider-range-dist
       .left.floated
         button.ui.button.primary#validate Filtrer
     br
@@ -28,6 +33,8 @@ block content
           button.ui.button#distAscending Dist
           button.ui.button#tagsAscending Tags
     br
+    span#userlat(style="visibility: hidden")= userlat
+    span#userlon(style="visibility: hidden")= userlon
     .ui.link.cards
       each row in rows
         each block in blocks
@@ -47,6 +54,12 @@ block content
               .header= row["firstname"].substring(0,25) + " " + row["lastname"].substring(0,25)
               .meta
                 span#age= row["age"] + " ans."
+                br
+                span= "Distance : "
+                span#dist
+                span km
+                span#lat(style="visibility: hidden")= row["lat"]
+                span#lon(style="visibility: hidden")= row["lon"]
               .description
                 if (row["bio"].length > 699)
                   span= row["bio"].substring(0,699)+" ..."
