@@ -34,19 +34,19 @@ server.on('listening', onListening)
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10)
+    var port = parseInt(val, 10)
 
-  if (isNaN(port)) {
-    // named pipe
-    return val
-  }
+    if (isNaN(port)) {
+        // named pipe
+        return val
+    }
 
-  if (port >= 0) {
-    // port number
-    return port
-  }
+    if (port >= 0) {
+        // port number
+        return port
+    }
 
-  return false
+    return false
 }
 
 /**
@@ -54,27 +54,27 @@ function normalizePort(val) {
  */
 
 function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error
-  }
+    if (error.syscall !== 'listen') {
+        throw error
+    }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port
+    var bind = typeof port === 'string' ?
+        'Pipe ' + port :
+        'Port ' + port
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges')
-      process.exit(1)
-      break
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use')
-      process.exit(1)
-      break
-    default:
-      throw error
-  }
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges')
+            process.exit(1)
+            break
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use')
+            process.exit(1)
+            break
+        default:
+            throw error
+    }
 }
 
 /**
@@ -82,75 +82,101 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address()
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port
-  debug('Listening on ' + bind)
+    var addr = server.address()
+    var bind = typeof addr === 'string' ?
+        'pipe ' + addr :
+        'port ' + addr.port
+    debug('Listening on ' + bind)
 }
 
 /**
- * Socket.IO chat.
+ * Socket.IO
  */
 
-var io = require('socket.io').listen(server)
-
-var numUsers = 0;
-
-io.on('connection', function (socket) {
-  var addedUser = false;
-
-  // when the client emits 'new message', this listens and executes
-  socket.on('new message', function (data) {
-    // we tell the client to execute 'new message'
-    socket.broadcast.emit('new message', {
-      username: socket.username,
-      message: data
-    });
-  });
-
-  // when the client emits 'add user', this listens and executes
-  socket.on('add user', function (username) {
-    if (addedUser) return;
-
-    // we store the username in the socket session for this client
-    socket.username = username;
-    ++numUsers;
-    addedUser = true;
-    socket.emit('login', {
-      numUsers: numUsers
-    });
-    // echo globally (all clients) that a person has connected
-    socket.broadcast.emit('user joined', {
-      username: socket.username,
-      numUsers: numUsers
-    });
-  });
-
-  // when the client emits 'typing', we broadcast it to others
-  socket.on('typing', function () {
-    socket.broadcast.emit('typing', {
-      username: socket.username
-    });
-  });
-
-  // when the client emits 'stop typing', we broadcast it to others
-  socket.on('stop typing', function () {
-    socket.broadcast.emit('stop typing', {
-      username: socket.username
-    });
-  });
-
-  // when the user disconnects.. perform this
-  socket.on('disconnect', function () {
-    if (addedUser) {
-      --numUsers;
-
-      // echo globally that this client has left
-      socket.broadcast.emit('user left', {
-        username: socket.username,
-        numUsers: numUsers
-      });
+var io = require('socket.io')(server)
+var connection = require('../config/db')
+var session = require('express-session')({
+    secret: 'ZBm9235Ymx4a',
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+        secure: false
     }
-  });
+})
+var sharedsession = require("express-socket.io-session")
+
+app.use(session)
+
+io.use(sharedsession(session, {
+    autoSave: true
+}));
+
+io.use(function(socket, next) {
+    debug("socket.handshake session data is %j.", socket.handshake.session);
+    next();
 });
+
+io.on("connection", function(socket) {
+    socket.emit("sessiondata", socket.handshake.session);
+    // Set session data via socket
+    debug("Emitting session data");
+    socket.on("login", function() {
+        debug("Received login message");
+        socket.handshake.session.user = {
+            username: "OSK"
+        };
+        debug("socket.handshake session data is %j.", socket.handshake.session);
+
+        // socket.handshake.session.save();
+        //emit logged_in for debugging purposes of this example
+        socket.emit("logged_in", socket.handshake.session);
+        console.log(socket.handshake.session)
+        console.log("test")
+    });
+    // Unset session data via socket
+    socket.on("logout", function() {
+        debug("Received logout message");
+        socket.handshake.session.user = {};
+        delete socket.handshake.session.logged;
+        // socket.handshake.session.save();
+        //emit logged_out for debugging purposes of this example
+        debug("socket.handshake session data is %j.", socket.handshake.session);
+
+        socket.emit("logged_out", socket.handshake.session);
+    });
+});
+
+// io.on("connection", function(socket) {
+//     // Accept a login event with user's data
+//     socket.on("login", function(userdata) {
+//         socket.handshake.session.userdata = userdata;
+//         socket.handshake.session.save();
+//         console.log(test)
+//     });
+//     socket.on("logout", function(userdata) {
+//         if (socket.handshake.session.userdata) {
+//             delete socket.handshake.session.userdata;
+//             socket.handshake.session.save();
+//         }
+//     });
+// });
+
+// io.on('connection', function(client){
+//   client.on('message', function(message) {
+//     if (message.username) {
+//           client.user_logged_in = message.username;
+//           console.log(message.username)
+//     }
+//   })
+//   client.on("join", function(name){
+//         console.log(session.server)
+//     });
+//   // connection.query('UPDATE users SET online = true WHERE username = ? LIMIT 1', [client], (err, result) => {
+//   //     if (err) console.log(err)})
+//   client.on('event', function(data){});
+//   client.on('disconnect', function(){
+//     // connection.query('UPDATE users SET online = true WHERE username = ? LIMIT 1', [req.session.user], (err, result) => {
+//     //     if (err) console.log(err)})
+//   })
+// })
+server.listen(3000);

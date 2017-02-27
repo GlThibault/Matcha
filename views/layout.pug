@@ -5,6 +5,8 @@ html
     link(rel="stylesheet", href="/semantic/semantic.min.css")
     link(rel="stylesheet", href="/stylesheets/style.css")
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+    script(src="/javascripts/active.js")
+    script(src="/socket.io/socket.io.js")
     a#titre(href="/")= "Matcha"
     br
     br
@@ -39,7 +41,20 @@ html
         .header Info
         i.close.icon
         p= locals.info
-    script(src="/javascripts/active.js")
+    script.
+      var socket = io()
+      socket.on("sessiondata", function(data) {
+        console.info("sessiondata event received. Check the console");
+        console.info("sessiondata is ", data);
+      })
+      socket.on("logged_in", function(data) {
+        console.info("logged_in event received. Check the console");
+        console.info("sessiondata after logged_in event is ", data);
+      })
+      socket.on("logged_out", function(data) {
+        console.info("logged_out event received. Check the console");
+        console.info("sessiondata after logged_out event is ", data);
+      })
     br
   body
     block content
