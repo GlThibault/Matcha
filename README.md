@@ -3,17 +3,15 @@
 
 ###Description
 
-3rd project of the Web Branch of 42.
+3rd project of the Web Branch of 42. <br/>
 Create a dating WebSite where the user can create his profile, search other users, like them and begin a conversation if the person liked him back.
-
 
 ###Feature
 
-● User profile
-● Research and filter users
-● Real time chat
-● Real time notification system
-
+● User profile <br/>
+● Research and filter users <br/>
+● Real time chat <br/>
+● Real time notification system <br/>
 
 ###How ?
 
