@@ -21,21 +21,30 @@ $("#slider-range-dist").slider({
     min: 0,
     max: 500,
     values: [0, 500],
-    slide: function(event, ui) {$("#amount-dist").val(ui.values[0] + " - " + ui.values[1])}
+    slide: function(event, ui) {
+      if (ui.values[0] != 0 || ui.values[1] != 500)
+        $("#amount-dist").val(ui.values[0] + " - " + ui.values[1])
+      else
+        $("#amount-dist").val("")}
 })
-$("#amount-dist").val($("#slider-range-dist").slider("values", 0) + " - " + $("#slider-range-dist").slider("values", 1))
 
 $("#validate").click(function() {
     $('.cards .card').hide().filter(function() {
         var age = parseInt($(this).find("#age").text())
         var pop = parseInt($(this).find("#pop").text())
         var dist = parseInt($(this).find("#dist").text())
-        return age >= $("#slider-range-age").slider("values", 0) &&
+        if ($("#slider-range-dist").slider("values", 0) != 0 || $("#slider-range-dist").slider("values", 1) != 500)
+          return age >= $("#slider-range-age").slider("values", 0) &&
+                  age <= $("#slider-range-age").slider("values", 1) &&
+                  pop >= $("#slider-range-pop").slider("values", 0) &&
+                  pop <= $("#slider-range-pop").slider("values", 1) &&
+                  dist >= $("#slider-range-dist").slider("values", 0) &&
+                  dist <= $("#slider-range-dist").slider("values", 1)
+        else
+          return age >= $("#slider-range-age").slider("values", 0) &&
                 age <= $("#slider-range-age").slider("values", 1) &&
                 pop >= $("#slider-range-pop").slider("values", 0) &&
-                pop <= $("#slider-range-pop").slider("values", 1) &&
-                dist >= $("#slider-range-dist").slider("values", 0) &&
-                dist <= $("#slider-range-dist").slider("values", 1)
+                pop <= $("#slider-range-pop").slider("values", 1)
     }).show()
 })
 

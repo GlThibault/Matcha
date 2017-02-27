@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
 })
 
 router.post('/', function(req, res) {
-    connection.query('SELECT orientation, sexe, password, pic0 FROM users WHERE username = ? LIMIT 1', [req.body.username], (err, rows, result) => {
+    connection.query('SELECT orientation, sexe, password, pic0, firstname, lastname FROM users WHERE username = ? LIMIT 1', [req.body.username], (err, rows, result) => {
         if (err) console.log(err)
         else if (rows[0]) {
             if (bcrypt.compareSync(req.body.password, rows[0].password)) {
@@ -32,6 +32,8 @@ router.post('/', function(req, res) {
                 } else
                     req.session.info = "Votre profil est vide, vous pouvez le remplir en cliquant sur Profil"
                 req.session.pic0 = rows[0].pic0
+                req.session.lastname = rows[0].lastname
+                req.session.firstname = rows[0].firstname
                 req.session.success = "Vous êtes maintenant connecté"
                 res.redirect('../')
             } else {

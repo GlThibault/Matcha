@@ -13,14 +13,25 @@ router.get('/:username', function(req, res, next) {
             if (result[0].count == 0) {
                 connection.query('INSERT INTO likes SET username = ?, liked = ?', [req.session.user, req.params.username], (err, result) => {
                     if (err) console.log(err)
-                    else
+                    var notification = req.session.firstname + " " + req.session.lastname + " vous like."
+                    connection.query('INSERT INTO notif SET username = ?, sender = ?, notification = ?, date = ?', [req.params.username, req.session.user, notification, new Date()], (err, result) => {
+                        if (err) console.log(err)
                         res.redirect('../u/' + req.params.username)
+                    })
                 })
             } else {
                 connection.query('DELETE FROM likes WHERE username = ? AND liked = ?', [req.session.user, req.params.username], (err, result) => {
                     if (err) console.log(err)
-                    else
-                        res.redirect('../u/' + req.params.username)
+                    connection.query('SELECT COUNT(*) AS count FROM likes WHERE username = ? AND liked = ?', [req.params.username, req.session.user], (err, result) => {
+                        if (err) console.log(err)
+                        if (result[0].count == 0) {
+                            var notification = req.session.firstname + " " + req.session.lastname + " ne vous like plus."
+                            connection.query('INSERT INTO notif SET username = ?, sender = ?, notification = ?, date = ?', [req.params.username, req.session.user, notification, new Date()], (err, result) => {
+                                if (err) console.log(err)
+                                res.redirect('../u/' + req.params.username)
+                            })
+                        }
+                    })
                 })
             }
         })

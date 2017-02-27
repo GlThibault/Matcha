@@ -84,6 +84,10 @@ router.get('/:username', function(req, res, next) {
             if (!rows[0] && req.session.user != req.params.username)
                 connection.query('INSERT INTO visits SET username = ?, visited = ?', [req.session.user, req.params.username], (err, result) => {
                     if (err) console.log(err)
+                    var notification = req.session.firstname + " " + req.session.lastname + " a visité votre profil."
+                    connection.query('INSERT INTO notif SET username = ?, sender = ?, notification = ?, date = ?', [req.params.username, req.session.user, notification, new Date()], (err, result) => {
+                        if (err) console.log(err)
+                    })
                 })
         })
         connection.query('SELECT COUNT(*) AS count FROM block WHERE username = ? AND blocked = ?', [req.session.user, req.params.username], (err, rows, result) => {

@@ -1,6 +1,22 @@
 # Matcha
 42 | Web Branch | Dating Site | Node.js, Express, Pug.js, SemanticUI, MYSQL
 
+###Description
+
+3rd project of the Web Branch of 42.
+Create a dating WebSite where the user can create his profile, search other users, like them and begin a conversation if the person liked him back.
+
+
+###Feature
+
+● User profile
+● Research and filter users
+● Real time chat
+● Real time notification system
+
+
+###How ?
+
 Node.js : https://nodejs.org/ <br/>
 Express : http://expressjs.com/ <br/>
 Pug.js : https://pugjs.org/ <br/>
