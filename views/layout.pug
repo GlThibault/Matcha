@@ -41,20 +41,26 @@ html
         .header Info
         i.close.icon
         p= locals.info
-    script.
-      var socket = io()
-      socket.on("sessiondata", function(data) {
-        console.info("sessiondata event received. Check the console");
-        console.info("sessiondata is ", data);
-      })
-      socket.on("logged_in", function(data) {
-        console.info("logged_in event received. Check the console");
-        console.info("sessiondata after logged_in event is ", data);
-      })
-      socket.on("logged_out", function(data) {
-        console.info("logged_out event received. Check the console");
-        console.info("sessiondata after logged_out event is ", data);
-      })
     br
+    if (user)
+      script.
+        var socket = io.connect();
+        socket.on('data', function (data) {
+        console.log(data);
+        });
+
+        socket.on('error', function (reason){
+          console.error('Unable to connect Socket.IO', reason);
+        });
+
+        socket.on('connect', function (){
+          console.info('successfully established a working and authorized connection');
+        });
+        socket.on('socketToMe', function (data) {
+          console.log(data);
+        });
+        socket.on('message', function( data ) {
+          alert(data);
+          });
   body
     block content

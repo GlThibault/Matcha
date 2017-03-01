@@ -16,6 +16,7 @@ router.get('/:username', function(req, res, next) {
                     var notification = req.session.firstname + " " + req.session.lastname + " vous like."
                     connection.query('INSERT INTO notif SET username = ?, sender = ?, notification = ?, date = ?', [req.params.username, req.session.user, notification, new Date()], (err, result) => {
                         if (err) console.log(err)
+                        res.io.to(global.people[req.params.username]).emit('message', notification)
                         res.redirect('../u/' + req.params.username)
                     })
                 })
@@ -24,13 +25,14 @@ router.get('/:username', function(req, res, next) {
                     if (err) console.log(err)
                     connection.query('SELECT COUNT(*) AS count FROM likes WHERE username = ? AND liked = ?', [req.params.username, req.session.user], (err, result) => {
                         if (err) console.log(err)
-                        if (result[0].count == 0) {
+                        if (result[0].count > 0) {
                             var notification = req.session.firstname + " " + req.session.lastname + " ne vous like plus."
                             connection.query('INSERT INTO notif SET username = ?, sender = ?, notification = ?, date = ?', [req.params.username, req.session.user, notification, new Date()], (err, result) => {
                                 if (err) console.log(err)
-                                res.redirect('../u/' + req.params.username)
+                                res.io.to(global.people[req.params.username]).emit('message', notification)
                             })
                         }
+                        res.redirect('../u/' + req.params.username)
                     })
                 })
             }

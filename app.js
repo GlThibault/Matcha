@@ -1,49 +1,65 @@
-var express = require('express')
-var path = require('path')
-var favicon = require('serve-favicon')
-var cookieParser = require('cookie-parser')
-var bodyParser = require('body-parser')
-var session = require('express-session')
-var connection = require('./config/db')
-var bcrypt = require('bcryptjs')
+var express = require('express'),
+    app = express(),
+    path = require('path'),
+    favicon = require('serve-favicon'),
+    cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser'),
+    session = require('express-session'),
+    RedisStore = require('connect-redis')(session),
+    redis = require('redis'),
+    socketIOSession = require('socket.io.session'),
+    client = redis.createClient(),
+    Server = require('socket.io'),
+    server = require('http').Server(app),
+    io = require('socket.io')(server)
 
 // Routes Var
-var index = require('./routes/index')
-var profil = require('./routes/profil')
-var login = require('./routes/login')
-var register = require('./routes/register')
-var forgot = require('./routes/forgot')
-var u = require('./routes/u')
-var reset = require('./routes/reset')
-var logout = require('./routes/logout')
-var upload = require('./routes/upload')
-var like = require('./routes/like')
-var block = require('./routes/block')
-var report = require('./routes/report')
-var loc = require('./routes/loc')
+var index = require('./routes/index'),
+    profil = require('./routes/profil'),
+    login = require('./routes/login'),
+    register = require('./routes/register'),
+    forgot = require('./routes/forgot'),
+    u = require('./routes/u'),
+    reset = require('./routes/reset'),
+    logout = require('./routes/logout'),
+    upload = require('./routes/upload'),
+    like = require('./routes/like'),
+    block = require('./routes/block'),
+    report = require('./routes/report'),
+    loc = require('./routes/loc')
 
-var app = express()
+
+// Redis
+client.on('connect', function() {
+    console.log('Connected to redis-server')
+})
 
 // View Engine
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 
 // Params
+app.use(cookieParser())
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended: false
 }))
 app.use(express.static(path.join(__dirname, 'public')))
-app.use(session({
+var sessionMiddleware = {
+    store: new RedisStore({}),
     secret: 'ZBm9235Ymx4a',
     resave: true,
-    saveUninitialized: true,
-    cookie: {
-        secure: false
-    }
-}))
-app.use(cookieParser())
+    saveUninitialized: true
+}
+app.use(session(sessionMiddleware))
+var socketSession = socketIOSession(sessionMiddleware)
+io.use(socketSession.parser)
+
+app.use(function(req, res, next) {
+    res.io = io
+    next()
+})
 
 // Routes
 app.use('/', index)
@@ -67,6 +83,17 @@ app.use(function(req, res, next) {
     next(err)
 })
 
+// Socket.io
+var people = {}
+io.sockets.on("connection", function(socket) {
+    if (socket.session.user)
+        people[socket.session.user] = socket.id
+    socket.session.login = true
+    socketSession.save(socket)
+})
+global.people = people
+global.io = io
+
 // error handler
 app.use(function(err, req, res, next) {
     // set locals, only providing error in development
@@ -79,4 +106,7 @@ app.use(function(err, req, res, next) {
     res.render('error')
 })
 
-module.exports = app
+module.exports = {
+    app: app,
+    server: server
+}
