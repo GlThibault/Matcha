@@ -56,11 +56,8 @@ html
         socket.on('connect', function (){
           console.info('successfully established a working and authorized connection');
         });
-        socket.on('socketToMe', function (data) {
-          console.log(data);
-        });
-        socket.on('message', function( data ) {
+        socket.on('notif', function( data ) {
           alert(data);
-          });
+        });
   body
     block content

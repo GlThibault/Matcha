@@ -16,7 +16,7 @@ router.get('/:username', function(req, res, next) {
                     var notification = req.session.firstname + " " + req.session.lastname + " vous like."
                     connection.query('INSERT INTO notif SET username = ?, sender = ?, notification = ?, date = ?', [req.params.username, req.session.user, notification, new Date()], (err, result) => {
                         if (err) console.log(err)
-                        res.io.to(global.people[req.params.username]).emit('message', notification)
+                        res.io.to(global.people[req.params.username]).emit('notif', notification)
                         res.redirect('../u/' + req.params.username)
                     })
                 })
@@ -29,7 +29,7 @@ router.get('/:username', function(req, res, next) {
                             var notification = req.session.firstname + " " + req.session.lastname + " ne vous like plus."
                             connection.query('INSERT INTO notif SET username = ?, sender = ?, notification = ?, date = ?', [req.params.username, req.session.user, notification, new Date()], (err, result) => {
                                 if (err) console.log(err)
-                                res.io.to(global.people[req.params.username]).emit('message', notification)
+                                res.io.to(global.people[req.params.username]).emit('notif', notification)
                             })
                         }
                         res.redirect('../u/' + req.params.username)

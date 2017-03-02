@@ -90,6 +90,13 @@ io.sockets.on("connection", function(socket) {
         people[socket.session.user] = socket.id
     socket.session.login = true
     socketSession.save(socket)
+    socket.on('message', function (data) {
+      // we tell the client to execute 'message'
+      socket.broadcast.to(global.people[data.user]).emit('message', {
+        username: data.by,
+        message: data.message
+      });
+    });
 })
 global.people = people
 global.io = io

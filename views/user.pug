@@ -1,10 +1,15 @@
 extends layout
 
 block content
+  script(src="/javascripts/chat.js")
   if data.pic0
     .ui.card.centered.link
       a.image(href=data.pic0)
         img(src=data.pic0)
+      div.chatArea
+        ul.messages
+      input.inputMessage(placeholder="Type here...")
+      input.ui.bottom.attached.button.primary(type="button" value="Envoyer" onclick="sendMessage()")
   .ui.card.fluid#grey
     .content
       a.header= data.firstname + " " + data.lastname
@@ -57,6 +62,18 @@ block content
   .ui.card.fluid
     #map
   script.
+    function sendMessage() {
+      var message = $('.inputMessage').val();
+      message = cleanInput(message);
+      if (message) {
+        $('.inputMessage').val('');
+        addChatMessage({
+          username: "#{locals.user}",
+          message: message
+        });
+        socket.emit('message', {user: "#{locals.data.username}", by: "#{locals.user}", message: message});
+      }
+    }
     var lat = #{locals.data.lat}
     var lon = #{locals.data.lon}
     function initMap() {
