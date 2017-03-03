@@ -16,3 +16,13 @@ $(function() {
     })
   ;
 })
+
+function openNotif() {
+    $(".notifBar").css({'width' : "250px", 'visibility': 'visible'});
+    $(".container").css({'marginLeft' : "250px"});
+}
+
+function closeNotif() {
+    $(".notifBar").css({'width' : "0px", 'visibility': 'hidden'});
+    $(".container").css({'marginLeft' : "0px"});
+}

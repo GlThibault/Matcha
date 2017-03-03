@@ -26,7 +26,8 @@ var index = require('./routes/index'),
     like = require('./routes/like'),
     block = require('./routes/block'),
     report = require('./routes/report'),
-    loc = require('./routes/loc')
+    loc = require('./routes/loc'),
+    connection = require('./config/db')
 
 
 // Redis
@@ -58,6 +59,10 @@ io.use(socketSession.parser)
 
 app.use(function(req, res, next) {
     res.io = io
+    connection.query('SELECT * from notif where username = ? LIMIT 11', [req.session.user], (err, rows, result) => {
+        if (err) console.log(err)
+        res.locals.notifs = rows
+    })
     next()
 })
 

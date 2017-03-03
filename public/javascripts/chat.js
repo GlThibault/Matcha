@@ -9,10 +9,6 @@ function addChatMessage(data, options) {
     $('.messages').append($messageDiv);
     $('.messages')[0].scrollTop = $('.messages')[0].scrollHeight;
 }
-socket.on('message', function(data) {
-    addChatMessage(data);
-});
-
 function cleanInput(input) {
     return $('<div/>').text(input).text();
 }
@@ -24,3 +20,13 @@ $(window).keydown(function(event) {
         sendMessage();
     }
 });
+
+function openNav() {
+    $(".chatBar").css({'width' : "350px"});
+    $(".container").css({'marginRight' : "350px"});
+}
+
+function closeNav() {
+    $(".chatBar").css({'width' : "0px"});
+    $(".container").css({'marginRight' : "0px"});
+}

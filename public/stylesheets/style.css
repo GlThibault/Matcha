@@ -16,10 +16,12 @@ body {
   border-radius: 5px;
   border: 1px solid #8dcceb;
   background-color: #e3ecf3;
+  transition: 0.3s;
 }
 
 #grey {
   background-color: #e3ecf3;
+  transition: 0.3s;
 }
 
 #map {
@@ -29,4 +31,16 @@ body {
 #gold {
   background-color: rgb(145, 186, 76);
   color: #fff;
+}
+
+#container {
+    transition: 0.3s;
+}
+
+.notifBar {
+    transition: 0.3s;
+}
+
+.chatBar {
+    transition: 0.3s;
 }
