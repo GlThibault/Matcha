@@ -10,17 +10,17 @@ block content
         .fields
           .field
             label Nom d"utilisateur:
-            input(type="text", placeholder="Nom d'utilisateur" name="username" value=locals.data.username required readonly="")
+            input(type="text" placeholder="Nom d'utilisateur" name="username" value=locals.data.username required readonly="")
           .field
             label Email:
-            input(type="email", placeholder="nom@email.com" name="email" value=locals.data.email required autofocus="autofocus" tabindex="1")
+            input(type="email" placeholder="nom@email.com" name="email" value=locals.data.email required autofocus="autofocus" tabindex="1")
         .fields
           .field
             label Nom:
-            input(type="text", placeholder="Nom" name="lastname" value=locals.data.lastname required tabindex="2")
+            input(type="text" placeholder="Nom" name="lastname" value=locals.data.lastname required tabindex="2")
           .field
             label Prénom:
-            input(type="text", placeholder="Prénom" name="firstname" value=locals.data.firstname required tabindex="3")
+            input(type="text" placeholder="Prénom" name="firstname" value=locals.data.firstname required tabindex="3")
         .fields
           .field
             label Mot de passe:
@@ -49,11 +49,24 @@ block content
           label Biographie
           textarea(name="bio" required tabindex="9")= locals.data.bio
         button.ui.primary.submit.button.fluid.large(type="submit" required tabindex="10") Mettre a jour
-    h2.ui.dividing.header Localisation
-    form(method="POST" action="/loc")
-      input(type="text", placeholder="Exemple: Paris" name="city" value=locals.data.city required tabindex="11")
-      button.ui.primary.submit.button(type="submit" required tabindex="12") Mettre a jour
-    a.button.ui.yellow(href="/loc") Se géolocaliser
+    .ui.grid
+      .row
+        .height.wide.column(style="min-width:400px; margin-top:20px;")
+          h2.ui.dividing.header Localisation
+          form(method="POST" action="/loc")
+            input(type="text" placeholder="Exemple: Paris" name="city" value=locals.data.city required tabindex="11" style="margin-right: 10px;")
+            button.ui.primary.submit.button(type="submit" required tabindex="12") Mettre a jour
+          a.button.ui.yellow(href="/loc" tabindex="14") Se géolocaliser
+        .height.wide.column(style="min-width:400px; margin-top:20px;")
+          h2.ui.dividing.header Tags
+          form(method="POST" action="/tag/add")
+            input(type="text" placeholder="tag" name="tag" required tabindex="15" style="margin-right: 10px;")
+            button.ui.primary.submit.button(type="submit" required tabindex="16") Ajouter un tag
+          br
+          each tag in tags
+            .ui.label= tag["tag"]
+              a(href="/tag/del/" + tag["tag"])
+                i.icon.close
     h2.ui.dividing.header Images
     .ui.link.cards
       while j < 5

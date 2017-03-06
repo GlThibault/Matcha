@@ -1,3 +1,4 @@
+// App var
 var express = require('express'),
     app = express(),
     path = require('path'),
@@ -12,8 +13,9 @@ var express = require('express'),
     Server = require('socket.io'),
     server = require('http').Server(app),
     io = require('socket.io')(server)
+    connection = require('./config/db')
 
-// Routes Var
+// Routes var
 var index = require('./routes/index'),
     profil = require('./routes/profil'),
     login = require('./routes/login'),
@@ -27,7 +29,7 @@ var index = require('./routes/index'),
     block = require('./routes/block'),
     report = require('./routes/report'),
     loc = require('./routes/loc'),
-    connection = require('./config/db')
+    tag = require('./routes/tag')
 
 
 // Redis
@@ -63,6 +65,26 @@ app.use(function(req, res, next) {
         if (err) console.log(err)
         res.locals.notifs = rows
     })
+    if (req.session) {
+        if (req.session.error) {
+            res.locals.error = req.session.error
+            req.session.error = undefined
+        }
+        if (req.session.success) {
+            res.locals.success = req.session.success
+            req.session.success = undefined
+        }
+        if (req.session.warning) {
+            res.locals.warning = req.session.warning
+            req.session.warning = undefined
+        }
+        if (req.session.info) {
+            res.locals.info = req.session.info
+            req.session.info = undefined
+        }
+        if (req.session.user)
+          res.locals.user = req.session.user
+    }
     next()
 })
 
@@ -80,6 +102,7 @@ app.use('/like', like)
 app.use('/block', block)
 app.use('/report', report)
 app.use('/loc', loc)
+app.use('/tag', tag)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -102,6 +125,10 @@ io.sockets.on("connection", function(socket) {
                 username: data.by,
                 message: data.message
             });
+        })
+        var notification = data.by + " vous a envoyé un message."
+        connection.query('INSERT INTO notif SET username = ?, sender = ?, notification = ?, date = ?', [data.user, data.by, notification, new Date()], (err, result) => {
+            if (err) console.log(err)
         })
     });
 })

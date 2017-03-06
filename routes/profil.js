@@ -5,20 +5,15 @@ var bcrypt = require('bcryptjs')
 
 router.get('/', function(req, res, next) {
     if (req.session && req.session.user) {
-        if (req.session.error) {
-            res.locals.error = req.session.error
-            req.session.error = undefined
-        }
-        if (req.session.success) {
-            res.locals.success = req.session.success
-            req.session.success = undefined
-        }
-        connection.query('SELECT * FROM users WHERE username = ?', [req.session.user], (err, rows, result) => {
+        connection.query('SELECT * FROM tag WHERE username = ?', [req.session.user], (err, rows, result) => {
             if (err) console.log(err)
-            res.locals.user = req.session.user
-            res.locals.data = rows[0]
-            res.render('profil', {
-                title: 'Profil'
+            res.locals.tags = rows
+            connection.query('SELECT * FROM users WHERE username = ? LIMIT 1', [req.session.user], (err, rows, result) => {
+                if (err) console.log(err)
+                res.locals.data = rows[0]
+                res.render('profil', {
+                    title: 'Profil'
+                })
             })
         })
     } else {

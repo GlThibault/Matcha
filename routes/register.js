@@ -6,15 +6,6 @@ var session = require('express-session')
 var iplocation = require('iplocation')
 
 router.get('/', function(req, res, next) {
-    if (req.session.error) {
-        res.locals.error = req.session.error
-        req.session.error = undefined
-    }
-    if (req.session.success) {
-        res.locals.success = req.session.success
-        req.session.success = undefined
-    }
-    res.locals.user = req.session.user
     res.render('register', {
         title: 'Inscription',
         user: req.session.user
@@ -52,7 +43,7 @@ router.post('/', function(req, res) {
             req.session.error = "Erreur: votre mot de passe doit contenir au moins une minuscule"
             res.redirect('/register')
         } else if (req.body.password.search(/[a-z]/) == -1) {
-            req.session.error = "Erreur: votre mot de passe doit contenir au moins une najuscule"
+            req.session.error = "Erreur: votre mot de passe doit contenir au moins une majuscule"
             res.redirect('/register')
         } else if (req.body.password.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+\.\,\\:]/) != -1) {
             req.session.error = "Erreur: votre mot de passe ne peux pas contenir d'autres charactères que a-z A-Z 0-9 ! @ # $ % ^ & * ( ) _ + . ,  :"

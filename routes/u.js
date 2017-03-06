@@ -4,18 +4,6 @@ var connection = require('../config/db')
 
 router.get('/', function(req, res, next) {
     if (req.session && req.session.user) {
-        if (req.session.error) {
-            res.locals.error = req.session.error
-            req.session.error = undefined
-        }
-        if (req.session.success) {
-            res.locals.success = req.session.success
-            req.session.success = undefined
-        }
-        if (req.session.info) {
-            res.locals.info = req.session.info
-            req.session.info = undefined
-        }
         var sexe1 = ''
         var sexe2 = ''
         var orientation1 = ''
@@ -51,7 +39,6 @@ router.get('/', function(req, res, next) {
                 res.locals.userlon = rows[0].lon
                 connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.lat, users.lon, users.interests, users.age, users.pic0, (SELECT count(liked) FROM likes WHERE likes.liked=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes, lat, lon", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
                     if (err) console.log(err)
-                    res.locals.user = req.session.user
                     res.locals.rows = rows
                     res.render('u', {
                         title: 'Utilisateurs'
@@ -109,7 +96,6 @@ router.get('/:username', function(req, res, next) {
                             connection.query('SELECT * FROM users WHERE username = ? LIMIT 1', [req.params.username], (err, rows, result) => {
                                 if (err) console.log(err)
                                 res.locals.data = rows[0]
-                                res.locals.user = req.session.user
                                 res.render('user', {
                                     title: rows[0]['firstname'] + " " + rows[0]['lastname']
                                 })

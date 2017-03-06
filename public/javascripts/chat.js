@@ -21,12 +21,12 @@ $(window).keydown(function(event) {
     }
 });
 
-function openNav() {
+function openChat() {
     $(".chatBar").css({'width' : "350px"});
     $(".container").css({'marginRight' : "350px"});
 }
 
-function closeNav() {
+function closeChat() {
     $(".chatBar").css({'width' : "0px"});
     $(".container").css({'marginRight' : "0px"});
 }

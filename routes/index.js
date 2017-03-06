@@ -4,22 +4,6 @@ var connection = require('../config/db')
 
 router.get('/', function(req, res, next) {
     if (req.session && req.session.user) {
-        if (req.session.error) {
-            res.locals.error = req.session.error
-            req.session.error = undefined
-        }
-        if (req.session.success) {
-            res.locals.success = req.session.success
-            req.session.success = undefined
-        }
-        if (req.session.warning) {
-            res.locals.warning = req.session.warning
-            req.session.warning = undefined
-        }
-        if (req.session.info) {
-            res.locals.info = req.session.info
-            req.session.info = undefined
-        }
         connection.query('SELECT * FROM block WHERE username = ?', [req.session.user], (err, rows, result) => {
             if (err) console.log(err)
             res.locals.blocks = rows
@@ -34,7 +18,6 @@ router.get('/', function(req, res, next) {
                         res.locals.visits = rows
                         connection.query('SELECT * FROM users WHERE username = ? LIMIT 1', [req.session.user], (err, rows, result) => {
                             if (err) console.log(err)
-                            res.locals.user = req.session.user
                             res.locals.data = rows[0]
                             res.render('index', {
                                 title: 'Matcha'
