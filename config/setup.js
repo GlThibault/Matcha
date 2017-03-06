@@ -22,4 +22,6 @@ connection.query('CREATE TABLE IF NOT EXISTS block (id INT(9) UNSIGNED AUTO_INCR
 console.log('Table block created')
 connection.query('CREATE TABLE IF NOT EXISTS notif (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, username VARCHAR(100) NOT NULL, sender VARCHAR(100) NOT NULL, notification VARCHAR(255) NOT NULL, readed BOOLEAN DEFAULT FALSE, date DATE NOT NULL)')
 console.log('Table notif created')
+connection.query('CREATE TABLE IF NOT EXISTS messages (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, username VARCHAR(100) NOT NULL, sender VARCHAR(100) NOT NULL, message VARCHAR(10000)')
+console.log('Table messages created')
 connection.end()

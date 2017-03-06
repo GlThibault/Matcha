@@ -5,71 +5,75 @@ block content
   .container
     if data.pic0
       if liked > 0
-        .ui.primary.big.right.floated.button(onclick="openNav()")
+        .ui.primary.big.right.floated.button(onclick="openNav()" style="right:0; position:fixed; top:0;")
           i.content.icon
           span.text Chat
-        .ui.right.fixed.vertical.menu.chatBar(style="width:0")
-          <a href="javascript:void(0)" onclick="closeNav()" style="font-size: 36px;">&times;</a>
-          div.chatArea
+        .ui.right.fixed.vertical.menu.chatBar(style="width:0; padding-top:10px;")
+          <a href="javascript:void(0)" onclick="closeNav()" style="font-size: 60px; position:fixed; top:0; z-index:1000;">&times;</a>
+          .chatArea
             ul.messages
+              each message in messages
+                li.message
+                  span.username= message["sender"]
+                  span.messagebody= " : " + message["message"]
           .ui.fluid.action.input
             input.ui.fluid.inputMessage(placeholder="Type here...")
           .ui.bottom.attached.button.primary(type="button" onclick="sendMessage()") Envoyer
-      .container
-        .ui.card.link
-          a.image(href=data.pic0)
-            img(src=data.pic0)
-        .ui.card.fluid#grey
-          .content
-            a.header= data.firstname + " " + data.lastname
-            .meta
-              if (data.age)
-                span.category= data.age + " ans."
-              span.category.right.floated= data.orientation
-            .description= data.bio
-            .ui.labeled.icon.button.red.right.floated
-              i.heart.icon
-              p= pop
-          if data.username != user
-            if liked > 0
-              i Cet utilisateur vous like.
-          if data.username != user
-            if like == 0
-              a.ui.bottom.attached.button.primary(href="/like/" + data.username)
-                i.add.icon
-                span Like
-            else
-              a.ui.bottom.attached.button.teal(href="/like/" + data.username)
-                i.add.icon
-                span Dislike
+      .ui.card.link
+        a.image(href=data.pic0)
+          img(src=data.pic0)
+      .ui.card.fluid#grey
+        .content
+          a.header= data.firstname + " " + data.lastname
+          .meta
+            if (data.age)
+              span.category= data.age + " ans."
+            span.category.right.floated= data.orientation
+          .description= data.bio
+          .ui.labeled.icon.button.red.right.floated
+            i.heart.icon
+            p= pop
         if data.username != user
-          a.button.ui.button.red(href="/report/" + data.username) Signaler comme faux compte
+          a(href="/report/" + data.username style="text-align: right;") Signaler comme faux compte
           if block == 0
-            a.button.ui.button.yellow(href="/block/" + data.username) Bloquer l'utilisateur
+            a(href="/block/" + data.username style="text-align: right;") Bloquer l'utilisateur
           else
-            a.button.ui.button.yellow(href="/block/" + data.username) Débloquer l'utilisateur
-        if data.pic1 || data.pic2 || data.pic3 || data.pic4
-          br
-          .ui.link.cards#frame
-            if data.pic1
-              a.card#grey(href=data.pic1)
-                .image
-                  img(src=data.pic1)
-            if data.pic2
-              a.card#grey(href=data.pic2)
-                .image
-                  img(src=data.pic2)
-            if data.pic3
-              a.card#grey(href=data.pic3)
-                .image
-                  img(src=data.pic3)
-            if data.pic4
-              a.card#grey(href=data.pic4)
-                .image
-                  img(src=data.pic4)
+            a(href="/block/" + data.username style="text-align: right;") Débloquer l'utilisateur
+          if liked > 0
+            p#like Cet utilisateur vous like.
+        if data.username != user
+          if like == 0
+            a.ui.bottom.attached.button.primary(href="/like/" + data.username)
+              i.add.icon
+              span Like
+          else
+            a.ui.bottom.attached.button.teal(href="/like/" + data.username)
+              i.add.icon
+              span Dislike
+      if data.pic1 || data.pic2 || data.pic3 || data.pic4
         br
-        .ui.card.fluid
-          #map
+        br
+        br
+        .ui.link.cards#frame
+          if data.pic1
+            a.card#grey(href=data.pic1)
+              .image
+                img(src=data.pic1)
+          if data.pic2
+            a.card#grey(href=data.pic2)
+              .image
+                img(src=data.pic2)
+          if data.pic3
+            a.card#grey(href=data.pic3)
+              .image
+                img(src=data.pic3)
+          if data.pic4
+            a.card#grey(href=data.pic4)
+              .image
+                img(src=data.pic4)
+      br
+      .ui.card.fluid
+        #map
   script.
     function sendMessage() {
       var message = $('.inputMessage').val();

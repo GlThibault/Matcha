@@ -2,16 +2,16 @@ doctype html
 html
   head
     if (user)
-      .ui.primary.big.left.floated.button(onclick="openNotif()" style="left:0; position:absolute; top:0;")
+      .ui.primary.big.left.floated.button(onclick="openNotif()" style="left:0; position:fixed; top:0;")
         i.content.icon
         span.text Notif
-      .ui.left.fixed.vertical.menu.notifBar(style="visibility: hidden")
-        <a href="javascript:void(0)" onclick="closeNotif()" style="font-size: 36px;">&times;</a>
-        .ui.cards
+      .ui.left.fixed.vertical.menu.notifBar(style="visibility: hidden; padding-top:10px;")
+        <a href="javascript:void(0)" onclick="closeNotif()" style="font-size: 60px; position:fixed; top:0; z-index:1000;">&times;</a>
+        .ui.cards(style="margin: 0;")
           each notif in notifs
             .card.fluid.not
               .content
-                .header
+                .meta
                   p= notif["date"]
                 .description
                   p= notif["notification"]

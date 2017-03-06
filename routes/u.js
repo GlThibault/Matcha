@@ -103,12 +103,16 @@ router.get('/:username', function(req, res, next) {
                     connection.query('SELECT count(*) AS pop FROM likes WHERE liked = ?', [req.params.username], (err, rows, result) => {
                         if (err) console.log(err)
                         res.locals.pop = rows[0].pop
-                        connection.query('SELECT * FROM users WHERE username = ? LIMIT 1', [req.params.username], (err, rows, result) => {
+                        connection.query('SELECT * FROM messages WHERE (username = ? AND sender = ?) OR (username = ? AND sender = ?)', [req.session.user, req.params.username, req.params.username, req.session.user], (err, rows, result) => {
                             if (err) console.log(err)
-                            res.locals.user = req.session.user
-                            res.locals.data = rows[0]
-                            res.render('user', {
-                                title: rows[0]['firstname'] + " " + rows[0]['lastname']
+                            res.locals.messages = rows
+                            connection.query('SELECT * FROM users WHERE username = ? LIMIT 1', [req.params.username], (err, rows, result) => {
+                                if (err) console.log(err)
+                                res.locals.data = rows[0]
+                                res.locals.user = req.session.user
+                                res.render('user', {
+                                    title: rows[0]['firstname'] + " " + rows[0]['lastname']
+                                })
                             })
                         })
                     })

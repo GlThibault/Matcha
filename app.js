@@ -59,7 +59,7 @@ io.use(socketSession.parser)
 
 app.use(function(req, res, next) {
     res.io = io
-    connection.query('SELECT * from notif where username = ? LIMIT 11', [req.session.user], (err, rows, result) => {
+    connection.query('SELECT username, notification, date_format(date, "%d/%m/%Y") AS date from notif WHERE username = ? ORDER BY id DESC LIMIT 25', [req.session.user], (err, rows, result) => {
         if (err) console.log(err)
         res.locals.notifs = rows
     })
@@ -95,12 +95,14 @@ io.sockets.on("connection", function(socket) {
         people[socket.session.user] = socket.id
     socket.session.login = true
     socketSession.save(socket)
-    socket.on('message', function (data) {
-      // we tell the client to execute 'message'
-      socket.broadcast.to(global.people[data.user]).emit('message', {
-        username: data.by,
-        message: data.message
-      });
+    socket.on('message', function(data) {
+        connection.query('INSERT INTO messages SET username = ?, sender = ?, message = ?', [data.user, data.by, data.message], (err, result) => {
+            if (err) console.log(err)
+            socket.broadcast.to(global.people[data.user]).emit('message', {
+                username: data.by,
+                message: data.message
+            });
+        })
     });
 })
 global.people = people

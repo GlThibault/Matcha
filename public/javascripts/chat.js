@@ -30,3 +30,5 @@ function closeNav() {
     $(".chatBar").css({'width' : "0px"});
     $(".container").css({'marginRight' : "0px"});
 }
+
+$('.chatBar').scrollTop(1000000);
