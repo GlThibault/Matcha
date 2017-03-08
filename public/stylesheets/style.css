@@ -47,14 +47,3 @@ body {
     transition: 0.5s;
     overflow: auto;
 }
-
-#like {
-  margin-top: -20px;
-  padding: 3px;
-  font: 18px "Lucida Grande", Helvetica, Arial, sans-serif;
-  color: #de7aa0;
-}
-
-.item {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}

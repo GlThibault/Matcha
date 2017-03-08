@@ -114,6 +114,9 @@ app.use(function(req, res, next) {
 // Socket.io
 var people = {}
 io.sockets.on("connection", function(socket) {
+    connection.query('UPDATE users SET online = TRUE, visit = ? WHERE username = ?', [new Date(), socket.session.user], (err, result) => {
+        if (err) console.log(err)
+    })
     if (socket.session.user)
         people[socket.session.user] = socket.id
     socket.session.login = true
@@ -131,6 +134,11 @@ io.sockets.on("connection", function(socket) {
             if (err) console.log(err)
         })
     });
+    socket.on('disconnect', function () {
+        connection.query('UPDATE users SET online = FALSE WHERE username = ?', [socket.session.user], (err, result) => {
+            if (err) console.log(err)
+        })
+    })
 })
 global.people = people
 global.io = io

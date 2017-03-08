@@ -33,15 +33,23 @@ router.get('/', function(req, res, next) {
         connection.query('SELECT * FROM block WHERE username = ?', [req.session.user], (err, rows, result) => {
             if (err) console.log(err)
             res.locals.blocks = rows
-            connection.query('SELECT lat, lon FROM users WHERE username = ? LIMIT 1', [req.session.user], (err, rows, result) => {
+            connection.query('SELECT lat, lon FROM users WHERE username = ? LIMIT 1', [req.session.user], (err, coords, result) => {
                 if (err) console.log(err)
-                res.locals.userlat = rows[0].lat
-                res.locals.userlon = rows[0].lon
-                connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.lat, users.lon, users.interests, users.age, users.pic0, (SELECT count(liked) FROM likes WHERE likes.liked=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes, lat, lon", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
+                res.locals.userlat = coords[0].lat
+                res.locals.userlon = coords[0].lon
+                connection.query("SELECT distinct tag FROM tag", (err, rows, result) => {
                     if (err) console.log(err)
-                    res.locals.rows = rows
-                    res.render('u', {
-                        title: 'Utilisateurs'
+                    res.locals.alltags = rows
+                    connection.query("SELECT * FROM tag", (err, rows, result) => {
+                        if (err) console.log(err)
+                        res.locals.tags = rows
+                        connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.lat, users.lon, users.interests, users.age, users.pic0, (SELECT count(liked) FROM likes WHERE likes.liked=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes, lat, lon", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
+                            if (err) console.log(err)
+                            res.locals.rows = rows
+                            res.render('u', {
+                                title: 'Utilisateurs'
+                            })
+                        })
                     })
                 })
             })
@@ -90,14 +98,18 @@ router.get('/:username', function(req, res, next) {
                     connection.query('SELECT count(*) AS pop FROM likes WHERE liked = ?', [req.params.username], (err, rows, result) => {
                         if (err) console.log(err)
                         res.locals.pop = rows[0].pop
-                        connection.query('SELECT * FROM messages WHERE (username = ? AND sender = ?) OR (username = ? AND sender = ?)', [req.session.user, req.params.username, req.params.username, req.session.user], (err, rows, result) => {
+                        connection.query('SELECT * FROM (SELECT * FROM messages WHERE (username = ? AND sender = ?) OR (username = ? AND sender = ?) ORDER BY id DESC LIMIT 35) g ORDER BY id ASC', [req.session.user, req.params.username, req.params.username, req.session.user], (err, rows, result) => {
                             if (err) console.log(err)
                             res.locals.messages = rows
-                            connection.query('SELECT * FROM users WHERE username = ? LIMIT 1', [req.params.username], (err, rows, result) => {
+                            connection.query('SELECT * FROM tag WHERE username = ?', [req.params.username], (err, rows, result) => {
                                 if (err) console.log(err)
-                                res.locals.data = rows[0]
-                                res.render('user', {
-                                    title: rows[0]['firstname'] + " " + rows[0]['lastname']
+                                res.locals.tags = rows
+                                connection.query('SELECT *, date_format(visit, "%d/%m/%Y") AS date FROM users WHERE username = ? LIMIT 1', [req.params.username], (err, rows, result) => {
+                                    if (err) console.log(err)
+                                    res.locals.data = rows[0]
+                                    res.render('user', {
+                                        title: rows[0]['firstname'] + " " + rows[0]['lastname']
+                                    })
                                 })
                             })
                         })

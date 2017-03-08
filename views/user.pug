@@ -22,6 +22,12 @@ block content
       .ui.card.link
         a.image(href=data.pic0)
           img(src=data.pic0)
+      if data.online == 1
+        .ui.label.green En ligne
+      else
+        .ui.label.red= "Hors ligne depuis le " + data.date
+      if liked > 0
+        .ui.label.pink#like Cet utilisateur vous like.
       .ui.card.fluid#grey
         .content
           a.header= data.firstname + " " + data.lastname
@@ -39,8 +45,11 @@ block content
             a(href="/block/" + data.username style="text-align: right;") Bloquer l'utilisateur
           else
             a(href="/block/" + data.username style="text-align: right;") Débloquer l'utilisateur
-          if liked > 0
-            p#like Cet utilisateur vous like.
+        div(style="padding: 3px;")
+          each tag in tags
+            .ui.label.yellow(style="margin-top: 5px;")= tag["tag"]
+              a(href="/tag/del/" + tag["tag"])
+                i.icon.close
         if data.username != user
           if like == 0
             a.ui.bottom.attached.button.primary(href="/like/" + data.username)
@@ -91,7 +100,16 @@ block content
     var lon = #{locals.data.lon}
     function initMap() {
       var uluru = {lat: lat, lng: lon}
-      var map = new google.maps.Map(document.getElementById("map"), {zoom: 12, center: uluru})
-      var marker = new google.maps.Marker({position: uluru, map: map})
+      var map = new google.maps.Map(document.getElementById("map"), {zoom: 12, center: uluru, mapTypeId: 'terrain'})
+      var cityCircle = new google.maps.Circle({
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35,
+        map: map,
+        center: uluru,
+        radius: 1000
+          });
     }
   script(async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9WMjcqSyrFp-xE30ebFMf2HAyn3Mpg1w&callback=initMap")

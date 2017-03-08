@@ -24,11 +24,10 @@ $(window).keydown(function(event) {
 function openChat() {
     $(".chatBar").css({'width' : "350px"});
     $(".container").css({'marginRight' : "350px"});
+    $('.messages')[0].scrollTop = $('.messages')[0].scrollHeight;
 }
 
 function closeChat() {
     $(".chatBar").css({'width' : "0px"});
     $(".container").css({'marginRight' : "0px"});
 }
-
-$('.chatBar').scrollTop(1000000);

@@ -35,7 +35,7 @@ $(function() {
     })
 
     $("#validate").click(function() {
-        $('.cards .card').hide().filter(function() {
+        $('.users .user').hide().filter(function() {
             var age = parseInt($(this).find("#age").text())
             var pop = parseInt($(this).find("#pop").text())
             var dist = parseInt($(this).find("#dist").text())
@@ -55,24 +55,28 @@ $(function() {
     })
 
     $("#ageAscending").click(function() {
-        $('.cards .card').sort(ageAscending).appendTo('.cards')
+        $('.users .user').sort(ageAscending).appendTo('.users')
     })
     $("#popDescending").click(function() {
-        $('.cards .card').sort(popDescending).appendTo('.cards')
+        $('.users .user').sort(popDescending).appendTo('.users')
     })
     $("#distAscending").click(function() {
-        $('.cards .card').sort(distAscending).appendTo('.cards')
+        $('.users .user').sort(distAscending).appendTo('.users')
     })
 })
 
 function ageAscending(a, b) {
-    return parseInt($(a).find("#age").text()) > parseInt($(b).find("#age").text()) ? 1 : -1
+    return parseInt($(a).find("#age").text()) > parseInt($(b).find("#age").text())
 }
 
 function popDescending(a, b) {
-    return parseInt($(a).find("#pop").text()) < parseInt($(b).find("#pop").text()) ? 1 : -1
+    return parseInt($(a).find("#pop").text()) < parseInt($(b).find("#pop").text())
 }
 
 function distAscending(a, b) {
-    return parseInt($(a).find("#dist").text()) > parseInt($(b).find("#dist").text()) ? 1 : -1
+    return parseInt($(a).find("#dist").text()) > parseInt($(b).find("#dist").text())
+}
+
+function sorttag(tag) {
+    $('.users .user').hide().find(".label:contains(tag)").show()
 }

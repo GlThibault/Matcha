@@ -64,7 +64,7 @@ block content
             button.ui.primary.submit.button(type="submit" required tabindex="16") Ajouter un tag
           br
           each tag in tags
-            .ui.label= tag["tag"]
+            .ui.label.yellow(style="margin-top: 5px;")= tag["tag"]
               a(href="/tag/del/" + tag["tag"])
                 i.icon.close
     h2.ui.dividing.header Images

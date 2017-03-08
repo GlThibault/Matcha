@@ -25,7 +25,6 @@ block content
     br
     .ui.clearing.divider
     .ui.grid
-      .column.right.floated
       .right.floated.right.aligned
         span= "Trier par : "
         .blue.ui.buttons
@@ -34,15 +33,18 @@ block content
           button.ui.button#distAscending Dist
           button.ui.button#tagsAscending Tags
     br
+    each tag, index in alltags
+      button.ui.label.yellow(onclick="sorttag(" + tag["tag"] + ")" style="margin-top: 5px;")= tag["tag"]
+    br
     span#userlat(style="visibility: hidden")= userlat
     span#userlon(style="visibility: hidden")= userlon
-    .ui.link.cards
+    .ui.link.cards.users
       each row in rows
         each block in blocks
           if block["blocked"] == row["username"]
             - blocked = 1
         if blocked == 0
-          a.ui.card#grey(href="/u/"+ row["username"])
+          a.ui.card.user#grey(href="/u/"+ row["username"])
             .image
               img(src=row["pic0"])
             .content
@@ -66,6 +68,10 @@ block content
                   span= row["bio"].substring(0,699)+" ..."
                 else
                   span= row["bio"]
+            .extra.content(style="padding:0;")
+              each tag in tags
+                if tag["username"] === row["username"].toLowerCase()
+                  .ui.label.yellow= tag["tag"]
             .extra.content
               .ui.labeled.icon.button.red
                 i.heart.icon

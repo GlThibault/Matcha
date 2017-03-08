@@ -7,7 +7,7 @@ html
         span.text Notif
       .ui.left.fixed.vertical.menu.notifBar(style="visibility: hidden; padding-top:10px;")
         <a href="javascript:void(0)" onclick="closeNotif()" style="font-size: 60px; position:fixed; top:0; z-index:1000;">&times;</a>
-        .ui.cards(style="margin: 0;")
+        .ui.cards.notif(style="margin: 0;")
           each notif in notifs
             .card.fluid.not
               .content
