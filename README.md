@@ -5,7 +5,7 @@
 
 3rd project of the Web Branch of 42.
 Create a dating WebSite where the user can create his profile, search other users, like them and begin a conversation with a chat if the person liked him back.
-This website require a Mysql and a Redis server.
+This website require a MySQL and a Redis server.
 
 ###Features
 

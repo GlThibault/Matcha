@@ -96,7 +96,6 @@ router.post('/', function(req, res) {
                                     } else {
                                         req.session.sexe = req.body.sexe
                                         req.session.orientation = req.body.orientation
-                                        req.session.valid = true
                                         req.session.success = "Vos informations ont été mis à jour."
                                         res.redirect('/profil')
                                     }

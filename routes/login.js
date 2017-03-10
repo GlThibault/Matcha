@@ -16,12 +16,15 @@ router.post('/', function(req, res) {
         else if (rows[0]) {
             if (bcrypt.compareSync(req.body.password, rows[0].password)) {
                 req.session.user = req.body.username.toLowerCase()
+                if (rows[0].pic0)
+                  req.session.valid = true
                 if (rows[0].sexe) {
                     req.session.orientation = rows[0].orientation
                     req.session.sexe = rows[0].sexe
-                    req.session.valid = true
-                } else
-                    req.session.info = "Votre profil est vide, vous pouvez le remplir en cliquant sur Profil"
+                } else {
+                    req.session.orientation = 'Bisexuelle'
+                    req.session.sexe = 'Homme'
+                    req.session.info = "Votre profil est vide, vous pouvez le remplir en cliquant sur Profil"}
                 req.session.pic0 = rows[0].pic0
                 req.session.lastname = rows[0].lastname
                 req.session.firstname = rows[0].firstname

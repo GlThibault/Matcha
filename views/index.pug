@@ -30,7 +30,10 @@ block content
               if blocked == 0
                 .item#frame
                   a.ui.card.small.image#grey(href="/u/" + visit["username"])
-                    img(src=visit["pic0"])
+                    if visit["pic0"]
+                      img(src=visit["pic0"])
+                    else
+                      img(src="/noprofile.jpg")
                   .content
                     br
                     if visit["sexe"] == "Homme"
@@ -38,12 +41,13 @@ block content
                     else
                       a.header(href="/u/" + visit["username"] style="color: #FD3F62;")= visit["firstname"] + " " + visit["lastname"]
                     .meta
-                      if (visit["bio"].length > 200)
+                      if visit["bio"] && visit["bio"].length > 200
                         span= visit["bio"].substring(0,300)+" ..."
                       else
                         span= visit["bio"]
                     .extra
-                      span= visit["age"] + " ans"
+                      if visit["age"]
+                        span= visit["age"] + " ans"
               else
                 - blocked = 0
               br
@@ -57,7 +61,10 @@ block content
               if blocked == 0
                 .item#frame
                   a.ui.card.small.image#grey(href="/u/" + like["username"])
-                    img(src=like["pic0"])
+                    if like["pic0"]
+                      img(src=like["pic0"])
+                    else
+                      img(src="/noprofile.jpg")
                   .content
                     br
                     if like["sexe"] == "Homme"
@@ -65,12 +72,13 @@ block content
                     else
                       a.header(href="/u/" + like["username"] style="color: #FD3F62;")= like["firstname"] + " " + like["lastname"]
                     .meta
-                      if (like["bio"].length > 200)
+                      if like["bio"] && like["bio"].length > 200
                         span= like["bio"].substring(0,300)+" ..."
                       else
                         span= like["bio"]
                     .extra
-                      span= like["age"] + " ans"
+                      if like["age"]
+                        span= like["age"] + " ans"
               else
                 - blocked = 0
               br

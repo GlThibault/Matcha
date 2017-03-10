@@ -78,5 +78,5 @@ function distAscending(a, b) {
 }
 
 function sorttag(tag) {
-    $('.users .user').hide().find(".label:contains(tag)").show()
+    $('.users .user').hide().$(':contains("42")').show()
 }

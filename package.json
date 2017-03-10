@@ -12,7 +12,8 @@
     "url": "https://github.com/GlThibault/Matcha.git/issues"
   },
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "dev": "nodemon ./bin/www",
+    "start": "NODE_ENV=production node ./bin/www"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -27,6 +28,7 @@
     "express-socket.io-session": "^1.3.2",
     "geolib": "^2.0.22",
     "iplocation": "^2.0.1",
+    "mime-types": "^2.1.14",
     "mysql": "^2.13.0",
     "nodemon": "^1.11.0",
     "pug": "~2.0.0-beta10",

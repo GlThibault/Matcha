@@ -43,7 +43,7 @@ router.get('/', function(req, res, next) {
                     connection.query("SELECT * FROM tag", (err, rows, result) => {
                         if (err) console.log(err)
                         res.locals.tags = rows
-                        connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.lat, users.lon, users.interests, users.age, users.pic0, (SELECT count(liked) FROM likes WHERE likes.liked=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes, lat, lon", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
+                        connection.query("SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.lat, users.lon, users.interests, users.age, users.pic0, (SELECT count(liked) FROM likes WHERE likes.liked=users.username) AS likes FROM users LEFT JOIN likes ON likes.username=users.username WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes, lat, lon ORDER BY likes DESC", [sexe1, orientation1, sexe2, orientation2, req.session.user], (err, rows, result) => {
                             if (err) console.log(err)
                             res.locals.rows = rows
                             res.render('u', {
@@ -74,17 +74,22 @@ router.get('/:username', function(req, res, next) {
             res.locals.info = req.session.info
             req.session.info = undefined
         }
-        connection.query('SELECT * FROM visits WHERE username = ? AND visited = ? LIMIT 1', [req.session.user, req.params.username], (err, rows, result) => {
+        connection.query('SELECT username FROM users WHERE username = ? LIMIT 1', [req.params.username], (err, rows, result) => {
             if (err) console.log(err)
-            if (!rows[0] && req.session.user != req.params.username)
-                connection.query('INSERT INTO visits SET username = ?, visited = ?', [req.session.user, req.params.username], (err, result) => {
+            if (rows[0]) {
+                connection.query('SELECT * FROM visits WHERE username = ? AND visited = ? LIMIT 1', [req.session.user, req.params.username], (err, rows, result) => {
                     if (err) console.log(err)
-                    var notification = req.session.firstname + " " + req.session.lastname + " a visité votre profil."
-                    connection.query('INSERT INTO notif SET username = ?, sender = ?, notification = ?, date = ?', [req.params.username, req.session.user, notification, new Date()], (err, result) => {
-                        if (err) console.log(err)
-                        res.io.to(global.people[req.params.username]).emit('notif', notification)
-                    })
+                    if (!rows[0] && req.session.user != req.params.username)
+                        connection.query('INSERT INTO visits SET username = ?, visited = ?', [req.session.user, req.params.username], (err, result) => {
+                            if (err) console.log(err)
+                            var notification = req.session.firstname + " " + req.session.lastname + " a visité votre profil."
+                            connection.query('INSERT INTO notif SET username = ?, sender = ?, notification = ?, date = ?', [req.params.username, req.session.user, notification, new Date()], (err, result) => {
+                                if (err) console.log(err)
+                                res.io.to(global.people[req.params.username]).emit('notif', notification)
+                            })
+                        })
                 })
+            }
         })
         connection.query('SELECT COUNT(*) AS count FROM block WHERE username = ? AND blocked = ?', [req.session.user, req.params.username], (err, rows, result) => {
             if (err) console.log(err)
@@ -106,10 +111,16 @@ router.get('/:username', function(req, res, next) {
                                 res.locals.tags = rows
                                 connection.query('SELECT *, date_format(visit, "%d/%m/%Y") AS date FROM users WHERE username = ? LIMIT 1', [req.params.username], (err, rows, result) => {
                                     if (err) console.log(err)
-                                    res.locals.data = rows[0]
-                                    res.render('user', {
-                                        title: rows[0]['firstname'] + " " + rows[0]['lastname']
-                                    })
+                                    if (rows[0]) {
+                                        res.locals.data = rows[0]
+                                        res.render('user', {
+                                            title: rows[0]['firstname'] + " " + rows[0]['lastname']
+                                        })
+                                    } else {
+                                        var err = new Error('Not Found')
+                                        err.status = 404
+                                        next(err);
+                                    }
                                 })
                             })
                         })

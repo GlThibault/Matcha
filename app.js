@@ -53,7 +53,8 @@ var sessionMiddleware = {
     store: new RedisStore({}),
     secret: 'ZBm9235Ymx4a',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: {maxAge: 2592000000} 
 }
 app.use(session(sessionMiddleware))
 var socketSession = socketIOSession(sessionMiddleware)
@@ -148,7 +149,7 @@ app.use(function(err, req, res, next) {
     // set locals, only providing error in development
     res.locals.user = req.session.user
     res.locals.message = err.message
-    res.locals.error = req.app.get('env') === 'development' ? err : {}
+    res.locals.err = req.app.get('env') === 'development' ? err : {}
 
     // render the error page
     res.status(err.status || 500)

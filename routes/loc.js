@@ -6,10 +6,11 @@ var getCoords = require('city-to-coords')
 
 router.get('/', function(req, res, next) {
     if (req.session && req.session.user) {
-        iplocation(req.ip, function(error, res) {
+        iplocation(req.ip, function(err, res) {
+          if (err) console.log(err)
             if (!res || !res['city'])
                 connection.query('UPDATE users SET city = "Paris", lat = 48.8965, lon = 2.3182 WHERE username = ?', [req.session.user], (err, rows, result) => {
-                    if (err) console.log(err) })
+                    if (err) console.log(err)})
             else
                 connection.query('UPDATE users SET city = ?, lat = ?, lon = ? WHERE username = ?', [res['city'], res['latitude'], res['longitude'], req.session.user], (err, rows, result) => {
                     if (err) console.log(err)})

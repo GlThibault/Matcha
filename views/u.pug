@@ -64,19 +64,19 @@ block content
                 span#lat(style="visibility: hidden")= row["lat"]
                 span#lon(style="visibility: hidden")= row["lon"]
               .description
-                if (row["bio"].length > 699)
+                if row["bio"] && row["bio"].length > 699
                   span= row["bio"].substring(0,699)+" ..."
                 else
                   span= row["bio"]
             .extra.content(style="padding:0;")
               each tag in tags
-                if tag["username"] === row["username"].toLowerCase()
-                  .ui.label.yellow= tag["tag"]
+                if tag["username"] == row["username"].toLowerCase()
+                  .ui.label.yellow.tags= tag["tag"]
             .extra.content
               .ui.labeled.icon.button.red
                 i.heart.icon
                 p#pop= row["likes"]
-              if (row["orientation"] == "Hétérosexuelle")
+              if row["orientation"] == "Hétérosexuelle"
                 .ui.right.floated.icon.button#gold
                   i.heterosexual.icon.right.floated
               else if row["sexe"] == "Homme"
@@ -85,7 +85,7 @@ block content
               else if row["sexe"] == "Femme"
                 .ui.right.floated.icon.button.pink
                   i.lesbian.icon.right.floated
-              if (row["orientation"] == "Bisexuelle")
+              if row["orientation"] == "Bisexuelle"
                 .ui.right.floated.icon.button#gold
                   i.heterosexual.icon.right.floated
         else
