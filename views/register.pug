@@ -15,7 +15,8 @@ block content
           .field
             label Confirmation du mot de passe:
             input(type="password" placeholder="Mot de passe" name="confirmPassword" required tabindex="3")
-        i Le mot de passe doit contenir des majuscules, des chiffres et des minuscules et faire plus de 6 charactères.
+        br
+        span Le mot de passe doit contenir des majuscules, des chiffres et des minuscules et faire plus de 6 charactères.
         br
         br
         .field
@@ -28,6 +29,7 @@ block content
           .field
             label Prénom:
             input(type="text", placeholder="Prénom" name="firstname" required tabindex="6")
+        br
         button.ui.primary.submit.button.fluid.large(type="submit" required tabindex="7") Valider
     .ui.dividing.header
     div(style="text-align:center")

@@ -31,6 +31,7 @@ block content
       .ui.bottom.attached.button.primary#validate Filtrer
     br
     br
+    br
     .ui.grid
       .right.floated.right.aligned
         span= "Trier par : "
@@ -39,6 +40,7 @@ block content
           button.ui.button#popDescending Pop
           button.ui.button#distAscending Dist
           button.ui.button#tagsAscending Tags
+    br
     br
     span.hidden#userlat= userlat
     span.hidden#userlon= userlon
@@ -59,7 +61,8 @@ block content
               else
                 .ui.right.floated.icon.button.pink
                   i.woman.icon.right.floated
-              .header= row["firstname"].substring(0,25) + " " + row["lastname"].substring(0,25)
+              .header
+                span= row["firstname"].substring(0,25) + " " + row["lastname"].substring(0,25)
               .meta
                 span#age= row["age"] + " ans."
                 br

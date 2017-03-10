@@ -5,8 +5,8 @@ html
       .ui.primary.big.left.floated.button(onclick="openNotif()" style="left:0; position:fixed; top:0;")
         i.content.icon
         span.text Notif
-      .ui.left.fixed.vertical.menu.notifBar(style="visibility: hidden; padding-top:10px;")
-        <a href="javascript:void(0)" onclick="closeNotif()" style="font-size: 60px; position:fixed; top:0; z-index:1000;">&times;</a>
+      .ui.left.fixed.vertical.menu.notifBar(style="width:0;")
+        .ui.top.attached.button.primary(onclick="closeNotif()") Fermer
         .ui.cards.notif(style="margin: 0;")
           each notif in notifs
             .card.fluid.not
@@ -22,13 +22,12 @@ html
       script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
       script(src="/javascripts/active.js")
       script(src="/socket.io/socket.io.js")
-      a#titre(href="/")= "Matcha"
-      br
-      br
+      .center
+        a#titre(href="/")= "Matcha"
       if (user)
-        .ui.menu#grey
+        .ui.menu.big#grey
           a.item#index(href="/") Index
-            a.item#u(href="/u") Utilisateurs
+          a.item#u(href="/u") Utilisateurs
           .right.menu
             if (user)
               a.item#profil(href="/profil") Profil
@@ -38,24 +37,28 @@ html
               a.item#register(href="/register") Nouveau ?
       if (locals && locals.error)
         .ui.error.message
-          .header Erreur
+          .header
+            span Erreur
           i.close.icon
-          p= locals.error
+          span= locals.error
       if (locals && locals.success)
         .ui.success.message
-          .header Message
+          .header
+            span Message
           i.close.icon
-          p= locals.success
+          span= locals.success
       if (locals && locals.warning)
         .ui.warning.message
-          .header Message
+          .header
+            span Message
           i.close.icon
-          p= locals.warning
+          span= locals.warning
       if (locals && locals.info)
         .ui.info.message
-          .header Info
+          .header
+            span Info
           i.close.icon
-          p= locals.info
+          span= locals.info
       br
       if (user)
         script.

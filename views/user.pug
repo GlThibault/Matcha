@@ -7,8 +7,8 @@ block content
       .ui.primary.big.right.floated.button(onclick="openChat()" style="right:0; position:fixed; top:0;")
         i.content.icon
         span.text Chat
-      .ui.right.fixed.vertical.menu.chatBar(style="width:0; padding-top:10px;")
-        <a href="javascript:void(0)" onclick="closeChat()" style="font-size: 60px; position:fixed; top:0; z-index:1000;">&times;</a>
+      .ui.right.fixed.vertical.menu.chatBar(style="width:0;")
+        .ui.top.attached.button.primary(onclick="closeChat()") Fermer
         .chatArea
           ul.messages
             each message in messages
@@ -34,21 +34,26 @@ block content
       .ui.label.pink#like Cet utilisateur vous like.
     .ui.card.fluid#grey
       .content
-        a.header= data.firstname + " " + data.lastname
+        a.header
+          span= data.firstname + " " + data.lastname
         .meta
           if (data.age)
             span.category= data.age + " ans."
           span.category.right.floated= data.orientation
-        .description= data.bio
+        .description
+          span= data.bio
         .ui.labeled.icon.button.red.right.floated
           i.heart.icon
           p= pop
       if data.username != user
-        a(href="/report/" + data.username style="text-align: right;") Signaler comme faux compte
+        a(href="/report/" + data.username style="text-align: right;")
+          span Signaler comme faux compte
         if block == 0
-          a(href="/block/" + data.username style="text-align: right;") Bloquer l'utilisateur
+          a(href="/block/" + data.username style="text-align: right;")
+            span Bloquer l'utilisateur
         else
-          a(href="/block/" + data.username style="text-align: right;") Débloquer l'utilisateur
+          a(href="/block/" + data.username style="text-align: right;")
+            span Débloquer l'utilisateur
       div(style="padding: 3px;")
         each tag in tags
           .ui.label.yellow(style="margin-top: 5px;")= tag["tag"]

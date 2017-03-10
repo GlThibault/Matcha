@@ -70,30 +70,31 @@ block content
     h2.ui.dividing.header Images
     .ui.link.cards
       while j < 5
-        .card#grey
+        .card#grey(style="width:auto;")
           .extra.content
             if j == 0
               label= "Photo de profil"
             else
               label= "Images " + j
           if (j == 0 && locals.data.pic0)
-            a.image(href=data.pic0)
+            a.image.pic(href=data.pic0)
               img(src=locals.data.pic0)
           if (j == 1 && locals.data.pic1)
-            a.image(href=data.pic1)
+            a.image.pic(href=data.pic1)
               img(src=locals.data.pic1)
           if (j == 2 && locals.data.pic2)
-            a.image(href=data.pic2)
+            a.image.pic(href=data.pic2)
               img(src=locals.data.pic2)
           if (j == 3 && locals.data.pic3)
-            a.image(href=data.pic3)
+            a.image.pic(href=data.pic3)
               img(src=locals.data.pic3)
           if (j == 4 && locals.data.pic4)
-            a.image(href=data.pic4)
+            a.image.pic(href=data.pic4)
               img(src=locals.data.pic4)
+          br
           form#fileUpload(method="post" action="/upload/pic" + j enctype="multipart/form-data")
-            label(for="payload") Changer l'image:
-            input#payload.ui(type="file" name="myFile" accept="image/*")
+            label(for="payload") Changer l'image : 
+            input#payload.ui(type="file" name="myFile" accept="image/*" size="200%")
             br
             br
             button#upload.primary.button.ui.fluid Upload

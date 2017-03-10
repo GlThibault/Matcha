@@ -1,37 +1,35 @@
 body {
-  padding: 40px;
+    padding: 40px;
 }
 
 #titre {
-  padding: 10px;
-  margin-left: 80px;
-  font: 60px "Lucida Grande", Helvetica, Arial, sans-serif;
-  color: #de7aa0;
-  font-style: normal;
-  text-decoration: none;
+    font: 100px "Lucida Grande", Helvetica, Arial, sans-serif;
+    color: #de7aa0;
+    font-style: normal;
+    text-decoration: none;
 }
 
 #frame {
-  padding: 0;
-  border-radius: 5px;
-  border: 1px solid rgba(100, 100, 100, 0.15);
-  background-color: rgba(82, 82, 82, 0.15);
-  transition: 0.5s;
+    padding: 0;
+    border-radius: 5px;
+    border: 1px solid rgba(100, 100, 100, 0.15);
+    background-color: rgba(82, 82, 82, 0.15);
+    transition: 0.5s;
 }
 
 #grey {
-  border: 1px solid rgba(100, 100, 100, 0.15);
-  background-color: rgba(82, 82, 82, 0.15);
-  transition: 0.5s;
+    border: 1px solid rgba(100, 100, 100, 0.15);
+    background-color: rgba(82, 82, 82, 0.15);
+    transition: 0.5s;
 }
 
 #map {
-  height: 400px;
+    height: 400px;
 }
 
 #gold {
-  background-color: rgb(145, 186, 76);
-  color: #fff;
+    background-color: rgb(145, 186, 76);
+    color: #fff;
 }
 
 .container {
@@ -53,14 +51,64 @@ body {
 }
 
 #filter {
-  border: 1px solid rgb(220, 220, 220);
-  border-radius: 10px;
+    border: 1px solid rgb(220, 220, 220);
+    border-radius: 10px;
 }
 
 #ML {
-  margin-left: 5px;
+    margin-left: 5px;
 }
 
 .hidden {
-  visibility: hidden;
+    visibility: hidden;
+}
+
+.center {
+    text-align: center;
+}
+
+.pic {
+    max-width: 400px;
+}
+
+@media only screen and (max-device-width: 480px) {
+    html {
+        font-size: 180%;
+        line-height: 100%;
+    }
+    body {
+        padding: 0px;
+    }
+    .notifBar {
+        transition: 0s;
+    }
+    .chatBar {
+        transition: 0s;
+    }
+    li.message {
+        padding: 7px;
+    }
+    label {
+        font-size: 30px;
+        line-height: 100%;
+    }
+    span {
+        font-size: 30px;
+        line-height: 100%;
+    }
+    input {
+        font-size: 25px;
+    }
+    .ui.grid {
+        margin: 0;
+    }
+    .ui.link.cards {
+        margin: 0;
+    }
+    .ui.form .fields {
+        margin: 0;
+    }
+    .pic {
+        max-width: none;
+    }
 }

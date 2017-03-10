@@ -1,28 +1,40 @@
 $(function() {
-  var url = location.pathname.slice(1)
-  if (url)
-    var item = document.getElementById(url);
-  else
-    var item = document.getElementById('index');
-  if (item)
-    item.className += " active";
+    var url = location.pathname.slice(1)
+    if (url)
+        var item = document.getElementById(url);
+    else
+        var item = document.getElementById('index');
+    if (item)
+        item.className += " active";
 
-  $('.message .close')
-    .on('click', function() {
-      $(this)
-        .closest('.message')
-        .fadeOut(350)
-      ;
-    })
-  ;
+    $('.message .close')
+        .on('click', function() {
+            $(this)
+                .closest('.message')
+                .fadeOut(350);
+        });
 })
 
 function openNotif() {
-    $(".notifBar").css({'width' : "250px", 'visibility': 'visible'});
-    $(".container").css({'marginLeft' : "250px"});
+    if (screen.width <= 480)
+        $(".notifBar").css({
+            'width': "100%"
+        });
+    else {
+        $(".notifBar").css({
+            'width': "250px"
+        });
+        $(".container").css({
+            'marginLeft': "250px"
+        });
+    }
 }
 
 function closeNotif() {
-    $(".notifBar").css({'width' : "0px", 'visibility': 'hidden'});
-    $(".container").css({'marginLeft' : "0px"});
+    $(".notifBar").css({
+        'width': "0px"
+    });
+    $(".container").css({
+        'marginLeft': "0px"
+    });
 }

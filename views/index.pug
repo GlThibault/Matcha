@@ -37,12 +37,14 @@ block content
                   .content
                     br
                     if visit["sexe"] == "Homme"
-                      a.header(href="/u/" + visit["username"] style="color: #318CE7;")= visit["firstname"] + " " + visit["lastname"]
+                      a.header(href="/u/" + visit["username"] style="color: #318CE7;")
+                        span= visit["firstname"] + " " + visit["lastname"]
                     else
-                      a.header(href="/u/" + visit["username"] style="color: #FD3F62;")= visit["firstname"] + " " + visit["lastname"]
+                      a.header(href="/u/" + visit["username"] style="color: #FD3F62;")
+                        span= visit["firstname"] + " " + visit["lastname"]
                     .meta
                       if visit["bio"] && visit["bio"].length > 200
-                        span= visit["bio"].substring(0,300)+" ..."
+                        span.bio= visit["bio"].substring(0,300)+" ..."
                       else
                         span= visit["bio"]
                     .extra
@@ -68,9 +70,11 @@ block content
                   .content
                     br
                     if like["sexe"] == "Homme"
-                      a.header(href="/u/" + like["username"] style="color: #318CE7;")= like["firstname"] + " " + like["lastname"]
+                      a.header(href="/u/" + like["username"] style="color: #318CE7;")
+                        span= like["firstname"] + " " + like["lastname"]
                     else
-                      a.header(href="/u/" + like["username"] style="color: #FD3F62;")= like["firstname"] + " " + like["lastname"]
+                      a.header(href="/u/" + like["username"] style="color: #FD3F62;")
+                        span= like["firstname"] + " " + like["lastname"]
                     .meta
                       if like["bio"] && like["bio"].length > 200
                         span= like["bio"].substring(0,300)+" ..."
