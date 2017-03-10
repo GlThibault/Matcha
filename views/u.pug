@@ -46,7 +46,7 @@ block content
     span.hidden#userlon= userlon
     each tag in tags
       if tag["username"] == username.toLowerCase()
-        .mytags.hidden(data-tag=tag["tag"])= tag["tag"]
+        span.mytags.hidden(data-tag=tag["tag"])= tag["tag"]
     .filtertag
     .ui.link.cards.users
       each row in rows
