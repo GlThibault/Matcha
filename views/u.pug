@@ -7,23 +7,30 @@ block content
   script(src="/javascripts/distance.js")
   script(src="/javascripts/users.js")
   .container
-    .ui.grid
-      .height.wide.column
-        label(for="amount-age") Filtrer par âge :
-        input(type="text" id="amount-age" readonly style="border:0; color:#f6931f; font-weight:bold;")
-        #slider-range-age
-      .height.wide.column
-        label(for="amount-pop") Filtrer par popularité :
-        input(type="text" id="amount-pop" readonly style="border:0; color:#f6931f; font-weight:bold;")
-        #slider-range-pop
-      .height.wide.column
-        label(for="amount-dist") Filtrer par distance (km) :
-        input(type="text" id="amount-dist" readonly style="border:0; color:#f6931f; font-weight:bold;")
-        #slider-range-dist
-      .left.floated
-        button.ui.button.primary#validate Filtrer
+    #filter
+      br
+      .ui.grid
+        .height.wide.column
+          label#ML(for="amount-age") Filtrer par âge :
+          input(type="text" id="amount-age" readonly style="border:0; color:#f6931f; font-weight:bold;")
+          #slider-range-age(style="margin: 15px")
+        .height.wide.column
+          label#ML(for="amount-pop") Filtrer par popularité :
+          input(type="text" id="amount-pop" readonly style="border:0; color:#f6931f; font-weight:bold;")
+          #slider-range-pop(style="margin: 15px")
+        .height.wide.column
+          label#ML(for="amount-dist") Filtrer par distance (km) :
+          input(type="text" id="amount-dist" readonly style="border:0; color:#f6931f; font-weight:bold;")
+          #slider-range-dist(style="margin: 15px")
+      br
+      label#ML Filtrer par tags : 
+      each tag in alltags
+        .ui.label.lightgrey.button.trans(onclick="sorttag(this)" style="margin-top: 5px;" data-tag=tag["tag"])= tag["tag"]
+      br
+      br
+      .ui.bottom.attached.button.primary#validate Filtrer
     br
-    .ui.clearing.divider
+    br
     .ui.grid
       .right.floated.right.aligned
         span= "Trier par : "
@@ -33,11 +40,9 @@ block content
           button.ui.button#distAscending Dist
           button.ui.button#tagsAscending Tags
     br
-    each tag, index in alltags
-      button.ui.label.yellow(onclick="sorttag(" + tag["tag"] + ")" style="margin-top: 5px;")= tag["tag"]
-    br
-    span#userlat(style="visibility: hidden")= userlat
-    span#userlon(style="visibility: hidden")= userlon
+    span.hidden#userlat= userlat
+    span.hidden#userlon= userlon
+    .filtertag
     .ui.link.cards.users
       each row in rows
         each block in blocks
@@ -61,8 +66,8 @@ block content
                 span= "Distance : "
                 span#dist
                 span km
-                span#lat(style="visibility: hidden")= row["lat"]
-                span#lon(style="visibility: hidden")= row["lon"]
+                span#lat.hidden= row["lat"]
+                span#lon.hidden= row["lon"]
               .description
                 if row["bio"] && row["bio"].length > 699
                   span= row["bio"].substring(0,699)+" ..."
@@ -71,7 +76,7 @@ block content
             .extra.content(style="padding:0;")
               each tag in tags
                 if tag["username"] == row["username"].toLowerCase()
-                  .ui.label.yellow.tags= tag["tag"]
+                  .ui.label.yellow.tags(data-tag=tag["tag"])= tag["tag"]
             .extra.content
               .ui.labeled.icon.button.red
                 i.heart.icon

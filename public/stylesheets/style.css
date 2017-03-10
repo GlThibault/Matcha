@@ -40,10 +40,27 @@ body {
 
 .notifBar {
     transition: 0.5s;
-        overflow: auto;
+    overflow: auto;
 }
 
 .chatBar {
     transition: 0.5s;
     overflow: auto;
+}
+
+.trans {
+    transition: 0.5s;
+}
+
+#filter {
+  border: 1px solid rgb(220, 220, 220);
+  border-radius: 10px;
+}
+
+#ML {
+  margin-left: 5px;
+}
+
+.hidden {
+  visibility: hidden;
 }
