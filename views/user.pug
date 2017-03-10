@@ -4,7 +4,7 @@ block content
   script(src="/javascripts/chat.js")
   .container
     if liked > 0
-      .ui.primary.big.right.floated.button(onclick="openChat()" style="right:0; position:fixed; top:0;")
+      .ui.primary.big.right.floated.button(onclick="openChat()" style="right:0; position:fixed; top:0; z-index:30;")
         i.content.icon
         span.text Chat
       .ui.right.fixed.vertical.menu.chatBar(style="width:0;")

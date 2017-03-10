@@ -111,4 +111,7 @@ body {
     .pic {
         max-width: none;
     }
+    .container2 {
+        padding: 40px;
+    }
 }

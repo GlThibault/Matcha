@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  .container
+  .container.container2
     .ui.equal.width.form
       h2.ui.dividing.header Créer un compte pour accéder au site
       form(method="POST" action="/register")
@@ -30,8 +30,9 @@ block content
             label Prénom:
             input(type="text", placeholder="Prénom" name="firstname" required tabindex="6")
         br
-        button.ui.primary.submit.button.fluid.large(type="submit" required tabindex="7") Valider
+        button.ui.primary.submit.button.fluid.massive(type="submit" required tabindex="7") Valider
     .ui.dividing.header
+    br
     div(style="text-align:center")
       a(href="/login")
         button.ui.yellow.button.massive.centered.aligned(tabindex="8") Déjà membre ? Connectez vous.
