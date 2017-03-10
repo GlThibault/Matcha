@@ -44,12 +44,12 @@ $(function() {
             var ret = 1
             $.each(arrayclasses, function(index, val) {
                 if (index > 0) {
-                  var i = 0;
+                    var i = 0;
                     while (tag[i] && tag[i].getAttribute("data-tag") != val)
-                      i++;
-                    if (!tag[i] || tag[i].getAttribute("data-tag") != val){
+                        i++;
+                    if (!tag[i] || tag[i].getAttribute("data-tag") != val) {
                         ret = 0;
-                      }
+                    }
                 }
             })
             if ($("#slider-range-dist").slider("values", 0) != 0 || $("#slider-range-dist").slider("values", 1) != 500)
@@ -78,6 +78,9 @@ $(function() {
     $("#distAscending").click(function() {
         $('.users .user').sort(distAscending).appendTo('.users')
     })
+    $("#tagsDescending").click(function() {
+        $('.users .user').sort(tagsDescending).appendTo('.users')
+    })
 })
 
 function ageAscending(a, b) {
@@ -90,6 +93,35 @@ function popDescending(a, b) {
 
 function distAscending(a, b) {
     return parseInt($(a).find("#dist").text()) > parseInt($(b).find("#dist").text())
+}
+
+function tagsDescending(a, b) {
+    var nb_a = 0;
+    var nb_b = 0;
+    var arrayclasses = document.querySelectorAll(".mytags")
+    var tag = a.querySelectorAll(".tags")
+    $.each(arrayclasses, function(index, val) {
+        val = val.getAttribute("data-tag")
+        if (index > 0) {
+            var i = 0;
+            while (tag[i] && tag[i].getAttribute("data-tag") != val)
+                i++;
+            if (tag[i] && tag[i].getAttribute("data-tag") == val)
+                nb_a++;
+        }
+    })
+    var tag = b.querySelectorAll(".tags")
+    $.each(arrayclasses, function(index, val) {
+        val = val.getAttribute("data-tag")
+        if (index > 0) {
+            var i = 0;
+            while (tag[i] && tag[i].getAttribute("data-tag") != val)
+                i++;
+            if (tag[i] && tag[i].getAttribute("data-tag") == val)
+                nb_b++;
+        }
+    })
+    return nb_a < nb_b
 }
 
 function sorttag(value) {

@@ -33,10 +33,11 @@ router.get('/', function(req, res, next) {
         connection.query('SELECT * FROM block WHERE username = ?', [req.session.user], (err, rows, result) => {
             if (err) console.log(err)
             res.locals.blocks = rows
-            connection.query('SELECT lat, lon FROM users WHERE username = ? LIMIT 1', [req.session.user], (err, coords, result) => {
+            connection.query('SELECT lat, lon, username FROM users WHERE username = ? LIMIT 1', [req.session.user], (err, coords, result) => {
                 if (err) console.log(err)
                 res.locals.userlat = coords[0].lat
                 res.locals.userlon = coords[0].lon
+                res.locals.username = coords[0].username
                 connection.query("SELECT distinct tag FROM tag", (err, rows, result) => {
                     if (err) console.log(err)
                     res.locals.alltags = rows

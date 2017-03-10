@@ -39,11 +39,14 @@ block content
           button.ui.button#ageAscending Age
           button.ui.button#popDescending Pop
           button.ui.button#distAscending Dist
-          button.ui.button#tagsAscending Tags
+          button.ui.button#tagsDescending Tags
     br
     br
     span.hidden#userlat= userlat
     span.hidden#userlon= userlon
+    each tag in tags
+      if tag["username"] == username.toLowerCase()
+        .mytags.hidden(data-tag=tag["tag"])= tag["tag"]
     .filtertag
     .ui.link.cards.users
       each row in rows
