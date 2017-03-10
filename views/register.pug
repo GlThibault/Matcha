@@ -1,36 +1,37 @@
 extends layout
 
 block content
+  script(src="/javascripts/register.js")
   .container.container2
     .ui.equal.width.form
       h2.ui.dividing.header Créer un compte pour accéder au site
       form(method="POST" action="/register")
         .field
           label Nom d"utilisateur:
-          input(type="text", placeholder="Nom d'utilisateur" name="username" autofocus="autofocus" required tabindex="1")
+          input#username(type="text", placeholder="Nom d'utilisateur" name="username" autofocus="autofocus" required tabindex="1")
         .fields
           .field
             label Mot de passe:
-            input(type="password" placeholder="Mot de passe" name="password" required tabindex="2")
+            input#password(type="password" placeholder="Mot de passe" name="password" required tabindex="2")
           .field
             label Confirmation du mot de passe:
-            input(type="password" placeholder="Mot de passe" name="confirmPassword" required tabindex="3")
+            input#confirmpassword(type="password" placeholder="Mot de passe" name="confirmPassword" required tabindex="3")
         br
         span Le mot de passe doit contenir des majuscules, des chiffres et des minuscules et faire plus de 6 charactères.
         br
         br
         .field
           label Email:
-          input(type="email", placeholder="nom@email.com" name="email" required tabindex="4")
+          input#email(type="email", placeholder="nom@email.com" name="email" required tabindex="4")
         .fields
           .field
             label Nom:
-            input(type="text", placeholder="Nom" name="lastname" required tabindex="5")
+            input#lastname(type="text", placeholder="Nom" name="lastname" required tabindex="5")
           .field
             label Prénom:
-            input(type="text", placeholder="Prénom" name="firstname" required tabindex="6")
+            input#firstname(type="text", placeholder="Prénom" name="firstname" required tabindex="6")
         br
-        button.ui.primary.submit.button.fluid.massive(type="submit" required tabindex="7") Valider
+        button.ui.primary.submit.button.fluid.massive#btnSubmit(type="submit" required tabindex="7") Valider
     .ui.dividing.header
     br
     div(style="text-align:center")
