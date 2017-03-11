@@ -71,6 +71,10 @@ body {
     max-width: 400px;
 }
 
+.ui.menu.big {
+  min-width: 430px;
+}
+
 @media only screen and (max-device-width: 480px) {
     html {
         font-size: 180%;
