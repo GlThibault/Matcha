@@ -9,10 +9,8 @@ router.post('/add', function(req, res, next) {
             if (result[0].count == 0) {
                 connection.query('INSERT INTO tag SET username = ?, tag = ?', [req.session.user, req.body.tag], (err, result) => {
                     if (err) console.log(err)
-                  res.redirect('/profil')
                 })
-            } else
-                res.redirect('/profil')
+            }
         })
     } else if (req.session && req.session.user) {
         req.session.error = "Vous devez renseigner un tag."
