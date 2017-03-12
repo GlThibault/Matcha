@@ -62,7 +62,7 @@ router.get('/', function(req, res, next) {
 })
 
 router.get('/:username', function(req, res, next) {
-    if (req.session && req.session.user) {
+    if (req.session && req.session.user && req.session.firstname && req.session.lastname) {
         if (req.session.error) {
             res.locals.error = req.session.error
             req.session.error = undefined
@@ -78,17 +78,13 @@ router.get('/:username', function(req, res, next) {
         connection.query('SELECT username FROM users WHERE username = ? LIMIT 1', [req.params.username], (err, rows, result) => {
             if (err) console.log(err)
             if (rows[0]) {
-                connection.query('SELECT * FROM visits WHERE username = ? AND visited = ? LIMIT 1', [req.session.user, req.params.username], (err, rows, result) => {
+                connection.query('INSERT INTO visits SET username = ?, visited = ?', [req.session.user, req.params.username], (err, result) => {
                     if (err) console.log(err)
-                    if (!rows[0] && req.session.user != req.params.username)
-                        connection.query('INSERT INTO visits SET username = ?, visited = ?', [req.session.user, req.params.username], (err, result) => {
-                            if (err) console.log(err)
-                            var notification = req.session.firstname + " " + req.session.lastname + " a visité votre profil."
-                            connection.query('INSERT INTO notif SET username = ?, sender = ?, notification = ?, date = ?', [req.params.username, req.session.user, notification, new Date()], (err, result) => {
-                                if (err) console.log(err)
-                                res.io.to(global.people[req.params.username]).emit('notif', notification)
-                            })
-                        })
+                    var notification = req.session.firstname + " " + req.session.lastname + " a visité votre profil."
+                    connection.query('INSERT INTO notif SET username = ?, sender = ?, notification = ?, date = ?', [req.params.username, req.session.user, notification, new Date()], (err, result) => {
+                        if (err) console.log(err)
+                        res.io.to(global.people[req.params.username]).emit('notif', notification)
+                    })
                 })
             }
         })

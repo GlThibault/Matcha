@@ -4,10 +4,10 @@ var session = require('express-session')
 var connection = require('../config/db')
 
 router.get('/:username', function(req, res, next) {
-    if (req.session && req.session.user == req.params.username) {
+    if (req.session && req.params.username && req.session.user == req.params.username) {
         req.session.error = "Vous ne pouvez pas vous like."
         res.redirect('../u/' + req.params.username)
-    } else if (req.session && req.session.user && req.session.pic0 && req.session.valid) {
+    } else if (req.session && req.session.user &&  req.params.username && req.session.pic0 && req.session.valid) {
         connection.query('SELECT COUNT(*) AS count FROM likes WHERE username = ? AND liked = ?', [req.session.user, req.params.username], (err, result) => {
             if (err) console.log(err)
             if (result[0].count == 0) {

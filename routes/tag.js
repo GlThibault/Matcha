@@ -3,18 +3,20 @@ var router = express.Router()
 var connection = require('../config/db')
 
 router.post('/add', function(req, res, next) {
-    if (req.session && req.session.user) {
+    if (req.session && req.session.user && req.body.tag) {
         connection.query('SELECT COUNT(*) AS count FROM tag WHERE username = ? AND tag = ?', [req.session.user, req.body.tag], (err, result) => {
             if (err) console.log(err)
             if (result[0].count == 0) {
                 connection.query('INSERT INTO tag SET username = ?, tag = ?', [req.session.user, req.body.tag], (err, result) => {
                     if (err) console.log(err)
-                    res.redirect('/profil')
+                  res.redirect('/profil')
                 })
-            }
-            else
-              res.redirect('/profil')
+            } else
+                res.redirect('/profil')
         })
+    } else if (req.session && req.session.user) {
+        req.session.error = "Vous devez renseigner un tag."
+        res.redirect('/profil')
     } else {
         req.session.error = "Vous devez être connecté pour accéder a cette page."
         res.redirect('/login')
@@ -22,7 +24,7 @@ router.post('/add', function(req, res, next) {
 })
 
 router.get('/del/:tag', function(req, res, next) {
-    if (req.session && req.session.user) {
+    if (req.session && req.session.user && req.params.tag) {
         connection.query('SELECT COUNT(*) AS count FROM tag WHERE username = ? AND tag = ?', [req.session.user, req.params.tag], (err, result) => {
             if (err) console.log(err)
             if (result[0].count != 0) {
@@ -32,6 +34,9 @@ router.get('/del/:tag', function(req, res, next) {
                 })
             }
         })
+    } else if (req.session && req.session.user) {
+        req.session.error = "Vous devez renseigner un tag."
+        res.redirect('/profil')
     } else {
         req.session.error = "Vous devez être connecté pour accéder a cette page."
         res.redirect('/login')

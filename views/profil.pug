@@ -61,7 +61,8 @@ block content
           h2.ui.dividing.header Tags
           form(method="POST" action="/tag/add")
             input(type="text" placeholder="tag" name="tag" required tabindex="15" style="margin-right: 10px;")
-            button.ui.primary.submit.button(type="submit" required tabindex="16") Ajouter un tag
+            button.ui.primary.submit.button#tag(type="submit" required tabindex="16") Ajouter un tag
+          .result
           br
           each tag in tags
             .ui.label.yellow(style="margin-top: 5px;")= tag["tag"]
@@ -127,3 +128,10 @@ block content
             break;
           }
         }
+        $(function() {
+          $('#tag').submit(function(event) {
+            event.preventDefault();
+            $.post( "/tag/add", function( data ) {
+            });
+          })
+        })

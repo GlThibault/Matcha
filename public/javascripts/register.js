@@ -17,7 +17,7 @@ $(function() {
             password.setCustomValidity("Erreur: votre mot de passe doit contenir au moins un chiffre")
         else if (password.value.search(/[a-z]/) == -1)
             password.setCustomValidity("Erreur: votre mot de passe doit contenir au moins une minuscule")
-        else if (password.value.search(/[a-z]/) == -1)
+        else if (password.value.search(/[A-Z]/) == -1)
             password.setCustomValidity("Erreur: votre mot de passe doit contenir au moins une majuscule")
         else if (password.value.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+\.\,\\:]/) != -1)
             password.setCustomValidity("Erreur: votre mot de passe ne peux pas contenir d'autres charactères que a-z A-Z 0-9 ! @ # $ % ^ & * ( ) _ + . ,  :")
