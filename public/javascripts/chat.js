@@ -35,6 +35,7 @@ function openChat() {
             'marginRight': "250px"
         });
     }
+    $(".openChat").fadeOut(0)
     $('.messages')[0].scrollTop = $('.messages')[0].scrollHeight;
 }
 
@@ -45,4 +46,5 @@ function closeChat() {
     $(".container").css({
         'marginRight': "0px"
     });
+    $(".openChat").fadeIn(800)
 }

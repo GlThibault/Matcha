@@ -2,7 +2,7 @@ doctype html
 html
   head
     if (user && notifs)
-      .ui.primary.big.left.floated.button(onclick="openNotif()" style="left:0; position:fixed; top:0; z-index:30;")
+      .ui.primary.big.left.floated.button.openNotif(onclick="openNotif()" style="left:0; position:fixed; top:0; z-index:30;")
         i.content.icon
         span.text Notif
       .ui.left.fixed.vertical.menu.notifBar(style="width:0;")
@@ -26,15 +26,17 @@ html
         a#titre(href="/")= "Matcha"
       if (user)
         .ui.menu.big#grey
-          a.item#index(href="/") Index
-          a.item#u(href="/u") Utilisateurs
+          a.item#index(href="/")
+            i.icon.home
+          a.item#u(href="/u")
+            i.icon.users
           .right.menu
-            if (user)
-              a.item#profil(href="/profil") Profil
-              a.item#logout(href="/logout") Déconnection
-            else
-              a.item#login(href="login") Connection
-              a.item#register(href="/register") Nouveau ?
+            a.item.tooltip#search(href="/search")
+              i.icon.search
+            a.item.tooltip#profil(href="/profil")
+              i.icon.setting
+            a.item.tooltip#logout(href="/logout")
+              i.icon.sign.out
       if (locals && locals.error)
         .ui.error.message
           .header

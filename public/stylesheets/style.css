@@ -1,5 +1,6 @@
 body {
     padding: 40px;
+    padding-top: 0;
 }
 
 #titre {
@@ -7,6 +8,13 @@ body {
     color: #de7aa0;
     font-style: normal;
     text-decoration: none;
+    padding: 0;
+    top: 0;
+    transition: 1s;
+}
+
+#titre:hover {
+  color: #ef8bb1;
 }
 
 #frame {
@@ -72,7 +80,8 @@ body {
 }
 
 .ui.menu.big {
-  min-width: 430px;
+  min-width: 350px;
+  margin-top: 0;
 }
 
 @media only screen and (max-device-width: 480px) {

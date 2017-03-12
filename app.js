@@ -29,6 +29,7 @@ var index = require('./routes/index'),
     block = require('./routes/block'),
     report = require('./routes/report'),
     loc = require('./routes/loc'),
+    search = require('./routes/search'),
     tag = require('./routes/tag')
 
 
@@ -54,7 +55,7 @@ var sessionMiddleware = {
     secret: 'ZBm9235Ymx4a',
     resave: true,
     saveUninitialized: true,
-    cookie: {maxAge: 2592000000} 
+    cookie: {maxAge: 2592000000}
 }
 app.use(session(sessionMiddleware))
 var socketSession = socketIOSession(sessionMiddleware)
@@ -104,6 +105,7 @@ app.use('/block', block)
 app.use('/report', report)
 app.use('/loc', loc)
 app.use('/tag', tag)
+app.use('/search', search)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -77,7 +77,7 @@ router.get('/:username', function(req, res, next) {
         }
         connection.query('SELECT username FROM users WHERE username = ? LIMIT 1', [req.params.username], (err, rows, result) => {
             if (err) console.log(err)
-            if (rows[0]) {
+            if (rows[0] && req.session.user != req.params.username) {
                 connection.query('INSERT INTO visits SET username = ?, visited = ?', [req.session.user, req.params.username], (err, result) => {
                     if (err) console.log(err)
                     var notification = req.session.firstname + " " + req.session.lastname + " a visité votre profil."

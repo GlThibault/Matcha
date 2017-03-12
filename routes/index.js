@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
                 connection.query('SELECT likes.username, users.pic0, users.lastname, users.firstname, users.sexe, users.bio, users.age FROM likes LEFT JOIN users ON likes.username=users.username WHERE liked = ? ORDER BY likes.id DESC', [req.session.user], (err, rows, result) => {
                     if (err) console.log(err)
                     res.locals.likes = rows
-                    connection.query('SELECT visits.username, users.pic0, users.lastname, users.firstname, users.sexe, users.bio, users.age FROM visits LEFT JOIN users ON visits.username=users.username WHERE visited = ? ORDER BY visits.id DESC', [req.session.user], (err, rows, result) => {
+                    connection.query('SELECT distinct visits.username, users.pic0, users.lastname, users.firstname, users.sexe, users.bio, users.age FROM visits LEFT JOIN users ON visits.username=users.username WHERE visited = ?', [req.session.user], (err, rows, result) => {
                         if (err) console.log(err)
                         res.locals.visits = rows
                         connection.query('SELECT * FROM users WHERE username = ? LIMIT 1', [req.session.user], (err, rows, result) => {

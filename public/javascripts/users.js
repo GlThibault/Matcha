@@ -35,7 +35,7 @@ $(function() {
     })
 
     $("#validate").click(function() {
-        $('.users .user').hide().filter(function() {
+        $('.cards.users .user').hide().filter(function() {
             var age = parseInt($(this).find("#age").text())
             var pop = parseInt($(this).find("#pop").text())
             var dist = parseInt($(this).find("#dist").text())
@@ -70,16 +70,16 @@ $(function() {
     })
 
     $("#ageAscending").click(function() {
-        $('.users .user').sort(ageAscending).appendTo('.users')
+        $('.cards.users .user').sort(ageAscending).appendTo('.cards.users')
     })
     $("#popDescending").click(function() {
-        $('.users .user').sort(popDescending).appendTo('.users')
+        $('.cards.users .user').sort(popDescending).appendTo('.cards.users')
     })
     $("#distAscending").click(function() {
-        $('.users .user').sort(distAscending).appendTo('.users')
+        $('.cards.users .user').sort(distAscending).appendTo('.cards.users')
     })
     $("#tagsDescending").click(function() {
-        $('.users .user').sort(tagsDescending).appendTo('.users')
+        $('.cards.users .user').sort(tagsDescending).appendTo('.cards.users')
     })
 })
 

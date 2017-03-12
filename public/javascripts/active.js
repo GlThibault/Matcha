@@ -28,6 +28,7 @@ function openNotif() {
             'marginLeft': "250px"
         });
     }
+    $(".openNotif").fadeOut(0)
 }
 
 function closeNotif() {
@@ -37,4 +38,5 @@ function closeNotif() {
     $(".container").css({
         'marginLeft': "0px"
     });
+    $(".openNotif").fadeIn(800)
 }
