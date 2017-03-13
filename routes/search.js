@@ -4,9 +4,13 @@ var router = express.Router()
 
 router.get('/', function(req, res, next) {
     if (req.session && req.session.user) {
-      res.render('search', {
-          title: 'Recherches'
-      })
+        connection.query("SELECT distinct tag FROM tag", (err, rows, result) => {
+            if (err) console.log(err)
+            res.locals.alltags = rows
+            res.render('search', {
+                title: 'Recherches'
+            })
+        })
     } else {
         req.session.error = "Vous devez être connecté pour accéder a cette page."
         res.redirect('/login')

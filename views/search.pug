@@ -1,5 +1,30 @@
 extends layout
 
 block content
-  .container
-    h1 WIP
+  script(src="/javascripts/users.js")
+  script(src="/javascripts/search.js")
+  .container.container2
+    h2.ui.dividing.header Recherche avancée
+    #filter
+      .filtertag
+      form(method="POST" action="/result")
+        .ui.grid
+          .height.wide.column
+            label#ML(for="amount-age") Filtrer par âge :
+            input(type="text" id="amount-age" readonly style="border:0; color:#f6931f; font-weight:bold;")
+            #slider-range-age(style="margin: 15px")
+          .height.wide.column
+            label#ML(for="amount-pop") Filtrer par popularité :
+            input(type="text" id="amount-pop" readonly style="border:0; color:#f6931f; font-weight:bold;")
+            #slider-range-pop(style="margin: 15px")
+          .height.wide.column
+            label#ML(for="amount-dist") Filtrer par distance (km) :
+            input(type="text" id="amount-dist" readonly style="border:0; color:#f6931f; font-weight:bold;")
+            #slider-range-dist(style="margin: 15px")
+        br
+        label#ML Rechercher par tags : 
+        each tag in alltags
+          .ui.label.lightgrey.button.trans(onclick="sorttag(this)" style="margin-top: 5px;" data-tag=tag["tag"])= tag["tag"]
+        br
+        br
+        button.ui.primary.submit.button.fluid.large.attached.bottom#submit(type="submit") Rechercher

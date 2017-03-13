@@ -1,11 +1,9 @@
-extends layout
-
 block content
-  - var blocked = 0
-  script(src="/javascripts/distance.js")
-  script(src="/javascripts/users.js")
-  .container.container2
-    h2.ui.dividing.header Match
+  .container
+    - var blocked = 0
+    script(src="/javascripts/distance.js")
+    script(src="/javascripts/users.js")
+    h2.ui.dividing.header Résultat de la recherche
     #filter
       br
       .ui.grid
@@ -27,7 +25,7 @@ block content
         .ui.label.lightgrey.button.trans(onclick="sorttag(this)" style="margin-top: 5px;" data-tag=tag["tag"])= tag["tag"]
       br
       br
-      .ui.bottom.attached.button.primary#validate Filtrer
+      .ui.bottom.attached.button.primary#validate Filtrer la recherche
     br
     br
     .ui.grid

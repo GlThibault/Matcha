@@ -2,11 +2,7 @@ doctype html
 html
   head
     if (user && notifs)
-      .ui.primary.big.left.floated.button.openNotif(onclick="openNotif()" style="left:0; position:fixed; top:0; z-index:30;")
-        i.content.icon
-        span.text Notif
-      .ui.left.fixed.vertical.menu.notifBar(style="width:0;")
-        .ui.top.attached.button.primary(onclick="closeNotif()") Fermer
+      .ui.left.fixed.vertical.menu.notifBar(style="width:0; padding-top: 40px;")
         .ui.cards.notif(style="margin: 0;")
           each notif in notifs
             .card.fluid.not
@@ -15,28 +11,36 @@ html
                   p= notif["date"]
                 .description
                   p= notif["notification"]
+    title= title
+    link(rel="stylesheet", href="/semantic/semantic.min.css")
+    link(rel="stylesheet", href="/stylesheets/style.css")
+    link(rel="stylesheet", href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css")
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+    script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.js")
+    script(src="/javascripts/active.js")
+    script(src="/socket.io/socket.io.js")
+    if (user)
+      .ui.menu.big.fluid.headerbar
+        .item.primary(onclick="openNotif()")
+          i.content.icon
+          span.text Notif
+        a.item#index(href="/")
+          i.icon.home
+        a.item#u(href="/u")
+          i.icon.users
+        .center
+          a#titre(href="/")= "Matcha"
+        .right.menu
+          a.item.tooltip#search(href="/search")
+            i.icon.search
+          a.item.tooltip#profil(href="/profil")
+            i.icon.setting
+          a.item.tooltip#logout(href="/logout")
+            i.icon.sign.out
+    else
+      a#titre(href="/" style="font-size: 100px;")= "Matcha"
     .container
-      title= title
-      link(rel="stylesheet", href="/semantic/semantic.min.css")
-      link(rel="stylesheet", href="/stylesheets/style.css")
-      script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
-      script(src="/javascripts/active.js")
-      script(src="/socket.io/socket.io.js")
-      .center
-        a#titre(href="/")= "Matcha"
-      if (user)
-        .ui.menu.big#grey
-          a.item#index(href="/")
-            i.icon.home
-          a.item#u(href="/u")
-            i.icon.users
-          .right.menu
-            a.item.tooltip#search(href="/search")
-              i.icon.search
-            a.item.tooltip#profil(href="/profil")
-              i.icon.setting
-            a.item.tooltip#logout(href="/logout")
-              i.icon.sign.out
+      br
       if (locals && locals.error)
         .ui.error.message
           .header
@@ -61,7 +65,6 @@ html
             span Info
           i.close.icon
           span= locals.info
-      br
       if (user)
         script.
           var socket = io.connect();

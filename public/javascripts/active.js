@@ -16,27 +16,30 @@ $(function() {
 })
 
 function openNotif() {
-    if (screen.width <= 480)
+  console.log($(".notifBar").width())
+    if ($(".notifBar").width() < 1) {
+        if (screen.width <= 480)
+            $(".notifBar").css({
+                'width': "100%"
+            });
+        else {
+            $(".notifBar").css({
+                'width': "250px"
+            });
+            $(".container").css({
+                'marginLeft': "250px"
+            });
+        }
+        $(".openNotif").fadeOut(0)
+    } else {
         $(".notifBar").css({
-            'width': "100%"
-        });
-    else {
-        $(".notifBar").css({
-            'width': "250px"
+            'width': "0px"
         });
         $(".container").css({
-            'marginLeft': "250px"
+            'marginLeft': "0px"
         });
+        $(".openNotif").fadeIn(800)
     }
-    $(".openNotif").fadeOut(0)
 }
 
-function closeNotif() {
-    $(".notifBar").css({
-        'width': "0px"
-    });
-    $(".container").css({
-        'marginLeft': "0px"
-    });
-    $(".openNotif").fadeIn(800)
-}
+function closeNotif() {}

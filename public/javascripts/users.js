@@ -13,8 +13,8 @@ $(function() {
     $("#slider-range-pop").slider({
         range: true,
         min: 0,
-        max: 30,
-        values: [0, 30],
+        max: 1000,
+        values: [0, 1000],
         slide: function(event, ui) {
             $("#amount-pop").val(ui.values[0] + " - " + ui.values[1])
         }

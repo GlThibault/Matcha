@@ -30,6 +30,7 @@ var index = require('./routes/index'),
     report = require('./routes/report'),
     loc = require('./routes/loc'),
     search = require('./routes/search'),
+    result = require('./routes/result'),
     tag = require('./routes/tag')
 
 
@@ -106,6 +107,7 @@ app.use('/report', report)
 app.use('/loc', loc)
 app.use('/tag', tag)
 app.use('/search', search)
+app.use('/result', result)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

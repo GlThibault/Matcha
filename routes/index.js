@@ -7,20 +7,24 @@ router.get('/', function(req, res, next) {
         connection.query('SELECT * FROM block WHERE username = ?', [req.session.user], (err, rows, result) => {
             if (err) console.log(err)
             res.locals.blocks = rows
-            connection.query('SELECT count(*) AS pop FROM likes WHERE username = ?', [req.session.user], (err, rows, result) => {
+            connection.query('SELECT count(*) AS pop FROM likes WHERE liked = ?', [req.session.user], (err, rows, result) => {
                 if (err) console.log(err)
-                res.locals.pop = rows[0].pop
-                connection.query('SELECT likes.username, users.pic0, users.lastname, users.firstname, users.sexe, users.bio, users.age FROM likes LEFT JOIN users ON likes.username=users.username WHERE liked = ? ORDER BY likes.id DESC', [req.session.user], (err, rows, result) => {
+                var pop = rows[0].pop * 10
+                connection.query('SELECT count(*) AS visits FROM visits WHERE visited = ?', [req.session.user], (err, rows, result) => {
                     if (err) console.log(err)
-                    res.locals.likes = rows
-                    connection.query('SELECT distinct visits.username, users.pic0, users.lastname, users.firstname, users.sexe, users.bio, users.age FROM visits LEFT JOIN users ON visits.username=users.username WHERE visited = ?', [req.session.user], (err, rows, result) => {
+                    res.locals.pop = pop + rows[0].visits
+                    connection.query('SELECT likes.username, users.pic0, users.lastname, users.firstname, users.sexe, users.bio, users.age FROM likes LEFT JOIN users ON likes.username=users.username WHERE liked = ? ORDER BY likes.id DESC', [req.session.user], (err, rows, result) => {
                         if (err) console.log(err)
-                        res.locals.visits = rows
-                        connection.query('SELECT * FROM users WHERE username = ? LIMIT 1', [req.session.user], (err, rows, result) => {
+                        res.locals.likes = rows
+                        connection.query('SELECT distinct visits.username, users.pic0, users.lastname, users.firstname, users.sexe, users.bio, users.age FROM visits LEFT JOIN users ON visits.username=users.username WHERE visited = ?', [req.session.user], (err, rows, result) => {
                             if (err) console.log(err)
-                            res.locals.data = rows[0]
-                            res.render('index', {
-                                title: 'Matcha'
+                            res.locals.visits = rows
+                            connection.query('SELECT * FROM users WHERE username = ? LIMIT 1', [req.session.user], (err, rows, result) => {
+                                if (err) console.log(err)
+                                res.locals.data = rows[0]
+                                res.render('index', {
+                                    title: 'Matcha'
+                                })
                             })
                         })
                     })
