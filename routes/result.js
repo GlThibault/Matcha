@@ -3,7 +3,7 @@ var router = express.Router()
 var connection = require('../config/db')
 
 router.post('/', function(req, res, next) {
-    if (req.session && req.session.user) {
+    if (req.session && req.session.user && req.body.age0 && req.body.age1 && req.body.pop0 && req.body.pop1 && req.body.dist0 && req.body.dist1 && req.body.tags) {
         var sexe1 = ''
         var sexe2 = ''
         var orientation1 = ''
@@ -66,6 +66,8 @@ router.post('/', function(req, res, next) {
                 })
             })
         })
+    } else if (req.session && req.session.user) {
+        res.redirect('/search')
     } else {
         req.session.error = "Vous devez être connecté pour accéder a cette page."
         res.redirect('/login')
