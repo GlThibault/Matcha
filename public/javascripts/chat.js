@@ -1,5 +1,5 @@
 function addChatMessage(data, options) {
-    var $usernameDiv = $('<span class="username"/>')
+    var $usernameDiv = $('<span class="username" id="columntitle"/>')
         .text(data.username)
     var $messageBodyDiv = $('<span class="messageBody">')
         .text(" : " + data.message);

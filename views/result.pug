@@ -1,9 +1,8 @@
 block content
   - var blocked = 0
-  script(src="/javascripts/distance.js")
   script(src="/javascripts/result.js")
   .container
-    h2.ui.dividing.header Résultat de la recherche
+    h2#columntitle Résultat de la recherche
     #filter
       br
       .ui.grid
@@ -25,7 +24,7 @@ block content
         .ui.label.lightgrey.button.trans(onclick="sorttag(this)" style="margin-top: 5px;" data-tag=tag["tag"])= tag["tag"]
       br
       br
-      .ui.bottom.attached.button.primary#validate Filtrer la recherche
+      .ui.bottom.attached.button.primary#validate2 Filtrer la recherche
     br
     br
     .ui.grid
@@ -75,7 +74,7 @@ block content
                 else
                   span= row["bio"]
             .extra.content(style="padding:0;")
-              each tag in tags
+              each tag in tagsu
                 if tag["username"] == row["username"].toLowerCase()
                   .ui.label.yellow.tags(data-tag=tag["tag"])= tag["tag"]
             .extra.content
@@ -98,7 +97,6 @@ block content
           - blocked = 0
   script.
     $(function() {
-    //- console.log(#{locals.tags})
       $("#slider-range-age").slider({
         range: true,
         min: #{locals.age0},
@@ -121,6 +119,24 @@ block content
       })
       $("#amount-pop").val($("#slider-range-pop").slider("values", 0) + " - " + $("#slider-range-pop").slider("values", 1))
 
+      function distance(lat1, lon1, lat2, lon2, unit) {
+        var radlat1 = Math.PI * lat1/180
+        var radlat2 = Math.PI * lat2/180
+        var theta = lon1-lon2
+        var radtheta = Math.PI * theta/180
+        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        dist = Math.acos(dist)
+        dist = dist * 180/Math.PI
+        dist = dist * 60 * 1.1515
+        if (unit=="K") { dist = dist * 1.609344 }
+        if (unit=="N") { dist = dist * 0.8684 }
+        return dist
+      }
+
+      $('.cards .card').each(function() {
+        $(this).find("#dist").append(parseInt(distance($(this).find("#lat").text(), $(this).find("#lon").text(), $("#userlat").text(), $("#userlon").text(), "k"), 10))
+      })
+
       $("#slider-range-dist").slider({
         range: true,
         min: #{locals.dist0},
@@ -133,25 +149,73 @@ block content
             $("#amount-dist").val("")
         }
       })
-      if (#{locals.dist0} != 0 || #{locals.dist1} != 500) {
+      if (#{locals.dist0} != 0 || #{locals.dist1} != 500)
         $("#amount-dist").val($("#slider-range-dist").slider("values", 0) + " - " + $("#slider-range-dist").slider("values", 1))
-          $('.cards.users .user').hide().filter(function() {
-            var age = parseInt($(this).find("#age").text())
-            var pop = parseInt($(this).find("#pop").text())
-            var dist = parseInt($(this).find("#dist").text())
-            var arrayclasses = $(".filtertag").attr("class").split(" ")
-            var tag = this.querySelectorAll(".tags")
-            var ret = 1
-            $.each(arrayclasses, function(index, val) {
-              if (index > 0) {
-                var i = 0;
-                while (tag[i] && tag[i].getAttribute("data-tag") != val)
-                  i++;
-                if (!tag[i] || tag[i].getAttribute("data-tag") != val) {
-                  ret = 0;
-                }
+
+      $('.cards.users .user').hide().filter(function() {
+        var age = parseInt($(this).find("#age").text())
+        var pop = parseInt($(this).find("#pop").text())
+        var dist = parseInt($(this).find("#dist").text())
+        var arrayclasses = "#{locals.tags}".split(" ")
+        var tag = this.querySelectorAll(".tags")
+        var ret = 1
+        $.each(arrayclasses, function(index, val) {
+          if (index > 0) {
+          $('[data-tag="' + val + '"]').removeClass('lightgrey button').addClass('orange').attr('onclick', '')
+            var i = 0;
+            while (tag[i] && tag[i].getAttribute("data-tag") != val)
+              i++;
+            if (!tag[i] || tag[i].getAttribute("data-tag") != val) {
+              ret = 0;
+            }
+          }
+        })
+        if (#{locals.dist0} != 0 || #{locals.dist1} != 500)
+          return age >= $("#slider-range-age").slider("values", 0) &&
+            age <= $("#slider-range-age").slider("values", 1) &&
+            pop >= $("#slider-range-pop").slider("values", 0) &&
+            pop <= $("#slider-range-pop").slider("values", 1) &&
+            dist >= $("#slider-range-dist").slider("values", 0) &&
+            dist <= $("#slider-range-dist").slider("values", 1) &&
+            ret != 0
+        else
+          return age >= $("#slider-range-age").slider("values", 0) &&
+            age <= $("#slider-range-age").slider("values", 1) &&
+            pop >= $("#slider-range-pop").slider("values", 0) &&
+            pop <= $("#slider-range-pop").slider("values", 1) &&
+            ret != 0
+      }).show()
+
+      $("#validate2").click(function() {
+        $('.cards.users .user').hide().filter(function() {
+          var age = parseInt($(this).find("#age").text())
+          var pop = parseInt($(this).find("#pop").text())
+          var dist = parseInt($(this).find("#dist").text())
+          var arrayclasses = "#{locals.tags}".split(" ")
+          var arrayclasses2 = $(".filtertag").attr("class").split(" ")
+          var tag = this.querySelectorAll(".tags")
+          var ret = 1
+          $.each(arrayclasses, function(index, val) {
+            if (index > 0) {
+              var i = 0;
+              while (tag[i] && tag[i].getAttribute("data-tag") != val)
+                i++;
+              if (!tag[i] || tag[i].getAttribute("data-tag") != val) {
+                ret = 0;
               }
-            })
+            }
+          })
+          $.each(arrayclasses2, function(index, val) {
+            if (index > 0) {
+              var i = 0;
+              while (tag[i] && tag[i].getAttribute("data-tag") != val)
+                i++;
+              if (!tag[i] || tag[i].getAttribute("data-tag") != val) {
+                ret = 0;
+              }
+            }
+          })
+          if (#{locals.dist0} != 0 || #{locals.dist1} != 500)
             return age >= $("#slider-range-age").slider("values", 0) &&
               age <= $("#slider-range-age").slider("values", 1) &&
               pop >= $("#slider-range-pop").slider("values", 0) &&
@@ -159,6 +223,12 @@ block content
               dist >= $("#slider-range-dist").slider("values", 0) &&
               dist <= $("#slider-range-dist").slider("values", 1) &&
               ret != 0
-          }).show()
-      }
+          else
+            return age >= $("#slider-range-age").slider("values", 0) &&
+              age <= $("#slider-range-age").slider("values", 1) &&
+              pop >= $("#slider-range-pop").slider("values", 0) &&
+              pop <= $("#slider-range-pop").slider("values", 1) &&
+              ret != 0
+        }).show()
+      })
     })

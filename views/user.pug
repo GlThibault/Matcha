@@ -13,7 +13,7 @@ block content
           ul.messages
             each message in messages
               li.message
-                span.username= message["sender"]
+                span.username#columntitle= message["sender"]
                 span.messagebody= " : " + message["message"]
         .ui.fluid.action.input
           input.ui.fluid.inputMessage(placeholder="Type here...")
@@ -34,8 +34,8 @@ block content
       .ui.label.pink#like Cet utilisateur vous like.
     .ui.card.fluid#grey
       .content
-        a.header
-          span= data.firstname + " " + data.lastname
+        .header
+          span#columntitle= data.firstname + " " + data.lastname
         .meta
           if (data.age)
             span.category= data.age + " ans."

@@ -1,39 +1,4 @@
 $(function() {
-    $("#validate").click(function() {
-        $('.cards.users .user').hide().filter(function() {
-            var age = parseInt($(this).find("#age").text())
-            var pop = parseInt($(this).find("#pop").text())
-            var dist = parseInt($(this).find("#dist").text())
-            var arrayclasses = $(".filtertag").attr("class").split(" ")
-            var tag = this.querySelectorAll(".tags")
-            var ret = 1
-            $.each(arrayclasses, function(index, val) {
-                if (index > 0) {
-                    var i = 0;
-                    while (tag[i] && tag[i].getAttribute("data-tag") != val)
-                        i++;
-                    if (!tag[i] || tag[i].getAttribute("data-tag") != val) {
-                        ret = 0;
-                    }
-                }
-            })
-            if ($("#slider-range-dist").slider("values", 0) != 0 || $("#slider-range-dist").slider("values", 1) != 500)
-                return age >= $("#slider-range-age").slider("values", 0) &&
-                    age <= $("#slider-range-age").slider("values", 1) &&
-                    pop >= $("#slider-range-pop").slider("values", 0) &&
-                    pop <= $("#slider-range-pop").slider("values", 1) &&
-                    dist >= $("#slider-range-dist").slider("values", 0) &&
-                    dist <= $("#slider-range-dist").slider("values", 1) &&
-                    ret != 0
-            else
-                return age >= $("#slider-range-age").slider("values", 0) &&
-                    age <= $("#slider-range-age").slider("values", 1) &&
-                    pop >= $("#slider-range-pop").slider("values", 0) &&
-                    pop <= $("#slider-range-pop").slider("values", 1) &&
-                    ret != 0
-        }).show()
-    })
-
     $("#ageAscending").click(function() {
         $('.cards.users .user').sort(ageAscending).appendTo('.cards.users')
     })

@@ -23,7 +23,7 @@ router.get('/', function(req, res, next) {
 })
 
 router.post('/', function(req, res) {
-    if (req.session && req.session.user) {
+    if (req.session && req.session.user && req.body.bio && req.body.firstname && req.body.lastname && req.body.username && req.body.email && req.body.orientation && req.body.age && req.body.sexe) {
         if (req.body.bio.length > 9000) {
             req.session.error = "Votre bio est trop longue."
             res.redirect('/profil')

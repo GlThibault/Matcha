@@ -1,4 +1,7 @@
 $(function() {
+    $.ajaxPrefilter(function( options, original_Options, jqXHR ) {
+      options.async = true;
+    });
     $('#submit').on('click', function(event) {
         event.preventDefault()
         $.ajax({

@@ -1,9 +1,11 @@
 extends layout
 
 block content
-  .container
-    .ui.form
-      h2.ui.dividing.header Mot de passe oublié
+  link(rel="stylesheet", href="/stylesheets/background.css")
+  .container.container2
+    br
+    .ui.form#greybox
+      h2#columntitle Mot de passe oublié
       form(method="POST" action="/forgot")
         .field
           label Nom d"utilisateur:

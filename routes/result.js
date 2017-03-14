@@ -43,12 +43,12 @@ router.post('/', function(req, res, next) {
                     res.locals.alltags = rows
                     connection.query("SELECT * FROM tag", (err, rows, result) => {
                         if (err) console.log(err)
-                        res.locals.tags = rows
+                        res.locals.tagsu = rows
                         connection.query("SELECT * FROM (SELECT users.username, users.lastname, users.firstname, users.email, users.bio, users.sexe, users.orientation, users.lat, users.lon, users.interests, users.age, users.pic0, \
                         (SELECT count(liked)*10+(SELECT count(*) FROM visits WHERE visits.visited=users.username) FROM likes WHERE likes.liked=users.username) AS likes FROM users \
                         LEFT JOIN likes ON likes.username=users.username \
                         WHERE ((sexe = ? AND orientation != ?) OR (sexe = ? AND orientation != ?)) AND users.username != ? AND users.age >= ? AND users.age <= ? \
-                        GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes, lat, lon ORDER BY likes DESC) AS inner_table WHERE likes >= ? AND likes <= ? ", [sexe1, orientation1, sexe2, orientation2, req.session.user, req.body.age0, req.body.age1, req.body.pop0, req.body.pop1], (err, rows, result) => {
+                        GROUP BY username, lastname, firstname, email, bio, sexe, orientation, interests, age, pic0, likes, lat, lon ORDER BY likes DESC) AS inner_table WHERE likes >= ? AND likes <= ?", [sexe1, orientation1, sexe2, orientation2, req.session.user, req.body.age0, req.body.age1, req.body.pop0, req.body.pop1], (err, rows, result) => {
                             if (err) console.log(err)
                             res.locals.rows = rows
                             res.locals.age0 = req.body.age0
