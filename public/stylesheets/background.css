@@ -1,0 +1,17 @@
+body {
+    background: url(../background.jpg);
+}
+
+#titre {
+    text-shadow: 0px 0px 21px #000;
+}
+
+#slogan {
+    text-align: center;
+    font: 40px "Lucida Grande", Helvetica, Arial, sans-serif;
+    color: #cd6990;
+}
+
+h2.ui.dividing.header {
+    font: 30px "Lucida Grande", Helvetica, Arial, sans-serif;
+}

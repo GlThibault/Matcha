@@ -16,7 +16,6 @@ $(function() {
 })
 
 function openNotif() {
-  console.log($(".notifBar").width())
     if ($(".notifBar").width() < 1) {
         if (screen.width <= 480)
             $(".notifBar").css({
@@ -30,6 +29,7 @@ function openNotif() {
                 'marginLeft': "250px"
             });
         }
+        $("#ntf").addClass('active');
         $(".openNotif").fadeOut(0)
     } else {
         $(".notifBar").css({
@@ -38,6 +38,7 @@ function openNotif() {
         $(".container").css({
             'marginLeft': "0px"
         });
+        $("#ntf").removeClass('active');
         $(".openNotif").fadeIn(800)
     }
 }

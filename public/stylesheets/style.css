@@ -12,6 +12,16 @@ body {
     display: block;
 }
 
+#greybox {
+  background-color: rgba(220, 220, 220, 0.90);
+  border-radius: 10px;
+  padding: 5px;
+  border: 2px solid rgba(100, 100, 100, 0.50);
+}
+
+#columntitle, h2.ui.dividing.header {
+  color: #a1b868;
+}
 .center {
     display: block;
     width: 100%;
@@ -44,22 +54,13 @@ body {
     color: #fff;
 }
 
-.container {
+.container, .trans {
     transition: 0.5s;
 }
 
-.notifBar {
+.notifBar, .chatBar {
     transition: 0.5s;
     overflow: auto;
-}
-
-.chatBar {
-    transition: 0.5s;
-    overflow: auto;
-}
-
-.trans {
-    transition: 0.5s;
 }
 
 #filter {
@@ -121,33 +122,20 @@ body {
         padding: 0px;
         padding-top: 90px;
     }
-    .notifBar {
-        transition: 0s;
-    }
-    .chatBar {
+    .notifBar,.chatBar {
         transition: 0s;
     }
     li.message {
         padding: 7px;
     }
-    label {
-        font-size: 30px;
-        line-height: 100%;
-    }
-    span {
+    label, i, span {
         font-size: 30px;
         line-height: 100%;
     }
     input {
         font-size: 25px;
     }
-    .ui.grid {
-        margin: 0;
-    }
-    .ui.link.cards {
-        margin: 0;
-    }
-    .ui.form .fields {
+    .ui.grid, .ui.link.cards, .ui.form .fields {
         margin: 0;
     }
     .pic {

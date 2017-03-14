@@ -7,7 +7,7 @@ block content
       i.heart.icon
       p= pop
     .ui.left.floated
-      h1= "Bienvenue " + data.firstname + " " + data.lastname
+      h1#columntitle= "Bienvenue " + data.firstname + " " + data.lastname
 
     .ui.card.link
       a.image(href="/u/" + data.username)
@@ -21,17 +21,17 @@ block content
     .ui.grid.internally.celled
       .row
         .height.wide.column(style="min-width:400px;")
-          h3 Ils ont consulté votre profil.
+          h3#columntitle Ils ont consulté votre profil.
           .ui.items.divided
             each visit in visits
               each block in blocks
                 if block["blocked"] == visit["username"]
                   - blocked = 1
-              if blocked == 0
+              if blocked == 0 && visit["lastname"]
                 .item#frame
                   a.ui.card.small.image#grey(href="/u/" + visit["username"])
                     if visit["pic0"]
-                      img(src=visit["pic0"])
+                      img(src=visit["pic0"] onError="this.src = '/noprofile.jpg'")
                     else
                       img(src="/noprofile.jpg")
                   .content
@@ -50,21 +50,21 @@ block content
                     .extra
                       if visit["age"]
                         span= visit["age"] + " ans"
+                br
               else
                 - blocked = 0
-              br
         .height.wide.column(style="min-width:400px;")
-          h3 Ils vous likes.
+          h3#columntitle Ils vous likes.
           .ui.items.divided
             each like in likes
               each block in blocks
                 if block["blocked"] == like["username"]
                   - blocked = 1
-              if blocked == 0
+              if blocked == 0 && like["lastname"]
                 .item#frame
                   a.ui.card.small.image#grey(href="/u/" + like["username"])
                     if like["pic0"]
-                      img(src=like["pic0"])
+                      img(src=like["pic0"] onError="this.src = '/noprofile.jpg'")
                     else
                       img(src="/noprofile.jpg")
                   .content
@@ -83,6 +83,6 @@ block content
                     .extra
                       if like["age"]
                         span= like["age"] + " ans"
+                br
               else
                 - blocked = 0
-              br

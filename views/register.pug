@@ -2,9 +2,12 @@ extends layout
 
 block content
   script(src="/javascripts/register.js")
+  link(rel="stylesheet", href="/stylesheets/background.css")
   .container.container2
-    .ui.equal.width.form
-      h2.ui.dividing.header Créer un compte pour accéder au site
+    br
+    .ui.equal.width.form#greybox
+      #slogan Trouver rapidement l'âme sœur qui vous correspond
+      h2.ui.dividing.header Inscription gratuite !
       form(method="POST" action="/register")
         .field
           label Nom d"utilisateur:
@@ -16,8 +19,7 @@ block content
           .field
             label Confirmation du mot de passe:
             input#confirmpassword(type="password" placeholder="Mot de passe" name="confirmPassword" required tabindex="3")
-        br
-        span Le mot de passe doit contenir des majuscules, des chiffres et des minuscules et faire plus de 6 charactères.
+        i Le mot de passe doit contenir des majuscules, des chiffres et des minuscules et faire plus de 6 charactères.
         br
         br
         .field
@@ -32,7 +34,7 @@ block content
             input#firstname(type="text", placeholder="Prénom" name="firstname" required tabindex="6")
         br
         button.ui.primary.submit.button.fluid.massive#btnSubmit(type="submit" required tabindex="7") Valider
-    .ui.dividing.header
+    br
     br
     div(style="text-align:center")
       a(href="/login")

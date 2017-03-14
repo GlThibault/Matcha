@@ -1,8 +1,10 @@
 extends layout
 
 block content
+  link(rel="stylesheet", href="/stylesheets/background.css")
   .container.container2
-    .ui.form
+    br
+    .ui.form#greybox
       h2.ui.dividing.header Connection
       form(method="POST" action="/login")
         .field
@@ -14,7 +16,8 @@ block content
         button.ui.primary.submit.button.fluid.massive(type="submit" tabindex="3") Valider
       br
       a(href="/forgot" tabindex="4") Mot de passe oublié
-    .ui.dividing.header
+    br
+    br
     div(style="text-align:center")
       a(href="/register")
         button.ui.yellow.button.massive.centered.aligned(tabindex="5") Nouveau ? Créer un compte.

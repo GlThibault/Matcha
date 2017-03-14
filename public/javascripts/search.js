@@ -13,7 +13,7 @@ $(function() {
                 'pop1': $("#slider-range-pop").slider("values", 1),
                 'dist0': $("#slider-range-dist").slider("values", 0),
                 'dist1': $("#slider-range-dist").slider("values", 1),
-                'tags': $(".filtertag").attr("class").split(" ")
+                'tags': $(".filtertag").attr("class")
             },
             success: function(data) {
                $(".container2").html(data);

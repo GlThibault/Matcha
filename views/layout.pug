@@ -2,10 +2,10 @@ doctype html
 html
   head
     if (user && notifs)
-      .ui.left.fixed.vertical.menu.notifBar(style="width:0; padding-top: 40px;")
-        .ui.cards.notif(style="margin: 0;")
+      .ui.left.fixed.vertical.menu.notifBar(style="width:0; padding-top: 50px;")
+        .ui.cards.notif#grey(style="margin: 0;")
           each notif in notifs
-            .card.fluid.not
+            .card.fluid.not#grey
               .content
                 .meta
                   p= notif["date"]
@@ -21,7 +21,7 @@ html
     script(src="/socket.io/socket.io.js")
     if (user)
       .ui.menu.big.fluid.headerbar
-        .item.primary(onclick="openNotif()")
+        a.item#ntf(onclick="openNotif()")
           i.content.icon
           span.text Notif
         a.item#index(href="/")
