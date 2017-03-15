@@ -4,16 +4,16 @@ var connection = require('../config/db')
 var iplocation = require('iplocation')
 var getCoords = require('city-to-coords')
 
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
     if (req.session && req.session.user && req.ip) {
         iplocation(req.ip, function(err, res) {
             if (err) console.log(err)
             if (!res || !res['city'])
-                connection.query('UPDATE users SET city = "Paris", lat = 48.8965, lon = 2.3182 WHERE username = ?', [req.session.user], (err, rows, result) => {
+                connection.query('UPDATE users SET city = "Paris", lat = 48.8965, lon = 2.3182 WHERE username = ?', [req.session.user], (err) => {
                     if (err) console.log(err)
                 })
             else
-                connection.query('UPDATE users SET city = ?, lat = ?, lon = ? WHERE username = ?', [res['city'], res['latitude'], res['longitude'], req.session.user], (err, rows, result) => {
+                connection.query('UPDATE users SET city = ?, lat = ?, lon = ? WHERE username = ?', [res['city'], res['latitude'], res['longitude'], req.session.user], (err) => {
                     if (err) console.log(err)
                 })
         })
@@ -25,11 +25,11 @@ router.get('/', function(req, res, next) {
     }
 })
 
-router.post('/', function(req, res, next) {
-    if (req.session && req.session.user && req.body.city) {
+router.post('/', function(req, res) {
+    if (req.session && req.session.user && req.body && req.body.city) {
         res.redirect('/')
         getCoords(req.body.city).then((coords) => {
-            connection.query('UPDATE users SET city = ?, lat = ?, lon = ? WHERE username = ?', [req.body.city, coords.lat, coords.lng, req.session.user], (err, rows, result) => {
+            connection.query('UPDATE users SET city = ?, lat = ?, lon = ? WHERE username = ?', [req.body.city, coords.lat, coords.lng, req.session.user], (err) => {
                 if (err) console.log(err)
                 else
                     req.session.success = "Votre position a été mis a jour."

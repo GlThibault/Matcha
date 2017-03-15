@@ -3,19 +3,19 @@ var router = express.Router()
 var connection = require('../config/db')
 var sendmail = require('sendmail')()
 
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
     res.render('forgot', {
         title: 'Mot de passe oublié'
     })
 })
 
 router.post('/', function(req, res) {
-    if (req.body.username) {
-        connection.query('SELECT email FROM users WHERE username = ?', [req.body.username], (err, rows, result) => {
+    if (req.body && req.body.username) {
+        connection.query('SELECT email FROM users WHERE username = ?', [req.body.username], (err, rows) => {
             if (err) console.log(err)
             else if (rows[0]) {
                 var hash = (Math.random() + 1).toString(36).substr(2, 15)
-                connection.query('UPDATE users SET reset = ? WHERE username = ?', [hash, req.body.username], (err, result) => {
+                connection.query('UPDATE users SET reset = ? WHERE username = ?', [hash, req.body.username], (err) => {
                     if (err) console.log(err)
                 })
                 var fullUrl = '<a href="' + req.protocol + '://' + req.get('host') + '/reset/' + hash + '">Réinitialiser le mot de passe</a>'

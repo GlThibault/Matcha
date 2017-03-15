@@ -2,12 +2,12 @@ var express = require('express')
 var router = express.Router()
 var connection = require('../config/db')
 
-router.post('/add', function(req, res, next) {
-    if (req.session && req.session.user && req.body.tag) {
+router.post('/add', function(req, res) {
+    if (req.session && req.session.user && req.body && req.body.tag) {
         connection.query('SELECT COUNT(*) AS count FROM tag WHERE username = ? AND tag = ?', [req.session.user, req.body.tag], (err, result) => {
             if (err) console.log(err)
-            if (result[0].count == 0) {
-                connection.query('INSERT INTO tag SET username = ?, tag = ?', [req.session.user, req.body.tag], (err, result) => {
+            if (result[0] && result[0].count == 0) {
+                connection.query('INSERT INTO tag SET username = ?, tag = ?', [req.session.user, req.body.tag], (err) => {
                     if (err) console.log(err)
                 })
             }
@@ -21,12 +21,12 @@ router.post('/add', function(req, res, next) {
     }
 })
 
-router.get('/del/:tag', function(req, res, next) {
+router.get('/del/:tag', function(req, res) {
     if (req.session && req.session.user && req.params.tag) {
         connection.query('SELECT COUNT(*) AS count FROM tag WHERE username = ? AND tag = ?', [req.session.user, req.params.tag], (err, result) => {
             if (err) console.log(err)
-            if (result[0].count != 0) {
-                connection.query('DELETE FROM tag WHERE username = ? AND tag = ?', [req.session.user, req.params.tag], (err, result) => {
+            if (result[0] && result[0].count != 0) {
+                connection.query('DELETE FROM tag WHERE username = ? AND tag = ?', [req.session.user, req.params.tag], (err) => {
                     if (err) console.log(err)
                     res.redirect('/profil')
                 })

@@ -5,7 +5,7 @@ var bcrypt = require('bcryptjs')
 var session = require('express-session')
 var iplocation = require('iplocation')
 
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
     res.render('register', {
         title: 'Inscription',
         user: req.session.user
@@ -58,11 +58,11 @@ router.post('/', function(req, res) {
                     } else {
                         iplocation(req.ip, function(error, res) {
                             if (!res || !res['city'])
-                                connection.query('UPDATE users SET city = "Paris", lat = 48.8965, lon = 2.3182 WHERE username = ?', [req.body.username], (err, rows, result) => {
+                                connection.query('UPDATE users SET city = "Paris", lat = 48.8965, lon = 2.3182 WHERE username = ?', [req.body.username], (err) => {
                                     if (err) console.log(err)
                                 })
                             else
-                                connection.query('UPDATE users SET city = ?, lat = ?, lon = ? WHERE username = ?', [res['city'], res['latitude'], res['longitude'], req.body.username], (err, rows, result) => {
+                                connection.query('UPDATE users SET city = ?, lat = ?, lon = ? WHERE username = ?', [res['city'], res['latitude'], res['longitude'], req.body.username], (err) => {
                                     if (err) console.log(err)
                                 })
                         })

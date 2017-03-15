@@ -43,4 +43,8 @@ function openNotif() {
     }
 }
 
+function addNotif(data) {
+  $('.ui.cards.notif').prepend('<div class="card fluid notif" id="grey"><div class="content"><div class="meta"><p id="columntitle">Today</div><div class="description"><p>' + data + '</p></div></div></div>')
+}
+
 function closeNotif() {}

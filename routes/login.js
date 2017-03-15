@@ -4,15 +4,15 @@ var connection = require('../config/db')
 var bcrypt = require('bcryptjs')
 var session = require('express-session')
 
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
     res.render('login', {
         title: 'Connection'
     })
 })
 
 router.post('/', function(req, res) {
-    if (req.body.username && req.body.password) {
-        connection.query('SELECT orientation, sexe, password, pic0, firstname, lastname FROM users WHERE username = ? LIMIT 1', [req.body.username], (err, rows, result) => {
+    if (req.body && req.body.username && req.body.password) {
+        connection.query('SELECT orientation, sexe, password, pic0, firstname, lastname FROM users WHERE username = ? LIMIT 1', [req.body.username], (err, rows) => {
             if (err) console.log(err)
             else if (rows[0]) {
                 if (bcrypt.compareSync(req.body.password, rows[0].password)) {

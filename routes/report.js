@@ -3,11 +3,11 @@ var router = express.Router()
 var connection = require('../config/db')
 var sendmail = require('sendmail')()
 
-router.get('/:username', function(req, res, next) {
-    if (req.session && req.session.user == req.params.username) {
+router.get('/:username', function(req, res) {
+    if (req.session && req.params.username && req.session.user == req.params.username) {
         req.session.error = "Vous ne pouvez vous signaler."
         res.redirect('../u/' + req.params.username)
-    } else if (req.session && req.session.user) {
+    } else if (req.session && req.session.user && req.params.username) {
         sendmail({
             from: 'tglandai@student.42.fr',
             to: 'tglandai@student.42.fr',

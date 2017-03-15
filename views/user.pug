@@ -123,22 +123,30 @@ block content
           });
     }
     function like(value) {
-      $.ajax({
-        async: true,
-        url: '/like/' + $(value).attr('data-like'),
-        type: 'GET',
-        dataType: 'html'
-      })
-      if ($(value).hasClass('primary')) {
-        $(value).removeClass('primary')
-        $(value).addClass('teal')
-        $('#tagtype').remove()
-        $(value).append("<span id='tagtype'>Dislike</span>")
+      if (#{locals.active} == 1) {
+        $.ajax({
+          async: true,
+          url: '/like/' + $(value).attr('data-like'),
+          type: 'GET',
+          dataType: 'html'
+        })
+        if ($(value).hasClass('primary')) {
+          $(value).removeClass('primary')
+          $(value).addClass('teal')
+          $('#tagtype').remove()
+          $(value).append("<span id='tagtype'>Dislike</span>")
+          if (#{locals.liked})
+            location.reload();
+        } else {
+          $(value).removeClass('teal')
+          $(value).addClass('primary')
+          $('#tagtype').remove()
+          $(value).append("<span id='tagtype'>Like</span>")
+          if (#{locals.liked})
+            location.reload();
+        }
       } else {
-        $(value).removeClass('teal')
-        $(value).addClass('primary')
-        $('#tagtype').remove()
-        $(value).append("<span id='tagtype'>Like</span>")
+        alert("Vous devez ajouter une photo pour pouvoir liker")
       }
     }
   script(async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9WMjcqSyrFp-xE30ebFMf2HAyn3Mpg1w&callback=initMap")

@@ -6,7 +6,7 @@ var bcrypt = require('bcryptjs')
 router.use('/:key', function(req, res) {
     if (req.params.key) {
         var hash = bcrypt.hashSync(req.params.key, 12)
-        connection.query('UPDATE users SET password = ?, reset = \'NULL\' WHERE reset = ?', [hash, req.params.key], (err, result) => {
+        connection.query('UPDATE users SET password = ?, reset = \'NULL\' WHERE reset = ?', [hash, req.params.key], (err) => {
             if (err) {
                 req.session.error = "Erreur."
                 res.redirect('/login')
