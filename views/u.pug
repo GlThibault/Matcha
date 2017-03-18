@@ -1,10 +1,10 @@
 extends layout
 
 block content
-  - var blocked = 0
-  script(src="/javascripts/distance.js")
-  script(src="/javascripts/users.js")
   .container.container2
+    - var blocked = 0
+    script(src="/javascripts/distance.js")
+    script(src="/javascripts/users.js")
     h2#columntitle Match
     #filter
       br

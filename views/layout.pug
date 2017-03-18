@@ -1,16 +1,6 @@
 doctype html
 html
   head
-    if (user && notifs)
-      .ui.left.fixed.vertical.menu.notifBar(style="width:0; padding-top: 50px;")
-        .ui.cards.notif#grey(style="margin: 0;")
-          each notif in notifs
-            .card.fluid.not#grey
-              .content
-                .meta
-                  p#columntitle= notif["date"]
-                .description
-                  p= notif["notification"]
     title= title
     link(rel="stylesheet", href="/semantic/semantic.min.css")
     link(rel="stylesheet", href="/stylesheets/style.css")
@@ -20,6 +10,17 @@ html
     script(src="/javascripts/active.js")
     script(src="/socket.io/socket.io.js")
     if (user)
+      script(src="/javascripts/socket.js")
+      if (notifs)
+        .ui.left.fixed.vertical.menu.notifBar(style="width:0; padding-top: 50px;")
+          .ui.cards.notif#grey(style="margin: 0;")
+            each notif in notifs
+              .card.fluid.not#grey
+                .content
+                  .meta
+                    p#columntitle= notif["date"]
+                  .description
+                    p= notif["notification"]
       .ui.menu.big.fluid.headerbar
         a.item#ntf(onclick="openNotif()")
           i.content.icon
@@ -39,8 +40,8 @@ html
             i.icon.sign.out
     else
       a#titre(href="/" style="font-size: 100px;")= "Matcha"
-    .container
-      br
+    br
+    .message.container
       if (locals && locals.error)
         .ui.error.message
           .header
@@ -65,24 +66,5 @@ html
             span Info
           i.close.icon
           span= locals.info
-      if (user)
-        script.
-          var socket = io.connect();
-          socket.on('error', function (reason){
-            console.error('Unable to connect Socket.IO', reason)
-          });
-          socket.on('notif', function( data ) {
-            alert(data)
-            addNotif(data)
-          });
-          socket.on('message', function(data) {
-            if (location.pathname == "/u/" + data.username){
-              addChatMessage(data)
-              openChat()
-            } else {
-              alert("Vous avez recu un message de " + data.username)
-              addNotif(data.username + " vous a envoyé un message.")
-            }
-          });
   body
     block content

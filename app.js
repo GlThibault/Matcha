@@ -119,7 +119,7 @@ app.use(function(req, res, next) {
 // Socket.io
 var people = {}
 io.sockets.on("connection", function(socket) {
-    connection.query('UPDATE users SET online = TRUE, visit = ? WHERE username = ?', [new Date(), socket.session.user], (err, result) => {
+    connection.query('UPDATE users SET online = TRUE, visit = ? WHERE username = ?', [new Date(), socket.session.user], (err) => {
         if (err) console.log(err)
     })
     if (socket.session.user)
@@ -127,7 +127,7 @@ io.sockets.on("connection", function(socket) {
     socket.session.login = true
     socketSession.save(socket)
     socket.on('message', function(data) {
-        connection.query('INSERT INTO messages SET username = ?, sender = ?, message = ?', [data.user, data.by, data.message], (err, result) => {
+        connection.query('INSERT INTO messages SET username = ?, sender = ?, message = ?', [data.user, data.by, data.message], (err) => {
             if (err) console.log(err)
             socket.broadcast.to(global.people[data.user]).emit('message', {
                 username: data.by,
@@ -135,12 +135,12 @@ io.sockets.on("connection", function(socket) {
             });
         })
         var notification = data.by + " vous a envoyé un message."
-        connection.query('INSERT INTO notif SET username = ?, sender = ?, notification = ?, date = ?', [data.user, data.by, notification, new Date()], (err, result) => {
+        connection.query('INSERT INTO notif SET username = ?, sender = ?, notification = ?, date = ?', [data.user, data.by, notification, new Date()], (err) => {
             if (err) console.log(err)
         })
     });
     socket.on('disconnect', function () {
-        connection.query('UPDATE users SET online = FALSE WHERE username = ?', [socket.session.user], (err, result) => {
+        connection.query('UPDATE users SET online = FALSE WHERE username = ?', [socket.session.user], (err) => {
             if (err) console.log(err)
         })
     })

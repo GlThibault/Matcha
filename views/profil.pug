@@ -1,10 +1,10 @@
 extends layout
 
 block content
-  - var i = 18
-  - var j = 0
-  script(src="/javascripts/profil.js")
   .container
+    - var i = 18
+    - var j = 0
+    script(src="/javascripts/profil.js")
     .ui.equal.width.form
       h2.ui.dividing.header Mon profil
       form(method="POST" action="/profil")

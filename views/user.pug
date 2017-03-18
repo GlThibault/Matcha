@@ -3,21 +3,23 @@ extends layout
 block content
   .container
     script(src="/javascripts/chat.js")
-    if liked > 0 && like > 0
-      .ui.primary.big.right.floated.button.openChat(onclick="openChat()")
-        i.content.icon
-        span.text Chat
-      .ui.right.fixed.vertical.menu.chatBar(style="width: 0;")
-        .ui.top.attached.button.primary(onclick="closeChat()") Fermer
-        .chatArea
-          ul.messages
-            each message in messages
-              li.message
-                span.username#columntitle= message["sender"]
-                span.messagebody= " : " + message["message"]
-        .ui.fluid.action.input
-          input.ui.fluid.inputMessage(placeholder="Type here...")
-        .ui.bottom.attached.button.primary(type="button" onclick="sendMessage()") Envoyer
+    .chatholder
+      if liked > 0 && like > 0
+        .chat
+          .ui.primary.big.right.floated.button.openChat(onclick="openChat()")
+            i.content.icon
+            span.text Chat
+          .ui.right.fixed.vertical.menu.chatBar(style="width: 0;")
+            .ui.top.attached.button.primary(onclick="closeChat()") Fermer
+            .chatArea
+              ul.messages
+                each message in messages
+                  li.message
+                    span.username#columntitle= message["sender"]
+                    span.messagebody= " : " + message["message"]
+            .ui.fluid.action.input
+              input.ui.fluid.inputMessage(placeholder="Type here...")
+            .ui.bottom.attached.button.primary(type="button" onclick="sendMessage()") Envoyer
     if data.pic0
       .ui.card.link
         a.image(href=data.pic0)
@@ -136,14 +138,14 @@ block content
           $('#tagtype').remove()
           $(value).append("<span id='tagtype'>Dislike</span>")
           if (#{locals.liked})
-            location.reload();
+            $(".chatholder").load(location.pathname  + " .chat")
         } else {
           $(value).removeClass('teal')
           $(value).addClass('primary')
           $('#tagtype').remove()
           $(value).append("<span id='tagtype'>Like</span>")
           if (#{locals.liked})
-            location.reload();
+            $('.chat').remove()
         }
       } else {
         alert("Vous devez ajouter une photo pour pouvoir liker")
