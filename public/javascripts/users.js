@@ -40,7 +40,6 @@ $(function() {
             var pop = parseInt($(this).find("#pop").text())
             var dist = parseInt($(this).find("#dist").text())
             var arrayclasses = $(".filtertag").attr("class").split(" ")
-            console.log(arrayclasses)
             var tag = this.querySelectorAll(".tags")
             var ret = 1
             $.each(arrayclasses, function(index, val) {

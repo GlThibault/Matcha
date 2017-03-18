@@ -48,14 +48,17 @@ block content
           i.heart.icon
           p= pop
       if data.username != user
-        a(href="/report/" + data.username style="text-align: right;")
-          span Signaler comme faux compte
+        div(style="text-align: right;")
+          a(href="/report/" + data.username)
+            span Signaler comme faux compte
         if block == 0
-          a(href="/block/" + data.username style="text-align: right;")
-            span Bloquer l'utilisateur
+          div(style="text-align: right;")
+            a(href="/block/" + data.username)
+              span Bloquer l'utilisateur
         else
-          a(href="/block/" + data.username style="text-align: right;")
-            span Débloquer l'utilisateur
+          div(style="text-align: right;")
+            a(href="/block/" + data.username)
+              span Débloquer l'utilisateur
       div(style="padding: 3px;")
         each tag in tags
           .ui.label.yellow(style="margin-top: 5px;")= tag["tag"]
