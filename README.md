@@ -1,13 +1,13 @@
 # Matcha
 [42 School](https://www.42.fr/) project.
 
-##Description
+## Description
 
 3rd project of the Web Branch of 42.
 Create a dating WebSite where the user can create his profile, search other users, like them and begin a conversation with a chat if the person liked him back.
 This website require a MySQL and a Redis server.
 
-###Features
+### Features
 
 - Inscription and connexion
 - User profile
@@ -16,7 +16,7 @@ This website require a MySQL and a Redis server.
 - Real time chat
 - Real time notification system
 
-###Frameworks
+### Frameworks
 
 - Node.js : https://nodejs.org/
 - Express : http://expressjs.com/
@@ -26,7 +26,7 @@ This website require a MySQL and a Redis server.
 - Socket.io : https://socket.io/
 - Redis : https://redis.io/
 
-####NPM Packages :
+#### NPM Packages :
 - bcryptjs : https://www.npmjs.com/package/bcryptjs
 - body-parser : https://www.npmjs.com/package/body-parser
 - city-to-coords : https://www.npmjs.com/package/city-to-coords
@@ -38,18 +38,18 @@ This website require a MySQL and a Redis server.
 - sendmail : https://www.npmjs.com/package/sendmail
 
 
-##Pictures
-###Register page
+## Pictures
+### Register page
 ![alt tag](https://raw.githubusercontent.com/GlThibault/pics/master/matcha.png)
 
-###Index
+### Index
 ![alt tag](https://raw.githubusercontent.com/GlThibault/pics/master/matcha2.png)
 
-###Users search page with filters
+### Users search page with filters
 ![alt tag](https://raw.githubusercontent.com/GlThibault/pics/master/matcha3.png)
 
-###User profile
+### User profile
 ![alt tag](https://raw.githubusercontent.com/GlThibault/pics/master/matcha4.png)
 
-###Profile parameters
+### Profile parameters
 ![alt tag](https://raw.githubusercontent.com/GlThibault/pics/master/matcha5.png)
