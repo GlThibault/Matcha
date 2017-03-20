@@ -1,5 +1,6 @@
 # Matcha
 [42 School](https://www.42.fr/) project.
+This website is available for test purpose [here](http://104.155.60.151/)
 
 ## Description
 
