@@ -99,6 +99,7 @@ block content
     .ui.card.fluid
       #map
   script.
+    var socket = io.connect('');
     function sendMessage() {
       var message = $('.inputMessage').val();
       message = cleanInput(message);
