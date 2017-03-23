@@ -7,7 +7,6 @@ function addChatMessage(data, options) {
         .data('username', data.username)
         .append($usernameDiv, $messageBodyDiv);
     $('.messages').append($messageDiv);
-    $('.messages')[0].scrollTop = $('.messages')[0].scrollHeight;
 }
 
 function cleanInput(input) {
@@ -36,7 +35,6 @@ function openChat() {
         });
     }
     $(".openChat").fadeOut(0)
-    $('.messages')[0].scrollTop = $('.messages')[0].scrollHeight;
 }
 
 function closeChat() {
